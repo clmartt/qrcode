@@ -1,0 +1,74 @@
+ <!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KVM QRCODE</title>
+    <style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+	
+  </head>
+  
+  <body class="cont">
+        
+             <!-- webcamera view component -->
+            <VIDEO id="webcameraPreview" controls loop playsinline autoplay style ="WIDTH: 100%" muted></VIDEO></SECTION></ARTICLE>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../../external/adapter.min.js"></script>
+    <script type="text/javascript" src="../../external/instascan.js"></script>
+    <script type="text/javascript" src="../../src/QrCodeScanner.js"></script>
+    <script type="text/javascript">
+        //HTML video component for web camera
+        var videoComponent = $("#webcameraPreview");
+        //HTML select component for cameras change
+        var webcameraChanger = $("#webcameraChanger");
+        var options = {};
+        //init options for scanner
+        options = initVideoObjectOptions("webcameraPreview");
+        var cameraId = 1;
+
+        initScanner(options);
+
+        initAvaliableCameras(
+            webcameraChanger,
+            function () {
+                cameraId = parseInt(getSelectedCamera(webcameraChanger));
+            }
+        );
+
+        initCamera(cameraId);
+
+
+        scanStart(function (data){
+           
+            alert("Encontrado..."+ data);
+            window.open('consultaON.php?qrcode=' + data, "_self");
+        });
+
+    </script>
+
+  </body>
+</html>
