@@ -54,10 +54,8 @@ $result = $mysqli->query($sql);
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript">
-
 	$(document).ready(function(){
-			
-			// esta função acessava via ajax a consulta para checklist * não esta em uso na versão 2
+		
 			$('#check').click(function(){
 				$.get('downcheck.php', function(data){
 
@@ -159,7 +157,7 @@ $result = $mysqli->query($sql);
 	<script src="js/main.js"></script>
 
 
- <!-- Modal --> 
+ <!-- Modal -->
                                     <div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                                       <div class='modal-dialog' role='document'>
                                         <div class='modal-content'>

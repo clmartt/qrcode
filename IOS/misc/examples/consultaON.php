@@ -69,8 +69,6 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.5.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.5.0/js/bootstrap4-toggle.min.js"></script>
 
 <script>
 
@@ -391,7 +389,6 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                               <textarea class="form-control" id="exampleFormControlTextarea5" rows="3" name="info"></textarea>
                             </div>
                             </div>
-                            <br>
                             <div id="ap_chamado">
                             <input type="button" name="chamado" class='btn btn-danger btn-lg btn-block' value="CHAMADO" id="chamado">
                             <hr>

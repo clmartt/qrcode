@@ -39,6 +39,7 @@ echo "</br>";
           <button class="btn btn-primary">'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'</button></div></div>';
           echo "<br>";
           echo "<br>";
+          
 
 
 
@@ -48,7 +49,8 @@ echo "</br>";
 
     }
     echo "<br>";
-    echo "<br>";
+          echo "<br>";
+          echo "<br>";
     
 
 
