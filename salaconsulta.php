@@ -38,6 +38,7 @@ echo "</br>";
           echo '<p class="card-text">'.'ANDAR : '.$res['ANDAR'].' - SETOR : '.$res['SETOR'].' - SALA : - '.utf8_encode($res['SALA']).'</p> <br>
           <button class="btn btn-primary">'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'</button></div></div>';
           echo "<br>";
+          echo "<br>";
 
 
 
@@ -46,6 +47,8 @@ echo "</br>";
 
 
     }
+    echo "<br>";
+    echo "<br>";
     
 
 
