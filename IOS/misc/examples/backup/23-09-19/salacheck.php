@@ -71,8 +71,7 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
              echo '<div class="card-body" id="form'.$res2['ID_REGISTRO'].'">';
              echo '<h5 class="card-title">'.'<ion-icon src="./icon/md-thumbs-down.svg"   size="large" class="btn btn-danger" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>'.' | '.$res2['QRCODE'].' | '.utf8_encode($res2['TIPO_DE_EQUIPAMENTO']).'</h5>';
             echo '<p class="card-text">'.utf8_encode($res2['MARCA']).' | '.$res2['MODELO'].'</p>';
-            echo '<a href="/qrteste2/updateativo/formUp.php?qrcode='.$res2['QRCODE'].'"><ion-icon src="./icon/md-create.svg"   size="small" ></ion-icon></a>';
-            
+            echo $qtdCH;
           
             
           echo '</div>';
@@ -89,8 +88,7 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
          echo '<div class="card-body" id="form'.$res2['ID_REGISTRO'].'">';
           echo '<h5 class="card-title">'.'<ion-icon src="./icon/md-thumbs-down.svg"   size="large" class="chamado" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>'.' | '.$res2['QRCODE'].' | '.utf8_encode($res2['TIPO_DE_EQUIPAMENTO']).'</h5>';
           echo '<p class="card-text">'.utf8_encode($res2['MARCA']).' | '.$res2['MODELO'].'</p>';
-          echo '<a href="/qrteste2/updateativo/formUp.php?qrcode='.$res2['QRCODE'].'"><ion-icon src="./icon/md-create.svg"   size="small" ></ion-icon></a>';
-          
+          echo $qtdCH;
         
           
         echo '</div>';

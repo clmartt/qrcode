@@ -8,18 +8,21 @@ $db   = "qrcodekvm";
 $user = "qrcodekvm";
 $pass = "qrcodekvm"; 
 
+
+// recebe o qrcode da sala
 $qrsalas = $_GET['qrcodesala'];
 
+// faz a conexao
 $mysqli = new mysqli($host, $user, $pass, $db);
 
-$sql = "SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsalas' GROUP BY SALA";
-$result = $mysqli->query($sql);
-$qtd = $result-> rowCount();
+$sql = "SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsalas' GROUP BY SALA"; // query que sera executada
+$result = $mysqli->query($sql); // executa a query e quarda da variavel
+$qtd = mysqli_num_rows($result); // conta quantos registros vieram
 
-if($qtd<1){
-  header("Location: salacheck.php");
+if($qtd<1){ // se a quantidade de registros foi menor que 1 é porque nao foi encontrado o valor
+  header("Location: error.html");// direciona para a pagina de erro
 };
-
+// inseri a barra de voltar
 echo '<nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="https://kvm1000.websiteseguro.com/qrteste2/principal.php">
    
@@ -34,22 +37,50 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
 
 
 
-    foreach($result as $res){
+    foreach($result as $res){// mostra o cabeçalho predio andar e sala
      
         echo '<ion-icon src="./icon/ios-checkmark-circle.svg"  size="large" class="btn btn-primary" id="totalcheck"></ion-icon>'.' | '.'<ion-icon src="./icon/ios-contacts.svg"  size="large" class="btn btn-warning" id="totalocupado"></ion-icon>'. ' '.'<b> | '.$res['PREDIO'].' - '.$res['ANDAR'].' - '.$res['SALA'].'</b>';
         echo '<hr>';
         echo '<br>';
 
-        $pegasala = $res['QRSALA'];
+        $pegasala = $res['QRSALA']; // guarda o qrcode da sala para a query abaixo
     };
 
-    $sql2 = "SELECT * FROM QRCODETABLE WHERE QRSALA = '$pegasala'";
+    $sql2 = "SELECT * FROM QRCODETABLE WHERE QRSALA = '$pegasala'"; // seleciona os equipamento que esta ligado a qrsala da sala
     $result2 = $mysqli->query($sql2);
+    $qtd2 = mysqli_num_rows($result2);
+    echo ' Total de Equipamentos'.' - '.$qtd2;
+    echo '<div id="contar"> </div>';
 
 
-    foreach (  $result2 as $res2) {
+    foreach ($result2 as $res2) {
+        // realiza a consulta dos chamados na base , pelo qrcode do equipamento
+        $qrEqui = $res2['QRCODE'];
+        $sqlCH = "SELECT qrcode from CHAMADOS WHERE qrcode = '$qrEqui' AND status = 'ANDAMENTO' ";
+        $resultCH = $mysqli->query($sqlCH);
+        $qtdCH = mysqli_num_rows($resultCH);
 
-      echo'<div class="card">';
+
+       if($qtdCH>0){
+
+           echo'<div class="card">';
+            echo '<div class="card-header" id="'.$res2['ID_REGISTRO'].'">';
+             echo '<ion-icon src="./icon/md-checkmark-circle.svg"  size="large" class="checado" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>';
+             echo '<ion-icon src="./icon/ios-contacts.svg"  size="large" class="ocupado" id="'.$res2['ID_REGISTRO'].'">'.$res2['QRCODE'].'</ion-icon>';
+             echo '</div>';
+             echo '<div class="card-body" id="form'.$res2['ID_REGISTRO'].'">';
+             echo '<h5 class="card-title">'.'<ion-icon src="./icon/md-thumbs-down.svg"   size="large" class="btn btn-danger" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>'.' | '.$res2['QRCODE'].' | '.utf8_encode($res2['TIPO_DE_EQUIPAMENTO']).'</h5>';
+            echo '<p class="card-text">'.utf8_encode($res2['MARCA']).' | '.$res2['MODELO'].'</p>';
+            echo $qtdCH;
+          
+            
+          echo '</div>';
+        echo '</div> <br>';
+
+
+       }else{
+
+         echo'<div class="card">';
         echo '<div class="card-header" id="'.$res2['ID_REGISTRO'].'">';
          echo '<ion-icon src="./icon/md-checkmark-circle.svg"  size="large" class="checado" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>';
            echo '<ion-icon src="./icon/ios-contacts.svg"  size="large" class="ocupado" id="'.$res2['ID_REGISTRO'].'">'.$res2['QRCODE'].'</ion-icon>';
@@ -57,9 +88,17 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
          echo '<div class="card-body" id="form'.$res2['ID_REGISTRO'].'">';
           echo '<h5 class="card-title">'.'<ion-icon src="./icon/md-thumbs-down.svg"   size="large" class="chamado" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>'.' | '.$res2['QRCODE'].' | '.utf8_encode($res2['TIPO_DE_EQUIPAMENTO']).'</h5>';
           echo '<p class="card-text">'.utf8_encode($res2['MARCA']).' | '.$res2['MODELO'].'</p>';
+          echo $qtdCH;
+        
           
         echo '</div>';
       echo '</div> <br>';
+        
+
+        
+       };
+
+     
 
       
     }
@@ -104,39 +143,60 @@ $(document).ready(function(){
           // DISPARA CLICK EM TODOS OS BOTOES DE CHECADO
           $('#totalcheck').click(function(){
             $('.checado').trigger('click');
-            $('.card').fadeOut('slow');
+            //$('.card').fadeOut('slow');
             $(this).off('click');
             $(this).addClass('bg-success text-white');
-            alert('Todos os itens foram checado!');
+            
+            
           });
 
           // DISPARA CLICK EM TODOS SO BOTOES DO OCUPADO
           $('#totalocupado').click(function(){
             $('.ocupado').trigger('click');
-            $('.card').fadeOut('slow');
+            //$('.card').fadeOut('slow');
             $(this).off('click');
             $(this).addClass('bg-success text-white');
-            alert('Todos os itens foram checado!');
+            //alert('Todos os itens foram checado!');
           });
 
 
           // EVENTOS DO BOTAO CHECADO
-          $('.checado').click(function(){
-           var sala = $(this).text();// PEGA O QRCODE REFERENTE O REGISTRO GERADO
-           var sala_split = sala.split(" ");// FAZ O SPLIT POREM NÃO USADO NO MOMENTO
-            $(this).addClass("btn btn-info");// ADICIONA CLASSE
-           
-            $(this).off('click');// RETIRA O EVENTO DO BOTAO
+           contador = 0; // iniciada em 0 , server para contar os equipamentos
+           codigos = []; // um array que guardara os qrcodes abaixo
 
-           // REQUISIÇAO AJAX PARA GUARDAR O CHECK
-             $.post('insertchecksala.php',{qrcode:sala},function(data) {
+          $('.checado').click(function(){
+           
+           var tamanho = $('.checado').length; 
+           var sala = $(this).text();// PEGA O QRCODE REFERENTE O REGISTRO GERADO
+            $(this).addClass("btn btn-info");// ADICIONA CLASSE
+            $(this).off('click');// RETIRA O EVENTO DO BOTAO
+            codigos.push(sala);
+
+            if(codigos.length==tamanho){
+
+              // REQUISIÇAO AJAX PARA GUARDAR O CHECK
+            // $.post('insertchecksala.php',{qrcode:codigos},function(data) {
                    
-                });
-             
-             var ident = $(this).attr('id');
-              var nomeId = "#"+ident;
-              $(nomeId).addClass('p-3 mb-2 bg-info text-white');
+              //  });
+              // ENVIADO VIA GET - CORREÇÃO TEMPORARIA PARA ENVIO DOS VALORES - LOGO SERÁ VIA AJAX ACIMA ^
+              window.location.replace("insertchecksala.php?qrcode="+codigos)
+
+            };
+
+                     
+             var ident = $(this).attr('id');// PEGA A IDENTIDADE DO ELEMENTO
+              var nomeId = "#"+ident; // FORMATA PARA QUE POSSA SER USADA NA VARIAVEL ABAIXO
+              $('.card').addClass('p-3 mb-2 bg-info text-white');
               $(nomeId).fadeOut('slow');
+              //$(this).show();
+
+              
+              contador = contador + 1; 
+              $('#contar').append('<img src="./images/ball.gif">');
+             
+
+                
+
           
               
           });
@@ -146,7 +206,6 @@ $(document).ready(function(){
             $('.chamado').click(function(){
            var sala = $(this).text();
            var sala_split = sala.split(" ");
-           alert('foi clicado pela class');
            $(this).addClass("btn btn-danger");
            $(this).off('click');
            var fresh = confirm("Enviar o Chamado para o Fresh Service?");
@@ -187,28 +246,50 @@ $(document).ready(function(){
 
 
 
-             $('.ocupado').click(function(){
-           var sala = $(this).text();
-           var sala_split = sala.split(" ");
-           alert('foi clicado pela class');
-           $(this).addClass("btn btn-warning");
-           $(this).off('click');
+         // EVENTOS DO BOTAO OCUPADO
+           contadorOcupado = 0; // iniciada em 0 , server para contar os equipamentos
+           codigosOcupado = []; // um array que guardara os qrcodes abaixo
+
+          $('.ocupado').click(function(){
            
-             $.post('insertchecksala.php',{qrcode:sala,ocupada:"SIM"},function(data) {
+           var tamanho = $('.checado').length; 
+           var sala = $(this).text();// PEGA O QRCODE REFERENTE O REGISTRO GERADO
+            $(this).addClass("btn btn-warning");// ADICIONA CLASSE
+            $(this).off('click');// RETIRA O EVENTO DO BOTAO
+            codigosOcupado.push(sala);
+
+            if(codigosOcupado.length==tamanho){
+
+              // REQUISIÇAO AJAX PARA GUARDAR O CHECK
+            // $.post('insertchecksala.php',{qrcode:codigos},function(data) {
                    
-                });
-             
-              var ident = $(this).attr('id');
-              var nomeId = "#"+ident;
+              //  });
+              // ENVIADO VIA GET - CORREÇÃO TEMPORARIA PARA ENVIO DOS VALORES - LOGO SERÁ VIA AJAX ACIMA ^
+              window.location.replace("insertchecksala.php?qrcode="+codigosOcupado+"&ocupada=SIM")
+
+            };
+
+                     
+             var ident = $(this).attr('id');// PEGA A IDENTIDADE DO ELEMENTO
+              var nomeId = "#"+ident; // FORMATA PARA QUE POSSA SER USADA NA VARIAVEL ABAIXO
+              $('.card').addClass('p-3 mb-2 bg-info text-white');
               $(nomeId).fadeOut('slow');
+              //$(this).show();
+
               
-           
+              contador = contador + 1; 
+              $('#contar').append('<img src="./images/ball.gif">');
+             
+
+                
+
+          
               
           });
 
 
              // pega o formulario de chamado e envia para o fres e guarda o chamado
-             $(document).on('click', 'a', function(){
+             $(document).on('click', '#enviarfresh', function(){
                  
                  var qrcodes = $('#qrcodeequipamento').val();
                   var problemas = $('#problema').val();
@@ -286,7 +367,6 @@ $(document).ready(function(){
 <BODY>
 
 
- 
   
 <DIV></DIV>
 
