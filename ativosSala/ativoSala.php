@@ -38,7 +38,7 @@ $andar = $_POST['ANDAR'];
 
 
 // FAZ O SELECT APOS O ENVIO PARA CONSULTAR A SALA
-$select2 = "SELECT * FROM QRCODETABLE WHERE PREDIO = '$predio' AND ANDAR = '$andar'GROUP BY SALA";
+$select2 = "SELECT * FROM QRCODETABLE WHERE PREDIO = '$predio' AND ANDAR = '$andar' GROUP BY SALA";
 
 $result2 = $pdo->query($select2);
 
@@ -150,9 +150,12 @@ $result2 = $pdo->query($select2);
     <li class="breadcrumb-item active" aria-current="page"><b>'.$res2['PREDIO'].' '.$res2['ANDAR'].' '.$res2['SETOR'].' '.utf8_encode($res2['SALA']).'</b></li>
   </ol>
 </nav>';
-$tempsala = $res2['SALA'];
-$tempandar = $res2['ANDAR'];
-$select3 = "SELECT * FROM QRCODETABLE WHERE SALA = '$tempsala' AND ANDAR = '$tempandar'";
+$tempsala = $res2['SALA']; // PEGANDO O NOME DA SALA
+$tempandar = $res2['ANDAR']; // PEGANDO O ANDAR
+$tempredio = $res2['PREDIO'];// PEGANDO O NOME DO PREDIO
+//PEGA OS ATIVOS QUE ESTÃO NA SALA AND ANDAR AND PREDIO 
+$select3 = "SELECT * FROM QRCODETABLE WHERE SALA = '$tempsala' AND ANDAR = '$tempandar' AND PREDIO = '$tempredio'";
+
 $result3 = $pdo->query($select3);
 
               foreach($result3 as $res3){

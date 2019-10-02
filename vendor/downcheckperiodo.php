@@ -226,7 +226,8 @@ $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'PREDIO');
 $objPHPExcel->getActiveSheet()->SetCellValue('H1', 'ANDAR');
 $objPHPExcel->getActiveSheet()->SetCellValue('I1', 'SETOR');
 $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'SALA');
-$objPHPExcel->getActiveSheet()->SetCellValue('K1', 'HORAS_LAMP');
+$objPHPExcel->getActiveSheet()->SetCellValue('K1', 'QRSALA');
+$objPHPExcel->getActiveSheet()->SetCellValue('L1', 'HORAS_LAMP');
 
 
 $contador = 2;
@@ -244,7 +245,8 @@ foreach ($result as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['ANDAR']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['SETOR']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, utf8_encode($res['SALA']));
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['HORAS_LAMP']);
+                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['QRSALA']);
+                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['HORAS_LAMP']);
               
                
                        $contador = $contador + 1;

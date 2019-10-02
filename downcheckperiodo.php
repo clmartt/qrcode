@@ -63,6 +63,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue('Q1', 'HORAS');
 
 
 
+
 $contador = 2;
 
 foreach ($result as $res) {
@@ -85,6 +86,7 @@ foreach ($result as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('O'.$contador, $res['OCUPADA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('P'.$contador, $res['PREVENTIVA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$contador, $res['HORAS']);
+                
                
                        $contador = $contador + 1;
  };
@@ -228,6 +230,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue('I1', 'SETOR');
 $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'SALA');
 $objPHPExcel->getActiveSheet()->SetCellValue('K1', 'QRSALA');
 $objPHPExcel->getActiveSheet()->SetCellValue('L1', 'HORAS_LAMP');
+$objPHPExcel->getActiveSheet()->SetCellValue('M1', 'HORAS_LAMP');
 
 
 $contador = 2;
