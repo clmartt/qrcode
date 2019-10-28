@@ -19,6 +19,8 @@ $senha = 'qrcodekvm';
 // Conectando 
 // se nao conectar informa o erro
 try { 
+
+  
 $pdo = new PDO($dsn, $usuario, $senha); 
 } catch (PDOException $e) { 
 echo $e->getMessage(); 
