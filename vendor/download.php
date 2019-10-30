@@ -2,7 +2,6 @@
 <?php
 ob_start();
 session_start();
-$cliente = $_SESSION['cliente'];
 
 header('Content-Type: text/html; charset=utf-8');
 ini_set('default_charset','UTF-8');
@@ -19,16 +18,6 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 $sql = "SELECT * FROM QRCODETABLE GROUP BY PREDIO ";
 $result = $mysqli->query($sql);
 
-
-if($_SESSION['cliente']=='KVM' ){
-  $sql = "SELECT * FROM QRCODETABLE GROUP BY PREDIO ";
-  $result = $mysqli->query($sql);
-
-}else{
-  $sql = "SELECT * FROM QRCODETABLE WHERE CLIENTE = '$cliente' GROUP BY PREDIO ";
-  $result = $mysqli->query($sql);
-
-};
 
 
 

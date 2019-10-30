@@ -2,9 +2,6 @@
 <?php
 ob_start();
 session_start();
-$cliente = $_SESSION['cliente'];
-
-echo $cliente;
 
 
 
@@ -26,29 +23,17 @@ echo $e->getMessage();
 exit(1); 
 } 
 
-if($cliente == 'KVM'){
 // PARA PREENCHER O SELECT DO HTML COM O PREDIO
 $select = "SELECT * FROM QRCODETABLE GROUP BY PREDIO";
 $result = $pdo->query($select);
 $qtd = $result-> rowCount();
 
-}else{
-// PARA PREENCHER O SELECT DO HTML COM O PREDIO
-$select = "SELECT * FROM QRCODETABLE WHERE CLIENTE = '$cliente' GROUP BY PREDIO";
-$result = $pdo->query($select);
-$qtd = $result-> rowCount();
-}
-
-/*
-// PARA PREENCHER O SELECT DO HTML COM O PREDIO
-$select = "SELECT * FROM QRCODETABLE GROUP BY PREDIO";
-$result = $pdo->query($select);
-$qtd = $result-> rowCount();
-*/
 
 // PARA RECEBER OS CAMPOS DO FORMULARIO ABAIXO
 $predio = $_POST['PREDIO'];
 $andar = $_POST['ANDAR'];
+
+
 
 
 
@@ -165,12 +150,10 @@ $result2 = $pdo->query($select2);
     <li class="breadcrumb-item active" aria-current="page"><b>'.$res2['PREDIO'].' '.$res2['ANDAR'].' '.$res2['SETOR'].' '.utf8_encode($res2['SALA']).'</b></li>
   </ol>
 </nav>';
-$tempsala = $res2['SALA']; // PEGANDO O NOME DA SALA
-$tempandar = $res2['ANDAR']; // PEGANDO O ANDAR
-$tempredio = $res2['PREDIO'];// PEGANDO O NOME DO PREDIO
-//PEGA OS ATIVOS QUE ESTÃO NA SALA AND ANDAR AND PREDIO 
+$tempsala = $res2['SALA'];
+$tempandar = $res2['ANDAR'];
+$tempredio = $res2['PREDIO'];
 $select3 = "SELECT * FROM QRCODETABLE WHERE SALA = '$tempsala' AND ANDAR = '$tempandar' AND PREDIO = '$tempredio'";
-
 $result3 = $pdo->query($select3);
 
               foreach($result3 as $res3){

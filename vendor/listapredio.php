@@ -2,7 +2,6 @@
 <?php
 ob_start();
 session_start(); //pega a sessao do usuario
-$cliente = $_SESSION['cliente'];
 
 
 // cabeçalho para utf8 
@@ -28,20 +27,11 @@ exit(1);
 
 
 
-if($_SESSION['cliente']=='KVM'){
-  // primeira forma	
-  $select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
-  $result = $pdo->query($select); // guardando o resultado da query acima na variavel
-  $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
-  
-  }else{
-  
-    // primeira forma	
-  $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$cliente' GROUP BY PREDIO"; // query de consulta ao banco
-  $result = $pdo->query($select); // guardando o resultado da query acima na variavel
-  $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
-  
-  };
+// primeira forma	
+$select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
+$result = $pdo->query($select); // guardando o resultado da query acima na variavel
+$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+
 
 
 
@@ -71,6 +61,8 @@ if($_SESSION['cliente']=='KVM'){
     	
     	$(document).ready(function(){
 
+      
+
 
     		//espaço reservado para biblioteca jquery caso seja necessário o uso
 
@@ -83,7 +75,8 @@ if($_SESSION['cliente']=='KVM'){
   </head>
   <body>
 
-    <?php include('home.php');?>
+
+   <?php  include('home.php');?>
   
 
 
@@ -107,8 +100,8 @@ if($_SESSION['cliente']=='KVM'){
    
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';
      echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="./chamado/listaChamado.php?predio='.$linha['PREDIO'].'">';
-       echo '<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-danger"  ></ion-icon>';
+      echo '<a class="navbar-brand" href="hoje.php?predio='.$linha['PREDIO'].'">';
+       echo '<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-success"  ></ion-icon>';
         echo '  '.$linha['PREDIO'];
          echo '</a>';
           echo '</nav>';

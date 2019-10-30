@@ -2,7 +2,6 @@
 ob_start();
 session_start();
 $usuario = $_GET['user'];
-$cliente = $_SESSION['cliente'];
 
 
 
@@ -23,18 +22,9 @@ $ANDAR = $_POST['andar'];
 
 $mysqli = new mysqli($host, $user, $pass, $db);
 
-if($cliente == 'KVM'){
-	$sql = "SELECT PREDIO FROM QRCODETABLE GROUP BY PREDIO";
-	$result = $mysqli->query($sql);
-}else{
-	$sql = "SELECT PREDIO FROM QRCODETABLE WHERE CLIENTE = '$cliente' GROUP BY PREDIO";
-	$result = $mysqli->query($sql);
-};
-
-/*
 $sql = "SELECT PREDIO FROM QRCODETABLE GROUP BY PREDIO";
 $result = $mysqli->query($sql);
-*/
+
 
 
 
