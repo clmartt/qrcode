@@ -1,9 +1,4 @@
 <?php
-
-ob_start();
-session_start(); //pega a sessao do usuario
-$cliente = $_SESSION['cliente'];
-
 header('Content-Type: text/html; charset=utf-8');
 // Definindo parametros de conexao 
 $dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
@@ -24,8 +19,6 @@ $setor = utf8_decode(strtoupper($_POST['setor']));
 $serie = utf8_decode(strtoupper($_POST['serie']));
 $horas = $_POST['horas'];
 $situacao = utf8_decode(strtoupper($_POST['situacao']));
-$varcliente = utf8_decode(strtoupper($_POST['cliente']));
-
 
 // Conectando 
 try { 
@@ -37,8 +30,8 @@ exit(1);
 
 // Preparando statement 
 	
-$stmt = $pdo->prepare("INSERT INTO QRCODETABLE(QRCODE,TIPO_DE_EQUIPAMENTO,CARACTERISTICA,MARCA,MODELO,N_SERIE,PREDIO,ANDAR,SETOR,SALA,QRSALA,HORAS_LAMP,SITUACAO,CLIENTE)
-	values ('$qrcode','$ativo','$caract','$marca','$modelo','$serie','$predio','$andar','$setor','$sala','$qrsala',$horas,'$situacao','$varcliente')"); 
+$stmt = $pdo->prepare("INSERT INTO QRCODETABLE(QRCODE,TIPO_DE_EQUIPAMENTO,CARACTERISTICA,MARCA,MODELO,N_SERIE,PREDIO,ANDAR,SETOR,SALA,QRSALA,HORAS_LAMP,SITUACAO)
+	values ('$qrcode','$ativo','$caract','$marca','$modelo','$serie','$predio','$andar','$setor','$sala','$qrsala',$horas,'$situacao')"); 
 
 // Executando statement 
 $stmt->execute(); 

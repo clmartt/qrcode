@@ -101,7 +101,10 @@ if($_SESSION['cliente']=='KVM'){
     echo "</br>";
     echo "</br>";
     echo "</br>";
+    echo "</br>";
     
+    echo "<div class='text-center font-weight-bold'>Chamados Abertos<div> ";
+    echo "</br>";
 
     foreach ($result as $linha) {
    

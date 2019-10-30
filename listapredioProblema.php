@@ -103,7 +103,10 @@ if($_SESSION['cliente']=='KVM'){
     echo "</br>";
     echo "</br>";
     
-
+    echo "</br>";
+    
+    echo "<div class='text-center font-weight-bold'>Problemas por Categoria<div> ";
+    echo "</br>";
     foreach ($result as $linha) {
    
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';

@@ -107,8 +107,10 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     echo "</br>";
     echo "</br>";
     echo "</br>";
+    echo "</br>";
     
-
+    echo "<div class='text-center font-weight-bold'>Check List<div> ";
+    echo "</br>";
     foreach ($result as $linha) {
    
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';

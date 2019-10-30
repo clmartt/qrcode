@@ -37,6 +37,9 @@ if($_SESSION['cliente']=='KVM' ){
 
 
 
+<?php  include('home.php');?>
+
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -95,14 +98,13 @@ if($_SESSION['cliente']=='KVM' ){
 
   </head>
   <body>
-<nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="./principal.php">
-   
-    Retornar
-  </a>
- 
-</nav>
- <p></p>
+
+<br>
+<br>
+<br>
+<br>
+
+
 
 
 <div class="card">
@@ -123,6 +125,7 @@ if($_SESSION['cliente']=='KVM' ){
                  &nbspPredio  :&nbsp &nbsp<select class="form-control" name="PREDIO" id="predio">
                     <?PHP 
                         foreach ($result as $res) {
+                          
                          echo "<option value=".$res['PREDIO'].">".$res['PREDIO']."</option>";
                          };
       
@@ -156,7 +159,7 @@ if($_SESSION['cliente']=='KVM' ){
 
 
 
-
+    <?php  include('menu.php');?>
 
   </body>
 

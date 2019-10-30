@@ -54,8 +54,8 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-<nav class="navbar fixed-top navbar-dark bg-dark">
- <a href="principal.php"><ion-icon src="./icon/ios-home.svg"  size="large" class="btn btn-primary"></ion-icon></a>
+<nav class="navbar fixed-top shadow-sm p-3 mb-5 ">
+<p align="right"><a href="principal.php"><ion-icon src="./icon/ios-home.svg"  size="large" ></ion-icon></a></p>
  
 </nav>
 </body>

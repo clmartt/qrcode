@@ -1,10 +1,3 @@
-<?php
-ob_start();
-session_start(); //pega a sessao do usuario
-$cliente = $_SESSION['cliente'];
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +39,7 @@ $cliente = $_SESSION['cliente'];
 				<span class="contact100-form-title">
 					Novo Ativo
 				</span>
-				<input type="hidden" name="cliente" id="cliente" value="<?php echo $cliente ?>">
+
 				<div class="wrap-input100 validate-input">
 					<span class="label-input100">Qrcode</span>
 					<input class="input100" type="text" name="qrcode" placeholder="Digite o Qrcode" required="">

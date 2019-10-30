@@ -55,11 +55,11 @@
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 <nav class="navbar fixed-bottom navbar-dark bg-light">
- <a href="listapredio.php" ><ion-icon src="./icon/md-eye.svg"  size="large" class="btn btn-success" ></ion-icon></a>
- <a href="listapredioChamado.php"><ion-icon src="./icon/md-alert.svg"  size="large" class="btn btn-danger"></ion-icon></a>
- <a href="./cameras.php"><ion-icon src="./icon/ios-videocam.svg"  size="large" class="btn info"></ion-icon></a>
- <a href="listapredioProblema.php"><ion-icon src="./icon/md-grid.svg"  size="large" class="btn btn-warning"></ion-icon></a>
- <a href="download.php"><ion-icon src="./icon/md-cloud-download.svg"  size="large" class="btn btn-secondary"  ></ion-icon></a>
+ <a href="listapredio.php" ><ion-icon src="./icon/md-eye.svg"  size="large"  ></ion-icon></a>
+ <a href="listapredioChamado.php"><ion-icon src="./icon/md-alert.svg"  size="large" ></ion-icon></a>
+ <a href="./cameras.php"><ion-icon src="./icon/ios-videocam.svg"  size="large" ></ion-icon></a>
+ <a href="listapredioProblema.php"><ion-icon src="./icon/md-grid.svg"  size="large" ></ion-icon></a>
+ <a href="download.php"><ion-icon src="./icon/md-cloud-download.svg"  size="large"  ></ion-icon></a>
 </nav>
 </body>
 </html>
