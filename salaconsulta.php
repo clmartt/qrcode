@@ -27,32 +27,11 @@ $result = $mysqli->query($sql);
 </nav>';
 echo "<p></p>";
 echo "</br>";
+echo "</br>";
+echo "</br>";
 
 
-    foreach($result as $res){
-        
-           echo '<div class="card">';
-          
-          echo '<div class="card-header">';
-          echo '<h5 class="card-title">'.'Setor : '.utf8_encode($res['SETOR']).'</h5>';
-          echo '<p class="card-text">'.'ANDAR : '.$res['ANDAR'].' - SETOR : '.$res['SETOR'].' - SALA : - '.utf8_encode($res['SALA']).'</p> <br>
-          <button class="btn btn-primary">'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'</button></div></div>';
-          echo "<br>";
-          echo "<br>";
-          
-
-
-
-
-
-
-
-    }
-    echo "<br>";
-          echo "<br>";
-          echo "<br>";
     
-
 
 
  
@@ -81,13 +60,20 @@ echo "</br>";
   <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
   <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <script type="text/javascript">
   
 $(document).ready(function(){
 
           $('button').mousedown(function(){
-           var sala = $(this).text();
+           var sala = $(this).val();
            var sala_split = sala.split(" ");
            
              $.post('recebesala.php',{nsala:sala},function(data) {
@@ -101,6 +87,19 @@ $(document).ready(function(){
           });
 
 
+          $("#txtBusca").keyup(function(){
+              var texto = $(this).val();
+              
+              
+              $("tr").css("display", "block");
+              $("tr").each(function(){
+                  if($(this).text().indexOf(texto.toUpperCase()) < 0){
+                     $(this).fadeOut('slow');
+                  }
+              });
+          });
+
+
 
 
 });
@@ -110,10 +109,65 @@ $(document).ready(function(){
 
 </script>
 <BODY>
+<br>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1"><ion-icon src="./icon/md-search.svg"  size="small" ></ion-icon></span>
+  </div>
+  <input type="text" class="form-control" placeholder="Usuário" aria-label="Usuário" aria-describedby="basic-addon1" id="txtBusca">
+</div>
+
+
+
+
   <?php 
   include("menu.php");
+  echo '<div class="table-responsive">';
+  echo '<table class="table table-sm" height="100%">';
+  echo '<thead>';
+  echo '<tr>';
+  echo '<th scope="col">Andar</th>';
+  echo '<th scope="col">Setor</th>';
+  echo '<th scope="col">Sala</th>';
+  echo '<th scope="col">Marcar</th>';
+  echo '</tr>';
+  echo '</thead>';
+  echo '<tbody>';
+
+  foreach($result as $res){
+       
+    echo '<tr>';
+    echo '<th scope="row" >'.$res['ANDAR'].'</th>';
+    echo '<td>'.$res['SETOR'].'</td>';
+    echo '<td>'.utf8_encode($res['SALA']).'</td>';
+    echo '<td><button class="btn btn-outline-warning" Value="'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'"><ion-icon src="./icon/md-contacts.svg"  size="small" ></ion-icon></button></td>';
+    echo '</tr>';
+      
+   
+   
+    //echo '<div class="card">';
+   
+   //echo '<div class="card-header">';
+  // echo '<h5 class="card-title">'.'Setor : '.utf8_encode($res['SETOR']).'</h5>';
+  // echo '<p class="card-text">'.'ANDAR : '.$res['ANDAR'].' - SETOR : '.$res['SETOR'].' - SALA : - '.utf8_encode($res['SALA']).'
+   //<button class="btn btn-primary">'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'</button></p>';
+   //echo "<br>";
+  // echo "<br>";
+   
+
+
+}
+
+echo '</tbody>';
+echo '</table>';
+echo '</div>';
+echo "<br>";
+   echo "<br>";
+   echo "<br>";
+
+
   ?>
   
-<DIV></DIV>
-
+  
 </BODY>
