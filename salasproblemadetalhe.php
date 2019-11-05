@@ -2,19 +2,15 @@
 <?php
 ob_start();
 session_start(); //pega a sessao do usuario
+$cliente = $_SESSION['cliente'];
 
 
-header('Content-Type: text/html; charset=utf-8');
-
-ini_set('default_charset','UTF-8');
-
-$predio = $_GET['predio'];
 // cabeçalho para utf8 
 header('Content-Type: text/html; charset=utf-8');
 ini_set('default_charset','UTF-8');
-header("Refresh: 60");
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
+$predio = $_GET['predio'];
 
 //conexao com banco de dadso
 
@@ -25,18 +21,30 @@ $senha = 'qrcodekvm';
 // Conectando 
 // se nao conectar informa o erro
 try { 
+
+  
 $pdo = new PDO($dsn, $usuario, $senha); 
 } catch (PDOException $e) { 
 echo $e->getMessage(); 
 exit(1); 
 } 
 
-$datahoje = date("Y-m-d");
-
+if($_SESSION['cliente']=='KVM'){
 // primeira forma	
-$select = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' ORDER BY IDTABLE_CHECK DESC"; // query de consulta ao banco
+$select = "SELECT * FROM  CHAMADOS WHERE predio = '$predio' and status = 'ANDAMENTO' group by andar "; // query de consulta ao banco
 $result = $pdo->query($select); // guardando o resultado da query acima na variavel
-//$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+
+}else{
+
+  // primeira forma	
+$select = "SELECT * FROM  CHAMADOS WHERE predio= '$predio' and status = 'ANDAMENTO' group by andar"; // query de consulta ao banco
+$result = $pdo->query($select); // guardando o resultado da query acima na variavel
+$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+
+};
+
+
 
 
 
@@ -67,6 +75,8 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
     	
     	$(document).ready(function(){
 
+      
+
 
     		//espaço reservado para biblioteca jquery caso seja necessário o uso
 
@@ -74,20 +84,13 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
 
     </script>
 
-      <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
 
   </head>
   <body>
 
 
-    <nav class="navbar fixed-top navbar-dark bg-dark">
-      <a class="navbar-brand" href="https://kvm1000.websiteseguro.com/qrteste2/listapredio.php">
-       
-        Retornar 
-        
-      </a>
-     
-    </nav>
+   <?php  include('home.php');?>
   
 
 
@@ -105,45 +108,53 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
     echo "</br>";
     echo "</br>";
     echo "</br>";
+    echo "</br>";
     
-    echo '<h5>'.'<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-dark"  ></ion-icon>'.' '.$predio.' - '.date('d-m-Y').'</h5>'.'<br>';
-    echo '<hr>';
-
-    foreach ($result as $linha) {
-
-      if($linha['OCUPADA']=='SIM'){
-            echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-            echo '<ion-icon src="./icon/md-time.svg"  size="small" class="text-primary"></ion-icon> : '.$linha['HORAS'].'<BR>';
-            echo '<h5> <ion-icon src="./icon/ios-alert.svg"  size="small" class="text-danger"></ion-icon> '.utf8_encode($linha['SALA'].' - Andar : '.$linha['ANDAR'].'</H5>');
-            echo '<br>';
-            echo '<h5> <ion-icon src="./icon/md-contacts.svg"  size="small" class="btn btn-warning"></ion-icon> '.'Ocupada: '.utf8_encode($linha['OCUPADA'].'</H5>');
-            echo '<br>';
-      
-            echo $linha['NOME_USER'];
-             echo '</div>';
-
-      }else{
-            echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-            echo '<ion-icon src="./icon/md-time.svg"  size="small" class="text-primary"></ion-icon> : '.$linha['HORAS'].'<BR>';
-            echo '<h5> <ion-icon src="./icon/md-checkmark-circle.svg"  size="small" class="text-success"></ion-icon> '.utf8_encode($linha['SALA'].' - Andar : '.$linha['ANDAR'].'</H5>');
-            echo '<br>';
-            echo '<h5> <ion-icon src="./icon/md-checkbox.svg"  size="small" class="btn btn-success"></ion-icon> '.'Ativo: '.utf8_encode($linha['TIPO_DE_EQUIPAMENTO'].' - '.$linha['QRCODE'].'</H5>');
-            echo '<br>';
-      
-            echo $linha['NOME_USER'];
-             echo '</div>';
-      };
+    echo "<div class='text-center font-weight-bold'>Salas com Problemas - ".$qtd."<div> ";
+    echo "</br>";
    
-      
+    foreach ($result as $linha) {
+     
+      echo 'Andar  - '.$linha['andar'].'<br>';
+     
+      $pegapredio = $linha['predio'];
+      $pegasala = $linha['sala'];
+      $pegaandar = $linha['andar'];
 
+     $select2 = "SELECT * FROM CHAMADOS WHERE predio = '$pegapredio' AND sala = '$pegasala' AND andar = '$pegaandar' and status = 'ANDAMENTO' "; 
+     $result2 = $pdo->query($select2);
+
+                foreach ($result2 as $linha2) {
+                $date = new DateTime( $linha2['data_2'] );
+                
+                 echo '<div class="card">';
+                 echo '<div class="card-header">';
+                 echo 'Sala - '. $linha2['sala'];
+                 echo '</div>';
+                 echo '<div class="card-body">';
+                 echo '<h5 class="card-title">'.$linha2['problema'].'</h5>';
+                 echo '<p class="card-text">'.$linha2['observacao'].'</p>';
+                 echo '<br>';
+                 echo '<p class="card-text">'.$linha2['nome_user'].'</p>';
+                 echo '</div>';
+                 echo '<div class="card-footer text-muted">';
+                 echo 'Aberto em : '.$date-> format( 'd-m-Y' );
+                 echo '</div>';
+                 echo '</div>';
+                 echo '<br>';
+                };
+
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+        }
+     
 
      ?>
     
 
 
-<?php
-};
-?>
+
 
 
 

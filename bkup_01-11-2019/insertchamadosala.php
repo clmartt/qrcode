@@ -2,7 +2,6 @@
 header('Content-Type: text/html; charset=utf-8');
 ob_start();
 session_start(); //pega a sessao do usuario
-$cliente = $_SESSION['cliente'];
 
 
 // Definindo parametros de conexao 
@@ -65,9 +64,9 @@ $horas = date('H:i:s');
 
 
 	$stmt = $pdo->prepare("INSERT INTO CHAMADOS(
-	string_id,horas,data_2,mes,ano,qrcode,ativo,caracteristica,modelo,marca,predio,andar,sala,situacao,problema,observacao,nome_user,status,serie,horas_lamp,OS_BANCO,cliente) 
+	string_id,horas,data_2,mes,ano,qrcode,ativo,caracteristica,modelo,marca,predio,andar,sala,situacao,problema,observacao,nome_user,status,serie,horas_lamp,OS_BANCO) 
 	values ('$R_string_id','$horas','$data_2','$mes','$ano','$R_qrcode','$R_ativo','$R_caract','$R_modelo','$R_marca','$R_predio','$R_andar','$R_sala','$R_situacao','$R_problema','$R_info',
-	'$R_usuario_post','$R_status','$R_serie','$R_horaLamp','$R_os_banco','$cliente')");
+	'$R_usuario_post','$R_status','$R_serie','$R_horaLamp','$R_os_banco')");
 
 	// Executando statement
 	$stmt->execute(); 

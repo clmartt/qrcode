@@ -24,6 +24,7 @@ $dataPortFinalExplode = explode("/", $dataPortFinal);
 $dataInglesFinal = $dataPortFinalExplode[2]."-".$dataPortFinalExplode[1]."-".$dataPortFinalExplode[0];
 
 $predio = $_GET['predio'];
+
 $arquivo = $_GET['arquivo'];
 
 
@@ -230,7 +231,8 @@ $objPHPExcel->getActiveSheet()->SetCellValue('I1', 'SETOR');
 $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'SALA');
 $objPHPExcel->getActiveSheet()->SetCellValue('K1', 'QRSALA');
 $objPHPExcel->getActiveSheet()->SetCellValue('L1', 'HORAS_LAMP');
-$objPHPExcel->getActiveSheet()->SetCellValue('M1', 'HORAS_LAMP');
+
+
 
 
 $contador = 2;
@@ -250,6 +252,7 @@ foreach ($result as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, utf8_encode($res['SALA']));
                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['QRSALA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['HORAS_LAMP']);
+                
               
                
                        $contador = $contador + 1;

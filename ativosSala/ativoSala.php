@@ -4,7 +4,6 @@ ob_start();
 session_start();
 $cliente = $_SESSION['cliente'];
 
-echo $cliente;
 
 
 
@@ -53,7 +52,7 @@ $andar = $_POST['ANDAR'];
 
 
 // FAZ O SELECT APOS O ENVIO PARA CONSULTAR A SALA
-$select2 = "SELECT * FROM QRCODETABLE WHERE PREDIO = '$predio' AND ANDAR = '$andar' GROUP BY SALA";
+$select2 = "SELECT * FROM QRCODETABLE WHERE PREDIO LIKE '$predio%' AND ANDAR = '$andar' GROUP BY SALA";
 
 $result2 = $pdo->query($select2);
 

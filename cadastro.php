@@ -148,10 +148,10 @@ try {
 
                     </div> 
 
-                    <div class="wrap-input100 validate-input" data-validate = "Pode não ser o mais Bonito mas é o único que você tem!">
+                    <div class="wrap-input100 validate-input" data-validate = "Qual Cliente?">
 
-						<label for="exampleFormControlSelect1">Cliente</label>
-                            <select class="form-control" id="exampleFormControlSelect1" name="cliente">
+						<div align="center" ><label for="exampleFormControlSelect1"><b>Cliente</b></label></div>
+                            <select class="input100" id="exampleFormControlSelect1" name="cliente">
                                 <?php
                                 foreach($stmt as $retorno){
                                     echo "<option value=".$retorno['cliente'].">".$retorno['cliente']."</option>";
@@ -159,7 +159,8 @@ try {
                                 }
                                        
                                 ?>
-                            </select>
+							</select>
+							
 
 					</div> 
 
@@ -167,7 +168,7 @@ try {
 
 		
 
-					
+					<br>
 
 					<div class="container-login100-form-btn">
 
