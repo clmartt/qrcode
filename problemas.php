@@ -18,17 +18,6 @@ $sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE predio = '$P
 $result = $mysqli->query($sql);
 
 
-
-   echo '<nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="https://kvm1000.websiteseguro.com/qrteste2/listapredioProblema.php">
-   
-    Retornar
-  </a>
-</nav>';
-echo "<p></p>";
-echo "</br>";
-
-
    
 
 
@@ -64,42 +53,12 @@ echo "</br>";
 </head>
 <script type="text/javascript">
   
-$(document).ready(function(){
-
-          $(document).on('click','#problema',function(){
-            var prediotxt = $('#prediotxt').val();
-            var prob = $(this).text();
-            $.post('detalheProblema.php',{prediotxt:prediotxt,problema:prob},function(data) {
-                   
-               $('#detalhes').html(data);
-               });
-
-          });
-
-           //var sala = $(this).text();
-           //var sala_split = sala.split(" ");
-           
-             //$.post('recebesala.php',{nsala:sala},function(data) {
-                   
-               // });
-             
-              //$(this).fadeOut('slow');
-              //$(this).prop('disabled','true');
-           
-              
-          });
-
-
-
-
-//});
-
-
-
-
 </script>
 <BODY>
-<BR>
+<?php 
+  include("menu.php");
+  ?>
+  
 <BR>
  
 <?php
@@ -127,7 +86,7 @@ $(document).ready(function(){
     if($res['problema'] != ""){
             echo'<tbody>
             <tr>
-              <td class="table-light" >'.'<a href="#" id="problema" data-toggle="modal" data-target="#exampleModal">'.$res['problema'].'</a>'.'</th>
+              <td class="table-light" >'.$res['problema'].'</th>
               <td class="table-light">'.utf8_encode($res['qtd']).'</td>
               
             </tr>
@@ -143,10 +102,7 @@ $(document).ready(function(){
 ?>
 
 
-  <?php 
-  include("menu.php");
-  ?>
-  
+
 
 
 
@@ -173,4 +129,13 @@ $(document).ready(function(){
     </div>
   </div>
 </div>
+
+
+
+<!-- JavaScript (Opcional) -->
+    <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
 </BODY>

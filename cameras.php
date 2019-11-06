@@ -104,7 +104,7 @@ $result = $mysqli->query($sql);
 	?>
 	
 	<div  >
-     <?php include('home.php');?>
+     
 
 
 		<br>

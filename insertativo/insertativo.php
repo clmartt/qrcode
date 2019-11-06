@@ -48,7 +48,7 @@ echo  "<script>alert('Isso ai!, Mais um ativo registrado!');</script>";
 if ($stmt) { 
 
 
-header("Location: http://kvminformatica.com.br/qrteste2/insertativo/formInsert.php");
+header("Location: ../principal.php");
 } else { 
 echo "Erro ao gravar"; 
 

@@ -84,8 +84,11 @@ if($_SESSION['cliente']=='KVM'){
   </head>
   <body>
 
-    <?php include('home.php');?>
-  
+    
+  <?PHP 
+
+include("menu.php");
+?>
 
 
   <p></p>
@@ -99,11 +102,6 @@ if($_SESSION['cliente']=='KVM'){
  
     <?PHP 
 
-    echo "</br>";
-    echo "</br>";
-    echo "</br>";
-    
-    echo "</br>";
     
     echo "<div class='text-center font-weight-bold'>Problemas por Categoria<div> ";
     echo "</br>";
@@ -112,7 +110,7 @@ if($_SESSION['cliente']=='KVM'){
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';
      echo '<nav class="navbar navbar-light bg-light">';
       echo '<a class="navbar-brand" href="problemas.php?predio='.$linha['PREDIO'].'">';
-       echo '<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-warning"  ></ion-icon>';
+       echo '<ion-icon src="./icon/md-business.svg"  size="small" class="btn btn-warning"  ></ion-icon>';
         echo '  '.$linha['PREDIO'];
          echo '</a>';
           echo '</nav>';
@@ -125,6 +123,9 @@ if($_SESSION['cliente']=='KVM'){
 
 <?php
 };
+
+echo '<br>';
+echo '<br>';
 ?>
 
 
@@ -136,10 +137,7 @@ if($_SESSION['cliente']=='KVM'){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   
-<?PHP 
 
-include("menu.php");
-?>
-
+    <?php include('Jmodal.php');?>
   </body>
 </html>

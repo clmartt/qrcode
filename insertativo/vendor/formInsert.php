@@ -1,15 +1,7 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
 ob_start();
 session_start(); //pega a sessao do usuario
 $cliente = $_SESSION['cliente'];
-
-$addpredio = $_GET['predio'];
-$addandar = $_GET['andar'];
-$addsala = $_GET['sala'];
-$addsetor = $_GET['setor'];
-
-
 
 ?>
 
@@ -82,22 +74,22 @@ $addsetor = $_GET['setor'];
 				</div>
 				<div class="wrap-input100 validate-input" data-validate="Informe o Prédio?">
 					<span class="label-input100">Prédio</span>
-					<input class="input100" type="text" name="predio" placeholder="Ex: CTO" required="" value="<?php echo $addpredio ?>">
+					<input class="input100" type="text" name="predio" placeholder="Ex: CTO" required="">
 					<span class="focus-input100"></span>
 				</div>
 				<div class="wrap-input100 validate-input" data-validate="Informe o Andar?">
 					<span class="label-input100">Andar</span>
-					<input class="input100" type="text" name="andar" placeholder="Ex: Informe somente o numero, Ex: 4" required="" value="<?php echo $addandar ?>">
+					<input class="input100" type="text" name="andar" placeholder="Ex: Informe somente o numero, Ex: 4" required="">
 					<span class="focus-input100"></span>
 				</div>
 				<div class="wrap-input100 validate-input" data-validate="Informe o Setor?">
 					<span class="label-input100">Setor</span>
-					<input class="input100" type="text" name="setor" placeholder="Ex: Informe o setor Ex: LARANJA" required="" value="<?php echo $addsetor ?>">
+					<input class="input100" type="text" name="setor" placeholder="Ex: Informe o setor Ex: LARANJA" required="">
 					<span class="focus-input100"></span>
 				</div>
 				<div class="wrap-input100 validate-input" data-validate="Qual a Sala?">
 					<span class="label-input100">Sala</span>
-					<input class="input100" type="text" name="sala" placeholder="Ex: 210" required="" value="<?php echo $addsala ?>">
+					<input class="input100" type="text" name="sala" placeholder="Ex: 210" required="">
 					<span class="focus-input100"></span>
 				</div>
 

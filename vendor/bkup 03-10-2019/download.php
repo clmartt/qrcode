@@ -2,7 +2,6 @@
 <?php
 ob_start();
 session_start();
-$cliente = $_SESSION['cliente'];
 
 header('Content-Type: text/html; charset=utf-8');
 ini_set('default_charset','UTF-8');
@@ -20,25 +19,19 @@ $sql = "SELECT * FROM QRCODETABLE GROUP BY PREDIO ";
 $result = $mysqli->query($sql);
 
 
-if($_SESSION['cliente']=='KVM' ){
-  $sql = "SELECT * FROM QRCODETABLE GROUP BY PREDIO ";
-  $result = $mysqli->query($sql);
-
-}else{
-  $sql = "SELECT * FROM QRCODETABLE WHERE CLIENTE = '$cliente' GROUP BY PREDIO ";
-  $result = $mysqli->query($sql);
-
-};
 
 
-include('menu.php')
 
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
- 	
+
+  	
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Meta tags Obrigatórias -->
     <meta charset="utf-8">
@@ -91,11 +84,14 @@ include('menu.php')
 
   </head>
   <body>
+<nav class="navbar fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="./principal.php">
+   
+    Retornar
+  </a>
  
-<br>
-
-
-
+</nav>
+ <p></p>
 
 
 <div class="card">
@@ -116,7 +112,6 @@ include('menu.php')
                  &nbspPredio  :&nbsp &nbsp<select class="form-control" name="PREDIO" id="predio">
                     <?PHP 
                         foreach ($result as $res) {
-                          
                          echo "<option value=".$res['PREDIO'].">".$res['PREDIO']."</option>";
                          };
       
@@ -150,8 +145,8 @@ include('menu.php')
 
 
 
-   
-<?php include('Jmodal.php');?>
+
+
   </body>
 
 

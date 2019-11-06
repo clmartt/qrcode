@@ -2,19 +2,15 @@
 <?php
 ob_start();
 session_start(); //pega a sessao do usuario
+$cliente = $_SESSION['cliente'];
 
 
-header('Content-Type: text/html; charset=utf-8');
-
-ini_set('default_charset','UTF-8');
-
-$predio = $_GET['predio'];
 // cabeçalho para utf8 
 header('Content-Type: text/html; charset=utf-8');
 ini_set('default_charset','UTF-8');
-header("Refresh: 60");
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
+$addpredio = $_GET['predio'];
 
 //conexao com banco de dadso
 
@@ -25,18 +21,30 @@ $senha = 'qrcodekvm';
 // Conectando 
 // se nao conectar informa o erro
 try { 
+
+  
 $pdo = new PDO($dsn, $usuario, $senha); 
 } catch (PDOException $e) { 
 echo $e->getMessage(); 
 exit(1); 
 } 
 
-$datahoje = date("Y-m-d");
-
+if($_SESSION['cliente']=='KVM'){
 // primeira forma	
-$select = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' ORDER BY IDTABLE_CHECK DESC"; // query de consulta ao banco
+$select = "SELECT * FROM  QRCODETABLE WHERE PREDIO = '$addpredio' GROUP BY ANDAR ORDER BY ANDAR"; // query de consulta ao banco
 $result = $pdo->query($select); // guardando o resultado da query acima na variavel
-//$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+
+}else{
+
+  // primeira forma	
+$select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$cliente' and PREDIO = '$addpredio' GROUP BY ANDAR ORDER BY ANDAR"; // query de consulta ao banco
+$result = $pdo->query($select); // guardando o resultado da query acima na variavel
+$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+
+};
+
+
 
 
 
@@ -59,13 +67,15 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>ATIVIDADES DE HOJE </title>
+    <title>ADICIONAR ATIVO </title>
 
 	<script src="jquery-3.2.1.min.js"></script>
     <script>
     	
     	
     	$(document).ready(function(){
+
+      
 
 
     		//espaço reservado para biblioteca jquery caso seja necessário o uso
@@ -74,54 +84,29 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
 
     </script>
 
-      <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
 
   </head>
   <body>
+      <?php include("menu.php");?>
 
-  <?PHP 
 
-    include("menu.php");
-    ?>
-
-     
-  <p></p>
- 
     <?PHP 
-
-    echo "</br>";
-    echo "</br>";
-    echo "</br>";
+ 
     
-    echo '<h5>'.'<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-dark"  ></ion-icon>'.' '.$predio.' - '.date('d-m-Y').'</h5>'.'<br>';
-    echo '<hr>';
-
+    echo "<div class='text-center font-weight-bold'>Escolha o Andar<div> ";
+    echo "</br>";
     foreach ($result as $linha) {
-
-      if($linha['OCUPADA']=='SIM'){
-            echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-            echo '<ion-icon src="./icon/md-time.svg"  size="small" class="text-primary"></ion-icon> : '.$linha['HORAS'].'<BR>';
-            echo '<h5> <ion-icon src="./icon/ios-alert.svg"  size="small" class="text-danger"></ion-icon> '.utf8_encode($linha['SALA'].' - Andar : '.$linha['ANDAR'].'</H5>');
-            echo '<br>';
-            echo '<h5> <ion-icon src="./icon/md-contacts.svg"  size="small" class="btn btn-warning"></ion-icon> '.'Ocupada: '.utf8_encode($linha['OCUPADA'].'</H5>');
-            echo '<br>';
-      
-            echo $linha['NOME_USER'];
-             echo '</div>';
-
-      }else{
-            echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-            echo '<ion-icon src="./icon/md-time.svg"  size="small" class="text-primary"></ion-icon> : '.$linha['HORAS'].'<BR>';
-            echo '<h5> <ion-icon src="./icon/md-checkmark-circle.svg"  size="small" class="text-success"></ion-icon> '.utf8_encode($linha['SALA'].' - Andar : '.$linha['ANDAR'].'</H5>');
-            echo '<br>';
-            echo '<h5> <ion-icon src="./icon/md-checkbox.svg"  size="small" class="btn btn-success"></ion-icon> '.'Ativo: '.utf8_encode($linha['TIPO_DE_EQUIPAMENTO'].' - '.$linha['QRCODE'].'</H5>');
-            echo '<br>';
-      
-            echo $linha['NOME_USER'];
-             echo '</div>';
-      };
-   
-      
+   $pegaandar = $linha['ANDAR'];
+    echo '<div class="shadow p-3 mb-5 bg-white rounded">';
+     echo '<nav class="navbar navbar-light bg-light">';
+      echo '<a class="navbar-brand" href="./addsala.php?andar='.$pegaandar.'&predio='.$addpredio.'">';
+       echo '<ion-icon src="./icon/md-business.svg"  size="small" class="text-secondary"  ></ion-icon>';
+        echo '  '.$linha['ANDAR'];
+         echo '</a>';
+          echo '</nav>';
+     echo '</div>';
+     
 
 
      ?>
@@ -130,6 +115,9 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
 
 <?php
 };
+
+echo '<br>';
+echo '<br>';
 ?>
 
 
@@ -141,6 +129,7 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   
+    <?php include('Jmodal.php');?>
 
   </body>
 </html>

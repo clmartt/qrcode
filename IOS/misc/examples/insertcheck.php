@@ -82,7 +82,7 @@ if ($stmt) {
 
   
 //header('Location: http://www.uol.com.br');  direciona para outra pagina
-header("Location: https://kvm1000.websiteseguro.com/qrteste2/IOS/misc/examples/demo.php");
+header("Location: https://kvm1000.websiteseguro.com/qrteste2/IOS/misc/examples/demo.php?user=".$R_usuario_post);
 } else { 
 echo "Erro ao gravar"; 
 
