@@ -76,13 +76,18 @@ $(document).ready(function(){
 
           $("#txtBusca").keyup(function(){
               var texto = $(this).val();
+              var textm = texto.toString();
+              
               
               
               $("tr").css("display", "block");
               $("tr").each(function(){
-                  if($(this).text().indexOf(texto.toUpperCase()) < 0){
-                     $(this).fadeOut('slow');
-                  }
+                if($(this).text().indexOf(textm.toUpperCase()) < 0){
+                    
+                     
+                     $(this).hide();
+                     
+                  };
               });
           });
 
@@ -96,15 +101,21 @@ $(document).ready(function(){
 
 </script>
 <BODY>
+<?php include("menu.php"); ?>
 <br>
 
-
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1"><ion-icon src="./icon/md-search.svg"  size="small" ></ion-icon></span>
+  </div>
+  <input type="text" class="form-control" placeholder="Digite a sala" aria-label="Usuário" aria-describedby="basic-addon1" id="txtBusca" >
+</div>
 
 
 
 
   <?php 
-  include("menu.php");
+  
   echo '<br>'; 
   echo '<div class="table-responsive">';
   echo '<table class="table table-sm" height="100%">';
@@ -127,16 +138,7 @@ $(document).ready(function(){
     echo '<td><a class="navbar-brand" href="./insertativo/formInsert.php?andar='.$ANDAR.'&predio='.$PREDIO.'&sala='.$pegasala.'&setor='.$pegasetor.'"><ion-icon src="./icon/md-checkmark-circle-outline.svg"  size="small" ></ion-icon></a></td>';
     echo '</tr>';
       
-   
-   
-    //echo '<div class="card">';
-   
-   //echo '<div class="card-header">';
-  // echo '<h5 class="card-title">'.'Setor : '.utf8_encode($res['SETOR']).'</h5>';
-  // echo '<p class="card-text">'.'ANDAR : '.$res['ANDAR'].' - SETOR : '.$res['SETOR'].' - SALA : - '.utf8_encode($res['SALA']).'
-   //<button class="btn btn-primary">'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'</button></p>';
-   //echo "<br>";
-  // echo "<br>";
+ 
    
 
 

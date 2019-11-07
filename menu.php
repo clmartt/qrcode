@@ -28,6 +28,10 @@
       <li class="nav-item active">
       <a class="nav-link" href="addlistapredioocupada.php">Sala Ocupada</a>
       </li>
+      <form class="form-inline my-2 my-lg-0" method="get" action="./ativosSala/ativodetalhe.php">
+      <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name='qrcode'>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+    </form>
       
     </ul>
   </div>

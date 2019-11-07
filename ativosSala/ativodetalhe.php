@@ -58,16 +58,13 @@ $result = $pdo->query($select);
 
 
 
+
 // faz o select dos chamados
 
 
 
 $selectcheck = "SELECT DATA_2 FROM TABLE_CHECK where QRCODE = '$qrcode' ";
-
 $resultcheck = $pdo->query($selectcheck);
-
-
-
 
 
 $selectchamado = "SELECT * FROM CHAMADOS where QRCODE = '$qrcode' ";
