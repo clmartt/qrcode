@@ -71,7 +71,8 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
              echo '<div class="card-body" id="form'.$res2['ID_REGISTRO'].'">';
              echo '<h5 class="card-title">'.'<ion-icon src="./icon/md-thumbs-down.svg"   size="large" class="btn btn-danger" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>'.' | '.$res2['QRCODE'].' | '.utf8_encode($res2['TIPO_DE_EQUIPAMENTO']).'</h5>';
             echo '<p class="card-text">'.utf8_encode($res2['MARCA']).' | '.$res2['MODELO'].'</p>';
-            echo $qtdCH;
+            echo '<a href="/qrteste2/updateativo/formUp.php?qrcode='.$res2['QRCODE'].'"><ion-icon src="./icon/md-create.svg"   size="small" ></ion-icon></a>';
+            
           
             
           echo '</div>';
@@ -88,7 +89,8 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
          echo '<div class="card-body" id="form'.$res2['ID_REGISTRO'].'">';
           echo '<h5 class="card-title">'.'<ion-icon src="./icon/md-thumbs-down.svg"   size="large" class="chamado" id="'.$res2['ID_REGISTRO'].'" >'.$res2['QRCODE'].'</ion-icon>'.' | '.$res2['QRCODE'].' | '.utf8_encode($res2['TIPO_DE_EQUIPAMENTO']).'</h5>';
           echo '<p class="card-text">'.utf8_encode($res2['MARCA']).' | '.$res2['MODELO'].'</p>';
-          echo $qtdCH;
+          echo '<a href="/qrteste2/updateativo/formUp.php?qrcode='.$res2['QRCODE'].'"><ion-icon src="./icon/md-create.svg"   size="small" ></ion-icon></a>';
+          
         
           
         echo '</div>';
@@ -153,10 +155,10 @@ $(document).ready(function(){
           // DISPARA CLICK EM TODOS SO BOTOES DO OCUPADO
           $('#totalocupado').click(function(){
             $('.ocupado').trigger('click');
-            $('.card').fadeOut('slow');
+            //$('.card').fadeOut('slow');
             $(this).off('click');
             $(this).addClass('bg-success text-white');
-            alert('Todos os itens foram checado!');
+            //alert('Todos os itens foram checado!');
           });
 
 
@@ -192,7 +194,7 @@ $(document).ready(function(){
 
               
               contador = contador + 1; 
-              $('#contar').append('<img src="./images/pac.gif">');
+              $('#contar').append('<img src="./images/ball.gif">');
              
 
                 
@@ -216,7 +218,7 @@ $(document).ready(function(){
               var identform = $(this).attr('id');
               var nomeIdform = "#form"+identform; // NOME DA DIV QUE RECEBE O FORM
               
-            $(nomeIdform).append('<form class="border border-danger" id="'+identform+'"> <div class="form-group"> <label for="exampleInputEmail1"><b>ABERTURA DE CHAMADO</b></label><input type="text" class="form-control" id="qrcodeequipamento" value= '+sala+'><small id="emailHelp" class="form-text text-muted"> Será aberto um chamado para o QRCODE Acima.</small></div><div class="form-group"><label for="exampleFormControlSelect1">Problema</label><select class="form-control" id="problema"><option>VGA</option><option>HDMI</option><option>CONTROLE</option><option>LAMPADA</option><option>ELETRICA</option><option>SENSOR</option><option>ADAPTADOR</option><option>CONVERSOR</option><option>TELA</option><option>OUTROS</option></select></div><div class="form-group"> <label for="exampleInputPassword1">Descrever o Problema</label> <input type="text" class="form-control" id="Desproblema" placeholder="Descrição do Problema"></div><a href="#" id="enviarfresh" class="btn btn-primary" >'+identform+'</a></form>');
+            $(nomeIdform).append('<form class="border border-danger" id="'+identform+'"> <div class="form-group"> <label for="exampleInputEmail1"><b>ABERTURA DE CHAMADO</b></label><input type="text" class="form-control" id="qrcodeequipamento" value= '+sala+'><small id="emailHelp" class="form-text text-muted"> Será aberto um chamado para o QRCODE Acima.</small></div><div class="form-group"><label for="exampleFormControlSelect1">Problema</label><select class="form-control" id="problema"><option>PROJETOR</option><option>ÁUDIO</option><option>AUTOMAÇÃO</option><option>VGA</option><option>HDMI</option><option>CONTROLE</option><option>LAMPADA</option><option>ELETRICA</option><option>SENSOR</option><option>ADAPTADOR</option><option>CONVERSOR</option><option>TELA</option><option>OUTROS</option></select></div><div class="form-group"> <label for="exampleInputPassword1">Descrever o Problema</label> <input type="text" class="form-control" id="Desproblema" placeholder="Descrição do Problema"></div><a href="#" id="enviarfresh" class="btn btn-primary" >'+identform+'</a></form>');
 
             
 
@@ -230,7 +232,7 @@ $(document).ready(function(){
               var identform = $(this).attr('id');
               var nomeIdform = "#form"+identform; // NOME DA DIV QUE RECEBE O FORM
               
-            $(nomeIdform).append('<form class="border border-danger" id="'+identform+'"> <div class="form-group"> <label for="exampleInputEmail1"><b>ABERTURA DE CHAMADO</b></label><input type="text" class="form-control" id="qrcodeequipamentoS" value= '+sala+'><small id="emailHelp" class="form-text text-muted"> Será aberto um chamado para o QRCODE Acima.</small></div><div class="form-group"><label for="exampleFormControlSelect1">Problema</label><select class="form-control" id="problemaS"><option>VGA</option><option>HDMI</option><option>CONTROLE</option><option>LAMPADA</option><option>ELETRICA</option><option>SENSOR</option><option>ADAPTADOR</option><option>CONVERSOR</option><option>TELA</option><option>OUTROS</option></select></div><div class="form-group"> <label for="exampleInputPassword1">Descrever o Problema</label> <input type="text" class="form-control" id="DesproblemaS" placeholder="Descrição do Problema"></div><button href="#" id="enviar" class="btn btn-primary" >'+identform+'</button></form>');
+            $(nomeIdform).append('<form class="border border-danger" id="'+identform+'"> <div class="form-group"> <label for="exampleInputEmail1"><b>ABERTURA DE CHAMADO</b></label><input type="text" class="form-control" id="qrcodeequipamentoS" value= '+sala+'><small id="emailHelp" class="form-text text-muted"> Será aberto um chamado para o QRCODE Acima.</small></div><div class="form-group"><label for="exampleFormControlSelect1">Problema</label><select class="form-control" id="problemaS"><option>PROJETOR</option><option>ÁUDIO</option><option>AUTOMAÇÃO</option><option>VGA</option><option>HDMI</option><option>CONTROLE</option><option>LAMPADA</option><option>ELETRICA</option><option>SENSOR</option><option>ADAPTADOR</option><option>CONVERSOR</option><option>TELA</option><option>OUTROS</option></select></div><div class="form-group"> <label for="exampleInputPassword1">Descrever o Problema</label> <input type="text" class="form-control" id="DesproblemaS" placeholder="Descrição do Problema"></div><button href="#" id="enviar" class="btn btn-primary" >'+identform+'</button></form>');
 
 
 
@@ -246,22 +248,44 @@ $(document).ready(function(){
 
 
 
+         // EVENTOS DO BOTAO OCUPADO
+           contadorOcupado = 0; // iniciada em 0 , server para contar os equipamentos
+           codigosOcupado = []; // um array que guardara os qrcodes abaixo
+
           $('.ocupado').click(function(){
-           var sala = $(this).text();
-           var sala_split = sala.split(" ");
-           //alert('foi clicado pela class');
-           $(this).addClass("btn btn-warning");
-           $(this).off('click');
            
-             $.post('insertchecksala.php',{qrcode:sala,ocupada:"SIM"},function(data) {
+           var tamanho = $('.checado').length; 
+           var sala = $(this).text();// PEGA O QRCODE REFERENTE O REGISTRO GERADO
+            $(this).addClass("btn btn-warning");// ADICIONA CLASSE
+            $(this).off('click');// RETIRA O EVENTO DO BOTAO
+            codigosOcupado.push(sala);
+
+            if(codigosOcupado.length==tamanho){
+
+              // REQUISIÇAO AJAX PARA GUARDAR O CHECK
+            // $.post('insertchecksala.php',{qrcode:codigos},function(data) {
                    
-                });
-             
-              var ident = $(this).attr('id');
-              var nomeId = "#"+ident;
+              //  });
+              // ENVIADO VIA GET - CORREÇÃO TEMPORARIA PARA ENVIO DOS VALORES - LOGO SERÁ VIA AJAX ACIMA ^
+              window.location.replace("insertchecksala.php?qrcode="+codigosOcupado+"&ocupada=SIM")
+
+            };
+
+                     
+             var ident = $(this).attr('id');// PEGA A IDENTIDADE DO ELEMENTO
+              var nomeId = "#"+ident; // FORMATA PARA QUE POSSA SER USADA NA VARIAVEL ABAIXO
+              $('.card').addClass('p-3 mb-2 bg-info text-white');
               $(nomeId).fadeOut('slow');
+              //$(this).show();
+
               
-           
+              contador = contador + 1; 
+              $('#contar').append('<img src="./images/ball.gif">');
+             
+
+                
+
+          
               
           });
 

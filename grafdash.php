@@ -2,7 +2,10 @@
 <?php
 ob_start();
 session_start();
-header("Refresh: 60");
+header("Refresh: 60"); // FAZ REFRESH EM 1 MINUTO
+$cliente = $_SESSION['cliente']; // PEGA O PERFIL DO USUARIO E GUARDA NO CLIENTE
+$datahoje = date("Y-m-d"); // PEGA A DATA DE HOJE;
+
 
 // definições de host, database, usuário e senha
 $host = "qrcodekvm.mysql.dbaas.com.br";
@@ -10,7 +13,7 @@ $db   = "qrcodekvm";
 $user = "qrcodekvm";
 $pass = "qrcodekvm"; 
 
-$PREDIO = urldecode($_GET['predio']);
+$PREDIO = urldecode($_GET['predio']); // PEGA O PREDIO ENVIADO DO FORMULARIO DA MESMA PAGINA 
 $ano = date('Y');
 
 
@@ -29,11 +32,11 @@ $result = $mysqli->query($sql);
 
 $i = 0;
 $v = 0;
-$listprob = array();
-$listqtd = array();
+$listprob = array(); // CRIA ARRAY PARA GUARDAR O NOME DOS PROBLEMAS
+$listqtd = array();  //CRIA O ARRAY PARA GUARDAR A QUANTIDADE
 
 while ($row = mysqli_fetch_object($result)) {
-  $prob = $row->problema;// recebe os problemas
+  $prob = utf8_encode($row->problema);// recebe os problemas
   $probqtd = $row->qtd; // recebe a quantidade dos problemas (count(problema) as qtd)
   $listprob[$i] = $prob; // joga dentro deste array os problemas
   $listqtd[$i] = $probqtd; // joga dentro deste array as quantidades
@@ -45,7 +48,78 @@ while ($row = mysqli_fetch_object($result)) {
 
   //==============================================================================================================================
 
-  // pega os valores para o grafico de barra
+  // PEGA OS VALORES PARA A TABELA DE SALAS COM PROBLEMAS
+
+
+  $sqltabela1 = "SELECT andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  ORDER BY id_chamado,andar";
+  $resulttabela1 = $mysqli->query($sqltabela1);
+  
+  $it = 0;
+  $v = 0;
+  $tabela_andar = array();
+  $tabela_sala = array();
+  $tabela_problema = array();
+  $tabela_dif_data = array();
+  
+  while ($row = mysqli_fetch_object($resulttabela1)) {
+    $A_andar = $row->andar; // pega o problema
+    $A_sala = $row->sala; // pega o andar
+    $A_problema = $row->problema; // pega a sala
+    $A_data_chamado = $row->data_2; // pega a data do chamado
+    $A_data_chamado_tratada = date_create($A_data_chamado);
+    $datahoje_tratada = date_create(date('Y-m-d'));
+    $diferenca_data = date_diff($A_data_chamado_tratada,$datahoje_tratada);
+
+
+    
+
+    $tabela_andar[$it] = $A_andar;
+    $tabela_sala[$it] = $A_sala;
+    $tabela_problema[$it] = $A_problema;
+    $tabela_dif_data[$it] = $A_data_chamado;
+    $tabela_dif_data[$it] = $diferenca_data->days;
+  
+    $it = $it +1;
+
+  
+    };
+
+    //==============================================================================================================================
+
+  // PEGA OS VALORES PARA MONTAR A TABELA DE CHECK LIST DE HOJE
+
+
+  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
+  $resulttabela2 = $mysqli->query($sqltabela2);
+  
+  $it2 = 0;
+  $v = 0;
+  $tabela_andar_check = array();
+  $tabela_sala_check = array();
+  $tabela_usuario_check = array();
+  $tabela_usuario_horas = array();
+  
+  while ($row = mysqli_fetch_object($resulttabela2)) {
+    $A_andar_check = $row->ANDAR; // pega o problema
+    $A_sala_check = $row->SALA; // pega o andar
+    $A_usuario_check = $row->NOME_USER; // pega a sala
+    $A_horas_check = $row->HORAS; // pega a sala
+
+    $tabela_andar_check[$it2] = $A_andar_check;
+    $tabela_sala_check[$it2] = $A_sala_check;
+    $tabela_usuario_check[$it2] = $A_usuario_check;
+    $tabela_usuario_horas[$it2] = $A_horas_check;
+  
+    $it2 = $it2 +1;
+
+  
+    };
+
+
+
+//==============================================================================================================================
+
+    // pega os valores para o grafico de barra
 
   $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' GROUP BY mes ORDER BY month(data_2)";
   $resultbarra = $mysqli->query($sqlbarra);
@@ -83,6 +157,28 @@ $resultresolvido = $mysqli->query($sqlresolvido);
 $row2= mysqli_fetch_assoc($resultresolvido);
 
 
+//==============================================================================================================================
+// PEGA O PREDIO PARA PREENCHER COMBO BOX DO LADO DIRETO DA PAGINA
+
+if($cliente=='KVM'){
+  $sqlpredio = "SELECT PREDIO FROM `QRCODETABLE` GROUP BY PREDIO";
+  $resultpredio = $mysqli->query($sqlpredio);
+  $row3= mysqli_fetch_assoc($resultpredio);
+  
+
+}else {
+
+  $sqlpredio = "SELECT * FROM `QRCODETABLE` WHERE CLIENTE = '$cliente' GROUP BY PREDIO";
+  $resultpredio = $mysqli->query($sqlpredio);
+  $row3= mysqli_fetch_assoc($resultpredio);
+
+};
+
+//==============================================================================================================================
+
+
+
+
 ?>
 
 
@@ -91,6 +187,10 @@ $row2= mysqli_fetch_assoc($resultresolvido);
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
+<!-- ======================================================================================================================-->
+
+
+
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -156,7 +256,11 @@ $row2= mysqli_fetch_assoc($resultresolvido);
 
 
     </script>
-
+<!-- ======================================================================================================================-->
+    
+    
+    
+    
     <script>
 
 
@@ -201,8 +305,83 @@ $row2= mysqli_fetch_assoc($resultresolvido);
     
     </script>
 
+<!-- ======================================================================================================================-->
+    <script> 
 
+// script para a tabela de salas com problemas
 
+                google.charts.load('current', {'packages':['table']});
+                google.charts.setOnLoadCallback(drawTable);
+
+                function drawTable() {
+                  var data = new google.visualization.DataTable();
+                  data.addColumn('string', 'Andar');
+                  data.addColumn('string', 'Sala');
+                  data.addColumn('string', 'Problema');
+                  data.addColumn('string', 'Tempo');
+                  data.addRows([
+
+                    <?php
+                            $kt1 = $it;
+                            for ($i=0; $i < $kt1; $i++) { 
+                            ?>
+                             ['<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
+                            
+                    <?php } ?>
+
+                    
+                    
+                  ]);
+
+                  var table = new google.visualization.Table(document.getElementById('table_div'));
+
+                  table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+                }
+    
+        
+    </script>
+
+    <!-- ======================================================================================================================-->
+    
+    
+    
+    
+    
+    
+    <script> 
+
+// SCRIPT PARA PEGAR AS INFORMAÇOES DE CHECK LIST REALIZADAS NA DATA DE HOJE-----------------------------------------------------
+
+                            google.charts.load('current', {'packages':['table']});
+                            google.charts.setOnLoadCallback(drawTable);
+
+                            function drawTable() {
+                              var data = new google.visualization.DataTable();
+                                  data.addColumn('string', 'Andar');
+                                  data.addColumn('string', 'Sala');
+                                  data.addColumn('string', 'Horas');
+                                  data.addColumn('string', 'Técnico');
+                                  data.addRows([
+
+                                    <?php
+                                            $ktc = $it2;
+                                            for ($i=0; $i < $ktc; $i++) { 
+                                            ?>
+                                            ['<?php echo $tabela_andar_check[$i] ?>','<?php echo utf8_encode($tabela_sala_check[$i]) ?>','<?php echo  $tabela_usuario_horas[$i] ?>','<?php echo  $tabela_usuario_check[$i] ?>'],
+                                            
+                                    <?php } ?>
+
+                                    
+                                    
+                                  ]);
+
+                              var table = new google.visualization.Table(document.getElementById('table_div_check'));
+
+                              table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+                            }
+    
+        
+    </script>
    
 
 
@@ -212,23 +391,38 @@ $row2= mysqli_fetch_assoc($resultresolvido);
 
   </head>
   <body>
-  <?php include ('menu.php') ?>
-
-
-  
-  <?php
-  
-  echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-     echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="problemas.php?predio='.$PREDIO.'">';
-       echo '<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-warning"  ></ion-icon>';
-        echo '  '.$PREDIO.' - Problemas ';
-         echo '</a>';
-          echo '</nav>';
-     echo '</div>';
-
-
  
+  
+  <nav class="navbar sticky-top navbar-light bg-light">
+  <a class="navbar-brand" href="principal.php">
+    <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
+    ReQuest - Dash <?php echo ' '.$PREDIO?>
+  </a>
+
+  <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+  <div class="input-group">
+  <select class="custom-select" id="inputGroupSelect04" name="predio">
+    <option selected>Escolha o Prédio</option>
+    <?php
+    foreach ($resultpredio as $res) {
+            
+    echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
+  
+    
+    };
+    ?>
+  </select>
+  <div class="input-group-append">
+  <input class="btn btn-info" type="submit" value="Submit">
+  </div>
+</div>
+
+    </form>
+</nav>
+<p></p>
+<p></p>
+<?php
+
   echo'<table class="table table-hover">';
   echo'<thead>';
   echo'<tr class="text-center">';
@@ -246,15 +440,13 @@ $row2= mysqli_fetch_assoc($resultresolvido);
   echo'</tbody>';
   echo'</table>';
 
- 
-  echo '<hr>';
-  
-  
-  ?>
+
+?>
 
             <div class="row">
                         <div class="col-sm-6">
                           <div >
+                            
                             <div  id="chart_div" class="shadow p-3 mb-5 bg-white rounded">
                           
                             </div>
@@ -267,14 +459,34 @@ $row2= mysqli_fetch_assoc($resultresolvido);
                             </div>
                           </div>
                         </div>
+                        <div class="col-sm-6">
+                        <div class="card-header">
+                          Sala com Ocorrências em Andamento
                         </div>
+                          <div >
+                            <div id="table_div" class="shadow p-3 mb-5 bg-white rounded">
+                            
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                        <div class="card-header">
+                          Check List realizados hoje
+                        </div>
+                          <div >
+                            <div id="table_div_check" class="shadow p-3 mb-5 bg-white rounded">
+                            
+                            </div>
+                          </div>
+                        </div>
+              </div>
   
 
-<hr>
+
 <br>
 <div id="chart_div3"></div>
 
-<hr>
+
 
 
     <!-- JavaScript (Opcional) -->

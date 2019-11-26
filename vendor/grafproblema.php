@@ -213,9 +213,6 @@ $row2= mysqli_fetch_assoc($resultresolvido);
   </head>
   <body>
   <?php include ('menu.php') ?>
-
-
-  
   <?php
   
   echo '<div class="shadow p-3 mb-5 bg-white rounded">';

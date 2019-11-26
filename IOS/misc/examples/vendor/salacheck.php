@@ -329,7 +329,7 @@ $(document).ready(function(){
                   var Descproblemas = $('#DesproblemaS').val();
                   var user = $("#usuario").val();
                   
-                  alert('Ok Chamado Aberto!');
+                  alert(qrcodes+problemas+Descproblemas+user);
                 // guarda o chamado 
                   $.post('insertchamadosala.php',{qrcode:qrcodes,problema:problemas,dproblema:Descproblemas,usuario:user},function(data) {
                    

@@ -14,7 +14,7 @@ $ANDARES = $_GET['andar'];
 
 $mysqli = new mysqli($host, $user, $pass, $db);
 
-$sql = "SELECT DISTINCT SALA, SETOR, ANDAR,PREDIO FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY SETOR ";
+$sql = "SELECT * FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY SALA ";
 $result = $mysqli->query($sql);
 
 
@@ -132,10 +132,10 @@ $(document).ready(function(){
   echo '<table class="table table-sm">';
   echo '<thead>';
   echo '<tr>';
-  echo '<th scope="col">Andar</th>';
-  echo '<th scope="col">Setor</th>';
-  echo '<th scope="col">Sala</th>';
-  echo '<th scope="col">Marcar</th>';
+  echo '<th scope="col">QRCODE</th>';
+  echo '<th scope="col">ATIVO</th>';
+  echo '<th scope="col">SALA</th>';
+  echo '<th scope="col">SETOR</th>';
   echo '</tr>';
   echo '</thead>';
   echo '<tbody>';
@@ -143,10 +143,10 @@ $(document).ready(function(){
   foreach($result as $res){
     echo '<tbody>'; 
     echo '<tr>';
-    echo '<th scope="row" >'.$res['ANDAR'].'</th>';
-    echo '<td>'.$res['SETOR'].'</td>';
+    echo '<th scope="row" ><a href="./ativosSala/ativodetalhe.php?qrcode='.$res['QRCODE'].'">'.$res['QRCODE'].'</a></th>';
+    echo '<td>'.utf8_encode($res['TIPO_DE_EQUIPAMENTO']).'</td>';
     echo '<td>'.utf8_encode($res['SALA']).'</td>';
-    echo '<td>'.'<button class="btn btn-outline-warning" Value="'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'">'.'<ion-icon src="./icon/md-contacts.svg"  size="small" ></ion-icon></button>'.'</td>';
+    echo '<td>'.utf8_encode($res['SETOR']).'</td>';
     echo '</tr>';
     echo '</tbody>';
       

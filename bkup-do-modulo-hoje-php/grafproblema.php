@@ -2,7 +2,6 @@
 <?php
 ob_start();
 session_start();
-header("Refresh: 60");
 
 // definições de host, database, usuário e senha
 $host = "qrcodekvm.mysql.dbaas.com.br";
@@ -11,7 +10,6 @@ $user = "qrcodekvm";
 $pass = "qrcodekvm"; 
 
 $PREDIO = urldecode($_GET['predio']);
-$ano = date('Y');
 
 
 
@@ -24,7 +22,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 
 // pega os valores para o grafico de pizza
 
-$sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND ano = '$ano' GROUP BY problema ORDER BY qtd desc";
+$sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' GROUP BY problema ORDER BY qtd desc";
 $result = $mysqli->query($sql);
 
 $i = 0;
@@ -113,7 +111,7 @@ $row2= mysqli_fetch_assoc($resultresolvido);
                           // Set a callback to run when the Google Visualization API is loaded.
                           google.charts.setOnLoadCallback(drawChart);
                           
-                          //google.charts.setOnLoadCallback(drawTable);
+                          google.charts.setOnLoadCallback(drawTable);
 
                           // Callback that creates and populates a data table,
                           // instantiates the pie chart, passes in the data and
@@ -213,9 +211,6 @@ $row2= mysqli_fetch_assoc($resultresolvido);
   </head>
   <body>
   <?php include ('menu.php') ?>
-
-
-  
   <?php
   
   echo '<div class="shadow p-3 mb-5 bg-white rounded">';

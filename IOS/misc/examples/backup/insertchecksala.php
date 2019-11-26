@@ -10,9 +10,10 @@ $senha = 'qrcodekvm';
 
 $qrcodeequip = $_GET['qrcode']; // RECEBE O QR DO SALACHECK.PHP
 $arrayqrcode = explode(',', $qrcodeequip);
-$ocupada = $_POST['ocupada'];
+$ocupada = $_GET['ocupada'];
 
 echo count($arrayqrcode).'<br>';
+echo $ocupada;
 
 
 
@@ -71,11 +72,11 @@ $stmt->execute();
 
 
 
-header('Location: ./camsala.php?user='.$R_usuario_post);
+
 
 };
 //===========================================================================================>>>>>>>>
-
+header('Location: ./camsala.php?user='.$R_usuario_post);
 //=========================================================================================>>>>>>>>>
 
 

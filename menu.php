@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light ">
+<nav class="navbar  navbar-expand-lg navbar-light ">
 <a class="navbar-brand" href="principal.php">
     <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
     ReQuest
@@ -23,7 +23,7 @@
         <a class="nav-link" href="addlistapredio.php">+ Ativos</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="./ativosSala/ativoSala.php">Ativos por Sala</a>
+        <a class="nav-link" href="addlistapredioativosala.php">Ativos por Sala</a>
       </li>
       <li class="nav-item active">
       <a class="nav-link" href="addlistapredioocupada.php">Sala Ocupada</a>
@@ -43,10 +43,10 @@
 
 	<div>
 			<nav class="navbar fixed-bottom  navbar-dark bg-light">
-			<a href="listapredio.php" ><ion-icon src="./icon/md-eye.svg"  size="large" class="text-secondary" ></ion-icon></a>
-			<a href="listapredioChamado.php"><ion-icon src="./icon/md-alert.svg"  size="large" class="text-secondary"></ion-icon></a>
+			<a href="listapredio.php" ><ion-icon src="./icon/md-checkmark-circle-outline.svg"  size="large" class="text-secondary" ></ion-icon></a>
+			<a href="listapredioChamado.php"><ion-icon src="./icon/md-information-circle-outline.svg"  size="large" class="text-secondary"></ion-icon></a>
 			<a href="./cameras.php"><ion-icon src="./icon/ios-videocam.svg"  size="large" class="text-secondary"></ion-icon></a>
-			<a href="listapredioProblema.php"><ion-icon src="./icon/md-grid.svg"  size="large" class="text-secondary"></ion-icon></a>
+			<a href="listapredioProblema.php"><ion-icon src="./icon/md-podium.svg"  size="large" class="text-secondary"></ion-icon></a>
 			<a href="download.php"><ion-icon src="./icon/md-cloud-download.svg"  size="large"  class="text-secondary"></ion-icon></a>
 			</nav>
 	</div>

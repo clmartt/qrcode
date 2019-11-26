@@ -161,7 +161,7 @@ $resultchamado = $pdo->query($selectchamado);
 
   <nav class="navbar navbar-dark bg-dark">
 
-  <a class="navbar-brand" href="ativoSala.php">
+  <a class="navbar-brand" href="../principal.php">
 
    
 
@@ -275,7 +275,7 @@ $resultchamado = $pdo->query($selectchamado);
 
 
 
-  echo '<table class="table">';
+  echo '<table class="table table-sm">';
 
   echo '<thead>';
 

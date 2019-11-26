@@ -34,7 +34,7 @@ exit(1);
 $datahoje = date("Y-m-d");
 
 // primeira forma	
-$select = "SELECT ANDAR FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' GROUP BY ANDAR"; // query de consulta ao banco
+$select = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' ORDER BY IDTABLE_CHECK DESC"; // query de consulta ao banco
 $result = $pdo->query($select); // guardando o resultado da query acima na variavel
 //$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
 
@@ -85,50 +85,40 @@ $result = $pdo->query($select); // guardando o resultado da query acima na varia
     ?>
 
      
- 
+  <p></p>
  
     <?PHP 
 
     echo "</br>";
-   
+    echo "</br>";
+    echo "</br>";
     
     echo '<h5>'.'<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-dark"  ></ion-icon>'.' '.$predio.' - '.date('d-m-Y').'</h5>'.'<br>';
     echo '<hr>';
 
-    foreach ($result as $andar) {
-      $pegaandar = $andar['ANDAR'];
-
-
-      $select2 = "SELECT SALA,COUNT(QRCODE) AS QTD,HORAS,OCUPADA,IDTABLE_CHECK,NOME_USER FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' AND ANDAR = '$pegaandar' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC"; // query de consulta ao banco
-      $result2 = $pdo->query($select2); 
-
-      echo '<div class="shadow p-3 mb-5 bg-white rounded border border-info"><H5>'.$pegaandar.'º Andar'.'</H5></div>';
-      foreach ($result2 as $linha) {
-        # code...
-     
+    foreach ($result as $linha) {
 
       if($linha['OCUPADA']=='SIM'){
-            echo '<div class="shadow-sm p-3 mb-5 bg-white rounded">';
+            echo '<div class="shadow p-3 mb-5 bg-white rounded">';
             echo '<ion-icon src="./icon/md-time.svg"  size="small" class="text-primary"></ion-icon> : '.$linha['HORAS'].'<BR>';
-            echo '<h5> <ion-icon src="./icon/ios-alert.svg"  size="small" class="text-warning"></ion-icon> '.utf8_encode($linha['SALA'].'</H5>');
+            echo '<h5> <ion-icon src="./icon/ios-alert.svg"  size="small" class="text-danger"></ion-icon> '.utf8_encode($linha['SALA'].' - Andar : '.$linha['ANDAR'].'</H5>');
             echo '<br>';
-            echo '<h5> <ion-icon src="./icon/md-contacts.svg"  size="small" class="btn btn-warning"></ion-icon> '.'Ocupada</H5>';
+            echo '<h5> <ion-icon src="./icon/md-contacts.svg"  size="small" class="btn btn-warning"></ion-icon> '.'Ocupada: '.utf8_encode($linha['OCUPADA'].'</H5>');
             echo '<br>';
       
             echo $linha['NOME_USER'];
              echo '</div>';
 
       }else{
-            echo '<div class="shadow-sm p-3 mb-5 bg-white rounded">';
+            echo '<div class="shadow p-3 mb-5 bg-white rounded">';
             echo '<ion-icon src="./icon/md-time.svg"  size="small" class="text-primary"></ion-icon> : '.$linha['HORAS'].'<BR>';
-            echo '<h5> <ion-icon src="./icon/md-checkmark-circle.svg"  size="small" class="text-success"></ion-icon> '.utf8_encode($linha['SALA'].'</H5>');
+            echo '<h5> <ion-icon src="./icon/md-checkmark-circle.svg"  size="small" class="text-success"></ion-icon> '.utf8_encode($linha['SALA'].' - Andar : '.$linha['ANDAR'].'</H5>');
             echo '<br>';
-           
+            echo '<h5> <ion-icon src="./icon/md-checkbox.svg"  size="small" class="btn btn-success"></ion-icon> '.'Ativo: '.utf8_encode($linha['TIPO_DE_EQUIPAMENTO'].' - '.$linha['QRCODE'].'</H5>');
+            echo '<br>';
       
             echo $linha['NOME_USER'];
              echo '</div>';
-
-            }
       };
    
       
