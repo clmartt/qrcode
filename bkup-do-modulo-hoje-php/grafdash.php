@@ -36,7 +36,7 @@ $listprob = array(); // CRIA ARRAY PARA GUARDAR O NOME DOS PROBLEMAS
 $listqtd = array();  //CRIA O ARRAY PARA GUARDAR A QUANTIDADE
 
 while ($row = mysqli_fetch_object($result)) {
-  $prob = $row->problema;// recebe os problemas
+  $prob = utf8_encode($row->problema);// recebe os problemas
   $probqtd = $row->qtd; // recebe a quantidade dos problemas (count(problema) as qtd)
   $listprob[$i] = $prob; // joga dentro deste array os problemas
   $listqtd[$i] = $probqtd; // joga dentro deste array as quantidades
