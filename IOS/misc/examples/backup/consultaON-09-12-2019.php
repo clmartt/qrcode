@@ -10,7 +10,10 @@ ini_set('default_charset','UTF-8');
 $qrcode = $_GET['qrcode'];
 
 $user = $_GET['user'];
+if($user==''){
+$user = $_SESSION['email'];
 
+};
 
 if($_SESSION['email']==''){
 
@@ -18,7 +21,8 @@ if($_SESSION['email']==''){
 };
 
 
-//$_SESSION['email'] = $user;
+$_SESSION['email'] = $user;
+
 
 
 
@@ -249,16 +253,9 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                                 // MOSTRANDO NA TELA
 
                                 echo '<div class="card">';
-                                echo '<nav class="navbar navbar-dark bg-dark">
-                                <a class="navbar-brand" href="demo.php">
-                                 
-                                  Retornar
-                                </a>
-                               
-                              </nav>
-                               <p></p>';
+                                echo '<h5 class="card-header"><button type="button" id="editar" class="btn btn-secondary">Editar</button></h5>';
                                 echo '<div class="card-body">';
-                                echo '<h5 class="card-title"><button type="button" id="editar" class="btn btn-secondary">Editar</button>'.' | '.$row['QRCODE'].'</h5>';
+                                echo '<h5 class="card-title"><ion-icon src="./icon/md-arrow-dropdown-circle.svg"  size="large" class="btn btn-primary" id="busca_chamado"></ion-icon>'.' | '.$row['QRCODE'].'</h5>';
                                 echo '<div id="resultado_chamado"><img src="./images/loading.gif"></div>';
                                 echo '<p class="card-text">'.utf8_encode($row['TIPO_DE_EQUIPAMENTO']).' - '.utf8_encode($row['CARACTERISTICA']).'</p>';
                                 echo '<p class="card-text">'.utf8_encode($row['MARCA']).' - '.utf8_encode($row['MODELO']).' - '.utf8_encode($row['N_SERIE']).'</p>';

@@ -307,7 +307,7 @@ $(document).ready(function(){
 
                     // chama a pagina que envia email OK
                   $.post('emailchamado.php',{qrcode:qrcodes,problema:problemas,dproblema:Descproblemas,usuario:user},function(data) {
-                   
+                   alert("Chamado enviado!!!");
                   });
 
                 var identform = $(this).text();

@@ -4,12 +4,7 @@
 ob_start(); 
 session_start();
 $user  = $_GET['user'];
-//$_SESSION['email'] = $user;
-
-if($_SESSION['email']==''){
-
-    header("Location: ../../../login.html"); 
-};
+$_SESSION['email'] = $user;
 
 ?>
 

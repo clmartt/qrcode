@@ -1,10 +1,8 @@
 
 <?php
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
 ob_start();
 session_start();
-header("Refresh: 300"); // FAZ REFRESH EM 1 MINUTO
+header("Refresh: 60"); // FAZ REFRESH EM 1 MINUTO
 $cliente = $_SESSION['cliente']; // PEGA O PERFIL DO USUARIO E GUARDA NO CLIENTE
 $datahoje = date("Y-m-d"); // PEGA A DATA DE HOJE;
 
@@ -189,12 +187,6 @@ if($cliente=='KVM'){
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-
-
-
-
-
-
 <!-- ======================================================================================================================-->
 
 
@@ -211,34 +203,7 @@ if($cliente=='KVM'){
 
     <title>Gráficos</title>
 
-  <script src="jquery-3.2.1.min.js"></script>
-  
-
-
-
-      <script>
-// faz a requisição de informações via ajax para os filtros 
-//=================================================================================================================================
-          $(document).ready(function(){
-            $(".card-body").hide();
-
-            $("#filtro").change(function(){
-              var texto = $(this).val();
-              var predios = $('#localPredio').val();
-             
-              
-              $(".card-body").fadeIn();
-             $.post( "filtro.php",{filtrado: texto,predio: predios}, function( data ) {
-              $(".card-body").html(data);
-             });
-
-
-
-            });
-
-          });
-
-       </script>
+	<script src="jquery-3.2.1.min.js"></script>
     <script>
     	
                             // Load the Visualization API and the corechart package.
@@ -427,54 +392,34 @@ if($cliente=='KVM'){
   </head>
   <body>
  
-              <input type="hidden" value="<?php echo $PREDIO?>" name="localPredio" id="localPredio">
+  
+  <nav class="navbar sticky-top navbar-light bg-light">
+  <a class="navbar-brand" href="principal.php">
+    <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
+    ReQuest - Dash <?php echo ' '.$PREDIO?>
+  </a>
 
-            <nav class="navbar sticky-top navbar-light bg-light">
-            <a class="navbar-brand" href="principal.php">
-              <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
-              ReQuest - Dash <?php echo ' '.$PREDIO?>
-            </a>
-
-            <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
-            <div class="input-group">
-            <select class="custom-select" id="inputGroupSelect04" name="predio">
-              <option selected>Escolha o Prédio</option>
-              <?php
-              foreach ($resultpredio as $res) {
-                      
-              echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
+  <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+  <div class="input-group">
+  <select class="custom-select" id="inputGroupSelect04" name="predio">
+    <option selected>Escolha o Prédio</option>
+    <?php
+    foreach ($resultpredio as $res) {
             
-              
-              };
-              ?>
-            </select>
-            <div class="input-group-append">
-            <input class="btn btn-info" type="submit" value="Submit">
-            </div>
-          </div>
+    echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
+  
+    
+    };
+    ?>
+  </select>
+  <div class="input-group-append">
+  <input class="btn btn-info" type="submit" value="Submit">
+  </div>
+</div>
 
-              </form>
-          </nav>
-            <p></p>
-            
-
-          <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="filtro">Detalhes</label>
-                    </div>
-                    <select class="custom-select" id="filtro">
-                      <option selected>Opções...</option>
-                      <option value="1">Chamados por Andar(10+)</option>
-                      <option value="2">Chamados por Sala(10+)</option>
-                      <option value="3">Chamados por Equipamento(10+)</option>
-                    </select>
-            </div>
+    </form>
+</nav>
 <p></p>
-            <div class="card">
-              <div class="card-body">
-                CARREGANDO ...
-              </div>
-            </div>
 <p></p>
 <?php
 
@@ -546,7 +491,7 @@ if($cliente=='KVM'){
 
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-   
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   

@@ -48,7 +48,7 @@ $R_andar = strtoupper($stmtSelect['ANDAR']);
 //$R_setor = = strtoupper(utf8_decode($_POST['R_setor']));
 $R_sala = strtoupper(utf8_decode($stmtSelect['SALA']));
 $R_situacao = strtoupper('PROBLEMA');
-$R_problema = strtoupper(utf8_decode($_POST['problema']));
+$R_problema = strtoupper($_POST['problema']);
 $R_info = strtoupper(utf8_decode($_POST['dproblema']));
 $R_os_banco = strtoupper('VIA SISTEMA QRCODE');
 $R_status = strtoupper('ANDAMENTO');
