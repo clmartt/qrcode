@@ -39,7 +39,7 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
 
     foreach($result as $res){// mostra o cabeçalho predio andar e sala
      
-        echo '<ion-icon src="./icon/ios-checkmark-circle.svg"  size="large" class="btn btn-primary" id="totalcheck"></ion-icon>'.' | '.'<ion-icon src="./icon/ios-contacts.svg"  size="large" class="btn btn-warning" id="totalocupado"></ion-icon>'. ' '.'<b> | '.$res['PREDIO'].' - '.$res['ANDAR'].' - '.$res['SALA'].'</b>';
+        echo '<ion-icon src="./icon/ios-checkmark-circle.svg"  size="large" class="btn btn-primary" id="totalcheck"></ion-icon>'.' | '.'<ion-icon src="./icon/ios-contacts.svg"  size="large" class="btn btn-warning" id="totalocupado"></ion-icon>'. ' '.'<b> | '.$res['PREDIO'].' - '.$res['ANDAR'].' - '.utf8_encode($res['SALA']).'</b>';
         echo '<hr>';
         echo '<br>';
 
