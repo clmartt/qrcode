@@ -34,7 +34,7 @@ exit(1);
 $datahoje = date("Y-m-d");
 
 // primeira forma	
-$select = "SELECT ANDAR FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' GROUP BY ANDAR"; // query de consulta ao banco
+$select = "SELECT ANDAR FROM TABLE_CHECK WHERE PREDIO = '$predio' AND DATA_2 = '$datahoje' and CLIENTE != 'EVENTOS' GROUP BY ANDAR"; // query de consulta ao banco
 $result = $pdo->query($select); // guardando o resultado da query acima na variavel
 //$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
 

@@ -30,7 +30,7 @@ exit(1);
 
 
 // primeira forma	
-$select = "SELECT * FROM CHAMADOS WHERE status = 'ANDAMENTO' AND PREDIO = '$predio' order by id_chamado asc"; // query de consulta ao banco
+$select = "SELECT * FROM CHAMADOS WHERE status = 'ANDAMENTO' AND PREDIO = '$predio' AND CLIENTE != 'EVENTOS' order by id_chamado asc"; // query de consulta ao banco
 $result = $pdo->query($select); // guardando o resultado da query acima na variavel
 $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
 

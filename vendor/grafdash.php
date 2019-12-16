@@ -1,8 +1,10 @@
 
 <?php
+header('Content-Type: text/html; charset=utf-8');
+ini_set('default_charset','UTF-8');
 ob_start();
 session_start();
-header("Refresh: 60"); // FAZ REFRESH EM 1 MINUTO
+header("Refresh: 300"); // FAZ REFRESH EM 1 MINUTO
 $cliente = $_SESSION['cliente']; // PEGA O PERFIL DO USUARIO E GUARDA NO CLIENTE
 $datahoje = date("Y-m-d"); // PEGA A DATA DE HOJE;
 
@@ -36,7 +38,7 @@ $listprob = array(); // CRIA ARRAY PARA GUARDAR O NOME DOS PROBLEMAS
 $listqtd = array();  //CRIA O ARRAY PARA GUARDAR A QUANTIDADE
 
 while ($row = mysqli_fetch_object($result)) {
-  $prob = $row->problema;// recebe os problemas
+  $prob = utf8_encode($row->problema);// recebe os problemas
   $probqtd = $row->qtd; // recebe a quantidade dos problemas (count(problema) as qtd)
   $listprob[$i] = $prob; // joga dentro deste array os problemas
   $listqtd[$i] = $probqtd; // joga dentro deste array as quantidades
@@ -51,7 +53,7 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA A TABELA DE SALAS COM PROBLEMAS
 
 
-  $sqltabela1 = "SELECT andar,sala,problema FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  ORDER BY andar,sala";
+  $sqltabela1 = "SELECT andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  ORDER BY id_chamado,andar";
   $resulttabela1 = $mysqli->query($sqltabela1);
   
   $it = 0;
@@ -64,12 +66,20 @@ while ($row = mysqli_fetch_object($result)) {
   while ($row = mysqli_fetch_object($resulttabela1)) {
     $A_andar = $row->andar; // pega o problema
     $A_sala = $row->sala; // pega o andar
-    $A_problema = $row->problema; // pega a sala
+    $A_problema = utf8_encode($row->problema); // pega a sala
+    $A_data_chamado = $row->data_2; // pega a data do chamado
+    $A_data_chamado_tratada = date_create($A_data_chamado);
+    $datahoje_tratada = date_create(date('Y-m-d'));
+    $diferenca_data = date_diff($A_data_chamado_tratada,$datahoje_tratada);
+
+
     
 
     $tabela_andar[$it] = $A_andar;
     $tabela_sala[$it] = $A_sala;
     $tabela_problema[$it] = $A_problema;
+    $tabela_dif_data[$it] = $A_data_chamado;
+    $tabela_dif_data[$it] = $diferenca_data->days;
   
     $it = $it +1;
 
@@ -81,7 +91,7 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA MONTAR A TABELA DE CHECK LIST DE HOJE
 
 
-  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
+  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' AND CLIENTE != 'EVENTOS' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
   $resulttabela2 = $mysqli->query($sqltabela2);
   
   $it2 = 0;
@@ -179,6 +189,12 @@ if($cliente=='KVM'){
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
+
+
+
+
+
+
 <!-- ======================================================================================================================-->
 
 
@@ -195,7 +211,34 @@ if($cliente=='KVM'){
 
     <title>Gráficos</title>
 
-	<script src="jquery-3.2.1.min.js"></script>
+  <script src="jquery-3.2.1.min.js"></script>
+  
+
+
+
+      <script>
+// faz a requisição de informações via ajax para os filtros 
+//=================================================================================================================================
+          $(document).ready(function(){
+            $(".card-body").hide();
+
+            $("#filtro").change(function(){
+              var texto = $(this).val();
+              var predios = $('#localPredio').val();
+             
+              
+              $(".card-body").fadeIn();
+             $.post( "filtro.php",{filtrado: texto,predio: predios}, function( data ) {
+              $(".card-body").html(data);
+             });
+
+
+
+            });
+
+          });
+
+       </script>
     <script>
     	
                             // Load the Visualization API and the corechart package.
@@ -310,13 +353,14 @@ if($cliente=='KVM'){
                   data.addColumn('string', 'Andar');
                   data.addColumn('string', 'Sala');
                   data.addColumn('string', 'Problema');
+                  data.addColumn('string', 'Tempo');
                   data.addRows([
 
                     <?php
                             $kt1 = $it;
                             for ($i=0; $i < $kt1; $i++) { 
                             ?>
-                             ['<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>'],
+                             ['<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
                             
                     <?php } ?>
 
@@ -383,34 +427,54 @@ if($cliente=='KVM'){
   </head>
   <body>
  
-  
-  <nav class="navbar sticky-top navbar-light bg-light">
-  <a class="navbar-brand" href="principal.php">
-    <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
-    ReQuest - Dash <?php echo ' '.$PREDIO?>
-  </a>
+              <input type="hidden" value="<?php echo $PREDIO?>" name="localPredio" id="localPredio">
 
-  <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
-  <div class="input-group">
-  <select class="custom-select" id="inputGroupSelect04" name="predio">
-    <option selected>Escolha o Prédio</option>
-    <?php
-    foreach ($resultpredio as $res) {
+            <nav class="navbar sticky-top navbar-light bg-light">
+            <a class="navbar-brand" href="principal.php">
+              <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
+              ReQuest - Dash <?php echo ' '.$PREDIO?>
+            </a>
+
+            <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+            <div class="input-group">
+            <select class="custom-select" id="inputGroupSelect04" name="predio">
+              <option selected>Escolha o Prédio</option>
+              <?php
+              foreach ($resultpredio as $res) {
+                      
+              echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
             
-    echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
-  
-    
-    };
-    ?>
-  </select>
-  <div class="input-group-append">
-  <input class="btn btn-info" type="submit" value="Submit">
-  </div>
-</div>
+              
+              };
+              ?>
+            </select>
+            <div class="input-group-append">
+            <input class="btn btn-info" type="submit" value="Submit">
+            </div>
+          </div>
 
-    </form>
-</nav>
+              </form>
+          </nav>
+            <p></p>
+            
+
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="filtro">Detalhes</label>
+                    </div>
+                    <select class="custom-select" id="filtro">
+                      <option selected>Opções...</option>
+                      <option value="1">Chamados por Andar(10+)</option>
+                      <option value="2">Chamados por Sala(10+)</option>
+                      <option value="3">Chamados por Equipamento(10+)</option>
+                    </select>
+            </div>
 <p></p>
+            <div class="card">
+              <div class="card-body">
+                CARREGANDO ...
+              </div>
+            </div>
 <p></p>
 <?php
 
@@ -482,7 +546,7 @@ if($cliente=='KVM'){
 
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   

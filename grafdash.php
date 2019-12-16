@@ -29,7 +29,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 
 // pega os valores para o grafico de pizza
 
-$sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND ano = '$ano' GROUP BY problema ORDER BY qtd desc";
+$sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND ano = '$ano' AND cliente != 'EVENTOS' GROUP BY problema ORDER BY qtd desc";
 $result = $mysqli->query($sql);
 
 $i = 0;
@@ -53,7 +53,7 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA A TABELA DE SALAS COM PROBLEMAS
 
 
-  $sqltabela1 = "SELECT andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  ORDER BY id_chamado,andar";
+  $sqltabela1 = "SELECT andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  AND cliente != 'EVENTOS' ORDER BY id_chamado,andar";
   $resulttabela1 = $mysqli->query($sqltabela1);
   
   $it = 0;
@@ -91,7 +91,7 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA MONTAR A TABELA DE CHECK LIST DE HOJE
 
 
-  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
+  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' AND CLIENTE != 'EVENTOS' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
   $resulttabela2 = $mysqli->query($sqltabela2);
   
   $it2 = 0;
@@ -123,7 +123,7 @@ while ($row = mysqli_fetch_object($result)) {
 
     // pega os valores para o grafico de barra
 
-  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' GROUP BY mes ORDER BY month(data_2)";
+  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND cliente != 'EVENTOS' GROUP BY mes ORDER BY month(data_2)";
   $resultbarra = $mysqli->query($sqlbarra);
   
   $ib = 0;
@@ -147,14 +147,14 @@ while ($row = mysqli_fetch_object($result)) {
 
  // pega os valores dos chamados abertos e em andamento
 
-$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO'";
+$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO' AND cliente != 'EVENTOS'";
 $resultandamento = $mysqli->query($sqlandamento);
 $row = mysqli_fetch_assoc($resultandamento);
  
 
 // pega os valores dos chamados abertos e RESOLVIDO
 
-$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO'";
+$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO' AND cliente != 'EVENTOS'";
 $resultresolvido = $mysqli->query($sqlresolvido);
 $row2= mysqli_fetch_assoc($resultresolvido);
 
