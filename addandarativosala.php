@@ -97,12 +97,12 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     echo "<div class='text-center font-weight-bold'>Escolha o Andar<div> ";
     echo "</br>";
     foreach ($result as $linha) {
-   $pegaandar = $linha['ANDAR'];
+   $pegaandar =  $linha['ANDAR'];
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';
      echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="ativosalaconsulta.php?andar='.$pegaandar.'&predio='.$addpredio.'">';
+      echo '<a class="navbar-brand" href="ativosalaconsulta.php?andar='. utf8_encode($pegaandar).'&predio='.$addpredio.'">';
        echo '<ion-icon src="./icon/md-business.svg"  size="small" class="text-secondary"  ></ion-icon>';
-        echo '  '.$linha['ANDAR'];
+        echo '  '.utf8_encode($linha['ANDAR']);
          echo '</a>';
           echo '</nav>';
      echo '</div>';

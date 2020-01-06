@@ -55,6 +55,8 @@ $R_info = strtoupper(utf8_encode($stmtSelect['OBSERVACAO']));
 $R_status = strtoupper($stmtSelect['STATUS']);
 $R_serie =  strtoupper($stmtSelect['N_SERIE']);
 $R_horaLamp =  strtoupper($stmtSelect['HORAS_LAMP']);
+$R_preventiva = 'NAO';
+$R_cliente =  strtoupper($stmtSelect['CLIENTE']);
 $data_2 = date('Y-m-d');
 $mes =  date('F');
 $ano = date('Y');
@@ -63,8 +65,8 @@ $hora = date('H:i:s');
 //echo $R_sala;
 // Preparando statement 
 
-    $stmt = $pdo->prepare("INSERT INTO TABLE_CHECK(DATA_2,MES,ANO,QRCODE,TIPO_DE_EQUIPAMENTO,CARACTERISTICA,MARCA,MODELO,PREDIO,ANDAR,SETOR,SALA,QRSALA,SITUACAO,OBSERVACAO,NOME_USER,STATUS,SERIE,HORAS_LAMP,OCUPADA,HORAS) 
-      values ('$data_2','$mes','$ano','$R_qrcode','$R_ativo','$R_caract','$R_marca','$R_modelo','$R_predio','$R_andar','$R_setor','$R_sala','$R_qrsala', '$R_situacao','$R_info','$R_usuario_post','$R_status','$R_serie','$R_horaLamp','$ocupada','$hora' )"); 
+    $stmt = $pdo->prepare("INSERT INTO TABLE_CHECK(DATA_2,MES,ANO,QRCODE,TIPO_DE_EQUIPAMENTO,CARACTERISTICA,MARCA,MODELO,PREDIO,ANDAR,SETOR,SALA,QRSALA,SITUACAO,OBSERVACAO,NOME_USER,STATUS,SERIE,HORAS_LAMP,OCUPADA,HORAS,PREVENTIVA,CLIENTE) 
+      values ('$data_2','$mes','$ano','$R_qrcode','$R_ativo','$R_caract','$R_marca','$R_modelo','$R_predio','$R_andar','$R_setor','$R_sala','$R_qrsala', '$R_situacao','$R_info','$R_usuario_post','$R_status','$R_serie','$R_horaLamp','$ocupada','$hora','$R_preventiva','$R_cliente')"); 
 
 // Executando statement 
 $stmt->execute(); 

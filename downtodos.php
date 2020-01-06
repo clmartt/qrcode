@@ -1,6 +1,9 @@
 
 <?php
 //error_reporting(0);
+//ob_start();
+session_start();
+$cliente = $_SESSION['cliente'];
 
 
 // INCLUDE DA DOS ARQUIVOS E CLASSES PARA GERAR EXCEL
@@ -32,7 +35,7 @@ if($arquivo == 'check'){
 
 //PEGA O OS DADOS DO CHECK
 $mysqli = new mysqli($host, $user, $pass, $db);
-$sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal' and PREDIO = '$predio' AND CLIENTE != 'EVENTOS' ORDER BY DATA_2";
+$sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY DATA_2";
 $result = $mysqli->query($sql);
 
 
@@ -122,7 +125,7 @@ if($arquivo == 'chamados'){
 
 //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 $mysqli = new mysqli($host, $user, $pass, $db);
-$sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal' and predio = '$predio' AND CLIENTE != 'EVENTOS' ORDER BY data_2";
+$sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY data_2";
 $resultchamado = $mysqli->query($sqlchamado);
 
 
@@ -167,7 +170,7 @@ foreach ($resultchamado as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['marca']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['predio']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['andar']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, utf8_encode($res['setor']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['setor']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador,utf8_encode($res['sala']));
                 $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, $res['problema']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, utf8_encode($res['observacao']));
@@ -207,7 +210,7 @@ if($_GET['arquivo'] == 'ativos'){
 
 //PEGA O OS DADOS DOS ATIVOS
 $mysqli = new mysqli($host, $user, $pass, $db);
-$sql = "SELECT * FROM QRCODETABLE WHERE PREDIO = '$predio' AND CLIENTE != 'EVENTOS'";
+$sql = "SELECT * FROM QRCODETABLE WHERE  CLIENTE = '$cliente'";
 $result = $mysqli->query($sql);
 
 

@@ -123,7 +123,7 @@ while ($row = mysqli_fetch_object($result)) {
 
     // pega os valores para o grafico de barra
 
-  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND cliente != 'EVENTOS' GROUP BY mes ORDER BY month(data_2)";
+  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE ano = '$ano' AND problema != ''  AND predio = '$PREDIO' AND cliente != 'EVENTOS' GROUP BY mes ORDER BY month(data_2)";
   $resultbarra = $mysqli->query($sqlbarra);
   
   $ib = 0;

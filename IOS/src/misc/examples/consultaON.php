@@ -8,8 +8,11 @@ header('Content-Type: text/html; charset=utf-8');
 // variavel que recebe o codido qrcode
 $qrcode = $_GET['qrcode'];
 $user = $_GET['user'];
+if ($_SESSION['email']== '' || $user == ''){
+    header("Location: ../../qr.html");
+}; 
 
-$_SESSION['email'] = $user;
+//$_SESSION['email'] = $user;
 
 echo "Usuario:--".$user; 
 
