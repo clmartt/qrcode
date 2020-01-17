@@ -28,7 +28,7 @@ foreach ($resultado as $res) {
     echo '<td>'.utf8_encode($res['sala']).'</td>';
     echo '<td>'.utf8_encode($res['problema']) .'</td>';
     echo '<td>'.date('d-m-Y', strtotime( $res['data_2'])).'</td>';
-    echo '<td>'.$res['observacao'].'</td>';
+    echo '<td>'.utf8_encode($res['observacao']).'</td>';
   
     echo '</tr>';
     

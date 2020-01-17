@@ -64,13 +64,17 @@ foreach ($result as $res) {
 
 	
 
-	$predio = $res['PREDIO'];
+	//$predio = $res['PREDIO'];
 
-	$andar = $res['ANDAR'];
+	//$andar = $res['ANDAR'];
 
-	$sala = $res['SALA'];
+	//$sala = $res['SALA'];
 
-	
+	$predio = "predioooo";
+
+	$andar = "amndarr";
+
+	$sala = "salalaa";
 
 
 
@@ -116,7 +120,7 @@ $mailer->Password = 'Kvm@3255!'; //Senha de autenticação do SMTP
 
 $mailer->FromName = 'Qrcode KVM'; //Nome que será exibido
 
-$mailer->From = 'sistema.qrcode@kvminformatica.com.br'; //Obrigatório ser a mesma caixa postal configurada no remetente do SMTP
+$mailer->From = 'noreply@kvminformatica.com.br'; //Obrigatório ser a mesma caixa postal configurada no remetente do SMTP
 
 $mailer->AddAddress('freshservice@kvminformatica.com.br');//Destinatários freshservice@kvminformatica.com.br
 
@@ -130,13 +134,11 @@ if(!$mailer->Send())
 
 echo "Message was not sent"."<br>";
 
-echo "Mailer Error: " . $mailer->ErrorInfo; exit; 
-//$mailer->error_reporting;
-}else{
-	echo "E-mail enviado!";
-};
+//echo "Mailer Error: " . $mailer->ErrorInfo; exit; 
+$mailer->error_reporting;
+}
 
- 
+print "E-mail enviado!"
 
 ?>
 

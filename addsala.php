@@ -133,7 +133,7 @@ $(document).ready(function(){
     $pegasala = utf8_encode($res['SALA']);
     $pegasetor = $res['SETOR'];
     echo '<tr>';
-    echo '<th scope="row" >'.$res['SETOR'].'</th>';
+    echo '<th scope="row" >'.utf8_encode($res['SETOR']).'</th>';
     echo '<td>'.utf8_encode($res['SALA']).'</td>';
     echo '<td><a class="navbar-brand" href="./insertativo/formInsert.php?andar='.$ANDAR.'&predio='.$PREDIO.'&sala='.$pegasala.'&setor='.$pegasetor.'"><ion-icon src="./icon/md-checkmark-circle-outline.svg"  size="small" ></ion-icon></a></td>';
     echo '</tr>';

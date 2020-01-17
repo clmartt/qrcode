@@ -88,7 +88,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
         $('#divproblema').hide();
 //====================================================================================>>>>>>>>>
         $('#editar').click(function(){
-          $('#form_envia').attr('action','https://kvm1000.websiteseguro.com/qrteste2/updateativo/formUp.php');
+          $('#form_envia').attr('action','../../../updateativo/formUp.php');
           $('#botao').trigger('click');
         });
 //====================================================================================>>>>>>>>>      

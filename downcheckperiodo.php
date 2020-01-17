@@ -79,7 +79,7 @@ foreach ($result as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('G'.$contador, $res['MODELO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['PREDIO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['ANDAR']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['SETOR']);
+                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, utf8_encode($res['SETOR']));
                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, utf8_encode($res['SALA']));
                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['SITUACAO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, utf8_encode($res['OBSERVACAO']));

@@ -12,7 +12,7 @@ $problema = $_POST['problema'];
 
 $Dproblema = $_POST['dproblema'];
 
-$usuarioL = $_POST['usuario'];
+$usuario = $_POST['usuario'];
 
 
 
@@ -64,13 +64,17 @@ foreach ($result as $res) {
 
 	
 
-	$predio = $res['PREDIO'];
+	//$predio = $res['PREDIO'];
 
-	$andar = $res['ANDAR'];
+	//$andar = $res['ANDAR'];
 
-	$sala = $res['SALA'];
+	//$sala = $res['SALA'];
 
-	
+	$predio = "predioooo";
+
+	$andar = "amndarr";
+
+	$sala = "salalaa";
 
 
 
@@ -102,27 +106,28 @@ $mailer = new PHPMailer();
 
 $mailer->IsSMTP();
 
-$mailer->SMTPDebug = 1;
+$mailer->SMTPDebug = 2;
 
 $mailer->Port = 587; //Indica a porta de conexão 
 
-$mailer->Host = 'smtp.office365.com';//Endereço do Host do SMTP 
+$mailer->Host = 'smtp.gmail.com';//Endereço do Host do SMTP 
 
 $mailer->SMTPAuth = true; //define se haverá ou não autenticação 
+$mailer->SMTPSecure = 'tls';
 
-$mailer->Username = 'sistema.qrcode@kvminformatica.com.br'; //Login de autenticação do SMTP
+$mailer->Username = 'clmartt@gmail.com'; //Login de autenticação do SMTP
 
-$mailer->Password = 'Kvm@3255!'; //Senha de autenticação do SMTP
+$mailer->Password = 'poseydom'; //Senha de autenticação do SMTP
 
 $mailer->FromName = 'Qrcode KVM'; //Nome que será exibido
 
-$mailer->From = 'sistema.qrcode@kvminformatica.com.br'; //Obrigatório ser a mesma caixa postal configurada no remetente do SMTP
+$mailer->setFrom('clmartt@gmail.com','teste'); //Obrigatório ser a mesma caixa postal configurada no remetente do SMTP
 
 $mailer->AddAddress('freshservice@kvminformatica.com.br');//Destinatários freshservice@kvminformatica.com.br
 
 $mailer->Subject = 'Chamado enviado via Sistema QRCODE KVM';
 
-$mailer->Body = 'O '.$usuarioL.' enviou um chamado para o - '.$predio.' - Andar: '.$andar.' - '.$sala.'- QRCODE : '.$qrcode.' informando o problema: '. $problema.' | '.$Dproblema;
+$mailer->Body = 'O '.$usuario.' enviou um chamado para o - '.$predio.' - Andar: '.$andar.' - '.$sala.'- QRCODE : '.$qrcode.' informando o problema: '. $problema.' | '.$Dproblema;
 
 if(!$mailer->Send())
 
@@ -130,13 +135,10 @@ if(!$mailer->Send())
 
 echo "Message was not sent"."<br>";
 
-echo "Mailer Error: " . $mailer->ErrorInfo; exit; 
-//$mailer->error_reporting;
-}else{
-	echo "E-mail enviado!";
-};
+echo $mailer->error_reporting;
+}
 
- 
+print "E-mail enviado!"
 
 ?>
 

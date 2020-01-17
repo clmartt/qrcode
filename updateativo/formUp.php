@@ -18,7 +18,7 @@ $sala =  strtoupper(utf8_encode($_POST['R_sala']));
 $qrsala =  strtoupper($_POST['R_qrsala']);
 $andar = strtoupper(utf8_encode($_POST['R_andar']));
 $serie = strtoupper(utf8_encode($_POST['R_serie']));
-$setor = strtoupper(utf8_encode($_POST['R_setor']));
+$setor = strtoupper($_POST['R_setor']);
 $horas = $_POST['R_horaLamp'];
 $situacaoequi = strtoupper(utf8_encode($_POST['R_situacaoequi']));
 
