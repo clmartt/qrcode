@@ -2,8 +2,6 @@
 ob_start();
 session_start();
 
-$cliente = $_SESSION['cliente'];
-
 // definições de host, database, usuário e senha
 $host = "qrcodekvm.mysql.dbaas.com.br";
 $db   = "qrcodekvm";
@@ -212,10 +210,10 @@ $(document).ready(function(){
            var sala_split = sala.split(" ");
            $(this).addClass("btn btn-danger");
            $(this).off('click');
-           var fresh = '<?php echo $cliente?>';
+           var fresh = confirm("Enviar o Chamado para o Fresh Service?");
 
            // SE É NECESSÁRIO O ENVIO PARA O FRESH
-           if(fresh == 'IBBA'){
+           if(fresh){
 
               var identform = $(this).attr('id');
               var nomeIdform = "#form"+identform; // NOME DA DIV QUE RECEBE O FORM

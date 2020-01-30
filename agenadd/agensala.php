@@ -1,6 +1,9 @@
 <?php
 ob_start();
 session_start();
+if($_SESSION['cliente']==''){
+  header("Location: ./login.html"); 
+}
 
 // definições de host, database, usuário e senha
 $host = "qrcodekvm.mysql.dbaas.com.br";
@@ -106,7 +109,7 @@ $(document).ready(function(){
 
 <div class="input-group mb-3">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1"><ion-icon src="./icon/md-search.svg"  size="small" ></ion-icon></span>
+    <span class="input-group-text" id="basic-addon1"><ion-icon src="../icon/md-search.svg"  size="small" ></ion-icon></span>
   </div>
   <input type="text" class="form-control" placeholder="Digite a sala" aria-label="Usuário" aria-describedby="basic-addon1" id="txtBusca" >
 </div>
@@ -135,7 +138,7 @@ $(document).ready(function(){
     echo '<tr>';
     echo '<th scope="row" >'.utf8_encode($res['SETOR']).'</th>';
     echo '<td>'.utf8_encode($res['SALA']).'</td>';
-    echo '<td><a class="navbar-brand" href="./insertativo/formInsert.php?andar='.$ANDAR.'&predio='.$PREDIO.'&sala='.utf8_encode($pegasala).'&setor='.utf8_encode($pegasetor).'"><ion-icon src="./icon/md-checkmark-circle-outline.svg"  size="small" ></ion-icon></a></td>';
+    echo '<td><a class="navbar-brand" href="formagen.php?andar='.$ANDAR.'&predio='.$PREDIO.'&sala='.$pegasala.'&setor='.utf8_encode( $pegasetor).'"><ion-icon src="../icon/md-checkmark-circle-outline.svg"  size="small" ></ion-icon></a></td>';
     echo '</tr>';
       
  

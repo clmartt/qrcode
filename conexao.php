@@ -96,6 +96,7 @@ echo '<br>';
 foreach ($result as $retorno) {
   echo $retorno['cliente'];
   $_SESSION['cliente'] = $retorno['cliente'];
+  $_SESSION['perfil'] = $retorno['perfil'];
 
 }
 $scliente = $_SESSION['cliente'];

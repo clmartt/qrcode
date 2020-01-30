@@ -1,12 +1,11 @@
 <?php
 
 ob_start();
-
 session_start();
+
 
 $usuario = $_GET['user'];
 
-$cliente = $_SESSION['cliente'];
 
 
 
@@ -128,15 +127,15 @@ $result = $mysqli->query($sql);
 
 <!--===============================================================================================-->
 
-	
-
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 
 	<script type="text/javascript">
 
 	$(document).ready(function(){
 
-		
+		$('#pop').popover();
+
+		$('#pagina').load('atividades.php');
 
 			$('#check').click(function(){
 
@@ -178,21 +177,7 @@ $result = $mysqli->query($sql);
 
 //=====================================================================================>>>>>>>>>
 
-			$('#chamado').click(function(){
 
-				$.get('downchamados.php', function(data){
-
-
-
-				});
-
-				alert("Chamados Enviado!");
-
-
-
-
-
-			});
 
 //=====================================================================================>>>>>>>>>
 
@@ -224,59 +209,36 @@ $result = $mysqli->query($sql);
 
 	<?php 
 
-	include("menu.php");
+	include("menuteste.php");
+echo "<br>";
 
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
 
 
 	?>
 
 	
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 
-	<div  >
-
-
-
-
-
-			
-
-		<HR>
-
-			
-
-		
-
-		<div align="center">
-
-
-
-					<div class="card" style="width: 18rem;">
-
-						  <img class="card-img-top" src="./images/scan3.gif" alt="Card image cap">
-
-						  <div class="card-body">
-
-						    <h5 class="card-title">QR Code </h5>
-
-						    <p class="card-text">Use o Qrcode para realizar Check list nas salas e Preventivas em equipamentos</p>
-
-						    <p></p>
-
-						    <a href="./cameras.php?user=<?php echo $_SESSION['email'] ?>" class="btn btn-primary">Vamos lá!</a>
-
-						  </div>
-
-					</div>
-
-					
-
-	
+	<div id="pagina">
+	<p></p>
+<p></p>
+<p></p>
+<?php echo $_SESSION['email']?>
+<p></p>
+	<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover" id="pop">Toggle popover</a>
+	</div>
 
 		
-
-
-
-		</div>
 
 
 
@@ -396,7 +358,7 @@ $result = $mysqli->query($sql);
 
 
 
-
+									<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 </body>
 

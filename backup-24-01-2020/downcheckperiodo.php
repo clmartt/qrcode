@@ -29,7 +29,6 @@ $arquivo = $_GET['arquivo'];
 
 
 if($arquivo == 'check'){
-        
 
 //PEGA O OS DADOS DO CHECK
 $mysqli = new mysqli($host, $user, $pass, $db);
@@ -170,7 +169,7 @@ foreach ($resultchamado as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['andar']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, utf8_encode($res['setor']));
                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador,utf8_encode($res['sala']));
-                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, utf8_encode($res['problema']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, $res['problema']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, utf8_encode($res['observacao']));
                 $objPHPExcel->getActiveSheet()->SetCellValue('O'.$contador, $res['nome_user']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('P'.$contador, $res['status']);

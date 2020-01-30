@@ -33,10 +33,22 @@ $arquivo = $_GET['arquivo'];
 
 if($arquivo == 'check'){
 
-//PEGA O OS DADOS DO CHECK
-$mysqli = new mysqli($host, $user, $pass, $db);
-$sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY DATA_2";
-$result = $mysqli->query($sql);
+        if($cliente=='KVM'){
+
+                        //PEGA O OS DADOS DO CHECK
+                        $mysqli = new mysqli($host, $user, $pass, $db);
+                        $sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'   ORDER BY DATA_2";
+                        $result = $mysqli->query($sql);
+        }else{
+
+                //PEGA O OS DADOS DO CHECK
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY DATA_2";
+                $result = $mysqli->query($sql);
+
+
+        };
+
 
 
 
@@ -123,10 +135,22 @@ foreach ($result as $res) {
 
 if($arquivo == 'chamados'){
 
-//PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-$mysqli = new mysqli($host, $user, $pass, $db);
-$sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY data_2";
-$resultchamado = $mysqli->query($sqlchamado);
+        if($cliente=='KVM'){
+                //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  ORDER BY data_2";
+                $resultchamado = $mysqli->query($sqlchamado);
+
+        }else{
+
+                //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY data_2";
+                $resultchamado = $mysqli->query($sqlchamado);
+
+
+        }
+
 
 
 $objPHPExcel = new PHPExcel();
@@ -208,10 +232,21 @@ foreach ($resultchamado as $res) {
 
 if($_GET['arquivo'] == 'ativos'){
 
-//PEGA O OS DADOS DOS ATIVOS
-$mysqli = new mysqli($host, $user, $pass, $db);
-$sql = "SELECT * FROM QRCODETABLE WHERE  CLIENTE = '$cliente'";
-$result = $mysqli->query($sql);
+if($cliente=='KVM'){
+        //PEGA O OS DADOS DOS ATIVOS
+        $mysqli = new mysqli($host, $user, $pass, $db);
+        $sql = "SELECT * FROM QRCODETABLE";
+        $result = $mysqli->query($sql);
+
+}else{
+
+                //PEGA O OS DADOS DOS ATIVOS
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $sql = "SELECT * FROM QRCODETABLE WHERE  CLIENTE = '$cliente'";
+                $result = $mysqli->query($sql);
+};
+
+        
 
 
 

@@ -74,7 +74,7 @@ include('menu.php')
           
           if(predio == 'todos'){
             window.location.href = "downtodos.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
-          
+           
           }else{
             window.location.href = "downcheckperiodo.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
           };
