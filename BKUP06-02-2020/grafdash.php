@@ -1,8 +1,10 @@
 
 <?php
+header('Content-Type: text/html; charset=utf-8');
+ini_set('default_charset','UTF-8');
 ob_start();
 session_start();
-header("Refresh: 60"); // FAZ REFRESH EM 1 MINUTO
+header("Refresh: 300"); // FAZ REFRESH EM 1 MINUTO
 $cliente = $_SESSION['cliente']; // PEGA O PERFIL DO USUARIO E GUARDA NO CLIENTE
 $datahoje = date("Y-m-d"); // PEGA A DATA DE HOJE;
 
@@ -19,7 +21,7 @@ $ano = date('Y');
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
-
+$mysqli -> set_charset("utf8");
 
 
 
@@ -27,7 +29,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 
 // pega os valores para o grafico de pizza
 
-$sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND ano = '$ano' GROUP BY problema ORDER BY qtd desc";
+$sql = "SELECT count(problema) as qtd, problema FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND ano = '$ano' AND cliente != 'EVENTOS' GROUP BY problema ORDER BY qtd desc";
 $result = $mysqli->query($sql);
 
 $i = 0;
@@ -51,17 +53,19 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA A TABELA DE SALAS COM PROBLEMAS
 
 
-  $sqltabela1 = "SELECT andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  ORDER BY id_chamado,andar";
+  $sqltabela1 = "SELECT id_chamado,andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  AND cliente != 'EVENTOS' ORDER BY id_chamado,andar";
   $resulttabela1 = $mysqli->query($sqltabela1);
   
   $it = 0;
   $v = 0;
+  $tabela_Idchamado = array();
   $tabela_andar = array();
   $tabela_sala = array();
   $tabela_problema = array();
   $tabela_dif_data = array();
   
   while ($row = mysqli_fetch_object($resulttabela1)) {
+    $A_Idchamado = $row->id_chamado;// pega os IDs dos chamados;
     $A_andar = $row->andar; // pega o problema
     $A_sala = $row->sala; // pega o andar
     $A_problema = utf8_encode($row->problema); // pega a sala
@@ -72,7 +76,7 @@ while ($row = mysqli_fetch_object($result)) {
 
 
     
-
+    $tabela_Idchamado[$it] = $A_Idchamado;
     $tabela_andar[$it] = $A_andar;
     $tabela_sala[$it] = $A_sala;
     $tabela_problema[$it] = $A_problema;
@@ -89,7 +93,7 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA MONTAR A TABELA DE CHECK LIST DE HOJE
 
 
-  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
+  $sqltabela2 = "SELECT * FROM TABLE_CHECK WHERE PREDIO = '$PREDIO' AND DATA_2 = '$datahoje' AND CLIENTE != 'EVENTOS' GROUP BY SALA ORDER BY IDTABLE_CHECK DESC";
   $resulttabela2 = $mysqli->query($sqltabela2);
   
   $it2 = 0;
@@ -121,7 +125,7 @@ while ($row = mysqli_fetch_object($result)) {
 
     // pega os valores para o grafico de barra
 
-  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' GROUP BY mes ORDER BY month(data_2)";
+  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE ano = '$ano' AND problema != ''  AND predio = '$PREDIO' AND cliente != 'EVENTOS' GROUP BY mes ORDER BY month(data_2)";
   $resultbarra = $mysqli->query($sqlbarra);
   
   $ib = 0;
@@ -145,14 +149,14 @@ while ($row = mysqli_fetch_object($result)) {
 
  // pega os valores dos chamados abertos e em andamento
 
-$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO'";
+$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO' AND cliente != 'EVENTOS' AND ano = '$ano'";
 $resultandamento = $mysqli->query($sqlandamento);
 $row = mysqli_fetch_assoc($resultandamento);
  
 
 // pega os valores dos chamados abertos e RESOLVIDO
 
-$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO'";
+$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO' AND cliente != 'EVENTOS' AND ano = '$ano'";
 $resultresolvido = $mysqli->query($sqlresolvido);
 $row2= mysqli_fetch_assoc($resultresolvido);
 
@@ -187,6 +191,12 @@ if($cliente=='KVM'){
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
+
+
+
+
+
+
 <!-- ======================================================================================================================-->
 
 
@@ -203,7 +213,128 @@ if($cliente=='KVM'){
 
     <title>Gráficos</title>
 
-	<script src="jquery-3.2.1.min.js"></script>
+  <script src="jquery-3.2.1.min.js"></script>
+  
+
+
+
+      <script>
+// faz a requisição de informações via ajax para os filtros 
+//=================================================================================================================================
+          $(document).ready(function(){
+            $(".card-body").hide();
+            $("#elementodata").hide();
+           
+
+            $("#filtro").change(function(){
+              var texto = $(this).val();
+              var predios = $('#localPredio').val();
+              $("#elementodata").fadeIn('slow');
+             
+              
+              //$(".card-body").fadeIn();
+             //$.post( "filtro.php",{filtrado: texto,predio: predios}, function( data ) {
+              //$(".card-body").html(data);
+             //});
+
+
+
+            });
+
+            $('#BotaoBuscar').click(function(){
+           
+
+              var dataInicio = $("#dinicio").val();
+              var dataFinal = $("#dfinal").val();
+              var filtrar = $("#filtro").val();
+              var predios = $('#localPredio').val();
+              $(".card-body").fadeIn();
+              $.post( "filtro.php",{datasInicio:dataInicio,datasFinal:dataFinal,filtrado: filtrar,predio: predios}, function( data ) {
+              $(".card-body").html(data);
+             });
+
+            });
+
+
+
+// ESTA PARTE É PARA OS ITENS GERADOS DINAMICAMENTE -------------------------------------------------------------------------------
+
+
+            $(document).on('click','#andardetalhes',function(){ // chama a janela modal
+             
+              var infoAndar = $(this).val(); // GUARDA O VALOR DO BOTAO
+              var dataInicio = $("#dinicio").val();
+              var dataFinal = $("#dfinal").val();
+
+              $.post('contagemPorAndar.php',{datasInicio:dataInicio,datasFinal:dataFinal,detalheAndar:infoAndar},function(data) { // manda via post e pega as informações do contagemPorAndar
+                      
+                    $('.modal-title').html('Informações do Andar');
+                    $('.modal-body').html(data);
+                    $('#modaldetalhes').modal('show');               
+                                                          
+              });
+
+             });// FIM #andardetalhes
+
+         // VAI RETORNAR A CONTAGEM DE CHAMADOS POR SALA ----------------------------------------------------------------------------
+             // INATIVO ATE QUE TODAS AS SALAS POSSUEM UM QRCODE QUE A IDENTIFICA COMO UNICA
+            $(document).on('click','#saladetalhes',function(){
+              var infoSala = $(this).val()+'-'+$(this).text();
+              $('#informacao').val(infoSala);
+              var pegainfotxt = $('#informacao').text();
+              alert(infoSala);
+              $.post('contagemPorSala.php',{detalheSala:infoSala},function(data) { // manda via post e pega as informações do contagemPorAndar
+                      
+                      $('.modal-title').html('Informações das Salas');
+                      $('.modal-body').html(data);
+                      $('#modaldetalhes').modal('show');               
+                                                            
+                });
+
+            });// FIM #SALADETALHES
+
+
+            $(document).on('click','#ativodetalhes',function(){
+              var qrs = $(this).text();
+              var dataInicio = $("#dinicio").val();
+              var dataFinal = $("#dfinal").val();
+             
+              $.post('contagemPorAtivo.php',{datasInicio:dataInicio,datasFinal:dataFinal,detalheAtivo:qrs},function(data) { // manda via post e pega as informações do contagemPorAndar
+                      
+                      $('.modal-title').html('Informações do Ativo');
+                      $('.modal-body').html(data);
+                      $('#modaldetalhes').modal('show');               
+                                                            
+                });
+            }); // FIM DO #ATIVODETALHES
+
+//-------------------- PARA PEGAR OS VALORES DO NUMERO DE CHAMADO E ABRIR NO MODAL
+
+
+            $(document).on('click','#Bsalas',function(){
+               
+              var numeroChamado = $(this).text();
+              $.post('PorNumeroChamado.php',{numero:numeroChamado},function(data) { // manda via post e pega as informações do contagemPorAndar
+                      
+                      $('.modal-title').html('Informações do Chamado');
+                      $('.modal-body').html(data);
+                      $('#modaldetalhes').modal('show');               
+                                                            
+                });
+
+
+            });
+
+
+
+
+
+
+          });
+
+       </script>
+
+       
     <script>
     	
                             // Load the Visualization API and the corechart package.
@@ -315,6 +446,7 @@ if($cliente=='KVM'){
 
                 function drawTable() {
                   var data = new google.visualization.DataTable();
+                  data.addColumn('string', 'Nº');
                   data.addColumn('string', 'Andar');
                   data.addColumn('string', 'Sala');
                   data.addColumn('string', 'Problema');
@@ -325,7 +457,7 @@ if($cliente=='KVM'){
                             $kt1 = $it;
                             for ($i=0; $i < $kt1; $i++) { 
                             ?>
-                             ['<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
+                             ['<?php echo '<button class="btn btn-info" id="Bsalas">'.$tabela_Idchamado[$i].'</button>' ?>','<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
                             
                     <?php } ?>
 
@@ -334,8 +466,10 @@ if($cliente=='KVM'){
                   ]);
 
                   var table = new google.visualization.Table(document.getElementById('table_div'));
+                  
 
-                  table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+                  table.draw(data, {allowHtml:true, showRowNumber: true, width: '100%', height: '100%'});
+                 
                 }
     
         
@@ -392,34 +526,83 @@ if($cliente=='KVM'){
   </head>
   <body>
  
-  
-  <nav class="navbar sticky-top navbar-light bg-light">
-  <a class="navbar-brand" href="principal.php">
-    <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
-    ReQuest - Dash <?php echo ' '.$PREDIO?>
-  </a>
+              <input type="hidden" value="<?php echo $PREDIO?>" name="localPredio" id="localPredio">
+              
 
-  <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
-  <div class="input-group">
-  <select class="custom-select" id="inputGroupSelect04" name="predio">
-    <option selected>Escolha o Prédio</option>
-    <?php
-    foreach ($resultpredio as $res) {
+            <nav class="navbar sticky-top navbar-light bg-light">
+            <a class="navbar-brand" href="principal.php">
+              <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
+              ReQuest - Dash <?php echo ' '.$PREDIO?>
+            </a>
+
+            <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+            <div class="input-group">
+            <select class="custom-select" id="inputGroupSelect04" name="predio">
+              <option selected>Escolha o Prédio</option>
+              <?php
+              foreach ($resultpredio as $res) {
+                      
+              echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
             
-    echo'<option value="'.$res['PREDIO'].'">'.$res['PREDIO'].'</option>';
-  
-    
-    };
-    ?>
-  </select>
-  <div class="input-group-append">
-  <input class="btn btn-info" type="submit" value="Submit">
-  </div>
-</div>
+              
+              };
+              ?>
+            </select>
+            <div class="input-group-append">
+            <input class="btn btn-info" type="submit" value="Submit">
+            </div>
+          </div>
 
-    </form>
-</nav>
+              </form>
+          </nav>
+            <p></p>
+            
+
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="filtro">Detalhes</label>
+                    </div>
+                    <select class="custom-select" id="filtro">
+                      <option selected>Opções...</option>
+                      <option value="1">Chamados por Andar(10+)</option>
+                      <option value="2">Chamados por Sala(10+)</option>
+                      <option value="3">Chamados por Equipamento(10+)</option>
+                    </select>
+            </div>
 <p></p>
+
+<div id="elementodata">
+<div class="input-group mb-3" id="Iniciodata">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="dinicio">Inicio</label>
+  </div>
+  <input type="date" id="dinicio" class="form-control">
+</div>
+<p></p>
+
+
+<div class="input-group mb-3" id="Finaldata">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="dfinal">Final</label>
+  </div>
+  <input type="date" id="dfinal" class="form-control">
+</div>
+<div class="text-center" id="buscardata">
+<button type="button" class="btn btn-primary btn-sm" id="BotaoBuscar">Buscar</button>
+</div>
+</div>
+<p></p>
+
+
+         <div class="card">
+              <div class="card-body">
+                CARREGANDO ...
+              </div>
+            </div>
+
+
+
+
 <p></p>
 <?php
 
@@ -491,10 +674,43 @@ if($cliente=='KVM'){
 
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+    <!-- Modal --------------------------------------------------------------------------------------------------------------->
+
+<div class="modal fade" id="modaldetalhes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Título do modal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
   
+
+
+
 
   </body>
 </html>

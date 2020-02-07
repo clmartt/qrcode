@@ -1,4 +1,5 @@
 <?php
+include('timezone.php');
 ob_start();
 session_start();
 $email = strtoupper($_SESSION['email']);

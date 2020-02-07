@@ -1,11 +1,11 @@
 <?php
 // cabeçalho para utf8 
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
+
 ob_start();
 session_start(); //pega a sessao do usuario
 
 $cliente = $_SESSION['cliente'];
+$permissao = $_SESSION['permissao'];
 
 if($_SESSION['cliente']==''){
     header("Location: ./login.html"); 
@@ -21,7 +21,7 @@ if($_SESSION['cliente']==''){
 
 include('../conectar.php');
 
-if($_SESSION['cliente']=='KVM'){
+if($_SESSION['permissao']=='KVM'){
    
     $selectUser = "SELECT * FROM  login_usuario"; // query de consulta ao banco
     $resultUser = $pdo->query($selectUser); // guardando o resultado da query acima na variavel
@@ -29,7 +29,7 @@ if($_SESSION['cliente']=='KVM'){
     
     }else{
     
-     $selectUser = "SELECT * FROM  login_usuario WHERE cliente = '$cliente'"; // query de consulta ao banco
+     $selectUser = "SELECT * FROM  login_usuario WHERE cliente = '$permissao'"; // query de consulta ao banco
     $resultUser = $pdo->query($selectUser); // guardando o resultado da query acima na variavel
     $qtdUser = $resultUser-> rowCount(); // contanto o numero de linhas retornadas pela query
     
@@ -74,7 +74,7 @@ if($_SESSION['cliente']=='KVM'){
 
   </head>
   <body>
-      
+     
       <div class="container" id="formulario">
           <p></p>
             <div class="card">

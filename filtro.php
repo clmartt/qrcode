@@ -4,19 +4,7 @@
 header('Content-Type: text/html; charset=utf-8');
 ini_set('default_charset','UTF-8');
 
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
-
-
-try { 
-
-  
-    $pdo = new PDO($dsn, $usuario, $senha); 
-    } catch (PDOException $e) { 
-    echo $e->getMessage(); 
-    exit(1); 
-    };
+include('conectar.php');
 
     $filtro = $_POST['filtrado'];
     $predio = $_POST['predio'];
@@ -58,7 +46,7 @@ try {
 
     }else if($filtro ==2){ // MOSTRA AS INFORMAÇÕES POR SALA
        
-        $selecao = "SELECT count(problema) AS qtd, predio,sala,andar,problema FROM CHAMADOS WHERE data_2 BETWEEN '$dataInicial' and '$dataFinal' and predio = '$predio' AND problema != '' AND cliente != 'EVENTOS' GROUP by predio,sala,andar,problema ORDER BY qtd DESC,sala ASC LIMIT 10";
+        $selecao = "SELECT count(problema) AS qtd, predio,sala,andar,problema,qrcode,ativo FROM CHAMADOS WHERE data_2 BETWEEN '$dataInicial' and '$dataFinal' and predio = '$predio' AND problema != '' AND cliente != 'EVENTOS' GROUP by predio,sala,andar,problema,qrcode,ativo ORDER BY qtd DESC,sala ASC LIMIT 10";
         $result = $pdo->query($selecao);
 
         echo '<div class="table-responsive">';
@@ -69,6 +57,8 @@ try {
         echo '<th scope="col">Andar</th>';
         echo '<th scope="col">Sala</th>';
         echo '<th scope="col">Problema</th>';
+        echo '<th scope="col">Qrcode</th>';
+        echo '<th scope="col">Ativo</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -80,6 +70,8 @@ try {
             echo '<td>'.utf8_encode($res['andar']).'</td>';
             echo '<td>'.utf8_encode($res['sala']).'</button></td>';
             echo '<td>'.utf8_encode($res['problema']).'</td>';
+            echo '<td>'.utf8_encode($res['qrcode']).'</td>';
+            echo '<td>'.utf8_encode($res['ativo']).'</td>';
             
             echo '</tr>';
         };

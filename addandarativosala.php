@@ -13,21 +13,7 @@ $logado = $_GET['usuario']; // guardando usuario logado na variavel
 $addpredio = $_GET['predio'];
 
 //conexao com banco de dadso
-
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
-
-// Conectando 
-// se nao conectar informa o erro
-try { 
-
-  
-$pdo = new PDO($dsn, $usuario, $senha); 
-} catch (PDOException $e) { 
-echo $e->getMessage(); 
-exit(1); 
-} 
+include('conectar.php');
 
 if($_SESSION['cliente']=='KVM'){
 // primeira forma	

@@ -13,7 +13,7 @@ $ANDARES = $_GET['andar'];
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
-
+$mysqli -> set_charset("utf8");
 $sql = "SELECT DISTINCT SALA, SETOR, ANDAR,PREDIO FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY SETOR ";
 $result = $mysqli->query($sql);
 
@@ -145,8 +145,8 @@ $(document).ready(function(){
     echo '<tr>';
     echo '<th scope="row" >'.$res['ANDAR'].'</th>';
     echo '<td>'.$res['SETOR'].'</td>';
-    echo '<td>'.utf8_encode($res['SALA']).'</td>';
-    echo '<td>'.'<button class="btn btn-outline-warning" Value="'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.utf8_encode($res['SETOR']).'-'.utf8_encode($res['SALA']).'">'.'<ion-icon src="./icon/md-contacts.svg"  size="small" ></ion-icon></button>'.'</td>';
+    echo '<td>'.$res['SALA'].'</td>';
+    echo '<td>'.'<button class="btn btn-outline-warning" Value="'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.$res['SETOR'].'-'.$res['SALA'].'">'.'<ion-icon src="./icon/md-contacts.svg"  size="small" ></ion-icon></button>'.'</td>';
     echo '</tr>';
     echo '</tbody>';
       

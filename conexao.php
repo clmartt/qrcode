@@ -28,7 +28,8 @@ $senha = 'qrcodekvm';
 
 $email = $_POST['email'];
 
-$senha_user = $_POST['senha'];
+$senha_user = preg_replace('/[^[:alpha:]_]/', '',$_POST['senha']);
+
 
 $_SESSION['email'] = $email;
 
@@ -97,6 +98,8 @@ foreach ($result as $retorno) {
   echo $retorno['cliente'];
   $_SESSION['cliente'] = $retorno['cliente'];
   $_SESSION['perfil'] = $retorno['perfil'];
+  $_SESSION['permissao'] = $retorno['permissao'];
+  $_SESSION['prefil'] = $retorno['perfil'];
 
 }
 $scliente = $_SESSION['cliente'];

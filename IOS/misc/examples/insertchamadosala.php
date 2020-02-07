@@ -1,14 +1,12 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+ini_set('default_charset','UTF-8');
 ob_start();
 session_start(); //pega a sessao do usuario
 $cliente = $_SESSION['cliente'];
 
 
-// Definindo parametros de conexao 
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
+
 
 
 //recebendo o qrcode 
@@ -17,14 +15,7 @@ $problema = $_POST['problema'];
 $dproblema = $_POST['dproblema'];
 
 
-
-// Conectando 
-try { 
-$pdo = new PDO($dsn, $usuario, $senha); 
-} catch (PDOException $e) { 
-echo $e->getMessage(); 
-exit(1); 
-} 
+include("../../../conectar.php");
 
 // Preparando statement PEGANDO OS DADOS DO EQUIPAMENTO PELO QRCODE
 

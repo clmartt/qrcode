@@ -1,0 +1,24 @@
+PREDIO;ANDAR;SALA;ATIVIDADE;DATAC;HINICIO;HFIM;RECURSO;SITUACAO;RESUMO;ABERTO_POR;SOLICITANTE;FECHADO_POR;HFECHADO;OBSERVACAO;CLIENTE
+FAROL;2;R01;AGENDAMENTO;29/01/2020;09:00;12:30;CLMARTT@GMAIL.COM;ANDAMENTO;AGE-FAROL-2-R01 | 09:00-12:30;MARIA@MARIA.COM.BR;FLAVIO DE ALMEIDA;FECHADO 1;12:00;TESTE DE ENVIO;ITAU
+CTO;3;R02;ACOMPANHAMENTO;29/01/2020;10:00;13:30;CLMARTT@GMAIL.COM;ANDAMENTO;ACO-CTO-3-R02 | 10:00-13:30;MARIA@MARIA.COM.BR;MARIA DO CARMO;FECHADO 2;13:00;TESTE DE ENVIO;ITAU
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;

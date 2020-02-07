@@ -21,7 +21,7 @@ $ano = date('Y');
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
-
+$mysqli -> set_charset("utf8");
 
 
 
@@ -38,7 +38,7 @@ $listprob = array(); // CRIA ARRAY PARA GUARDAR O NOME DOS PROBLEMAS
 $listqtd = array();  //CRIA O ARRAY PARA GUARDAR A QUANTIDADE
 
 while ($row = mysqli_fetch_object($result)) {
-  $prob = utf8_encode($row->problema);// recebe os problemas
+  $prob = $row->problema;// recebe os problemas
   $probqtd = $row->qtd; // recebe a quantidade dos problemas (count(problema) as qtd)
   $listprob[$i] = $prob; // joga dentro deste array os problemas
   $listqtd[$i] = $probqtd; // joga dentro deste array as quantidades
@@ -68,7 +68,7 @@ while ($row = mysqli_fetch_object($result)) {
     $A_Idchamado = $row->id_chamado;// pega os IDs dos chamados;
     $A_andar = $row->andar; // pega o problema
     $A_sala = $row->sala; // pega o andar
-    $A_problema = utf8_encode($row->problema); // pega a sala
+    $A_problema = $row->problema; // pega a sala
     $A_data_chamado = $row->data_2; // pega a data do chamado
     $A_data_chamado_tratada = date_create($A_data_chamado);
     $datahoje_tratada = date_create(date('Y-m-d'));
@@ -149,14 +149,14 @@ while ($row = mysqli_fetch_object($result)) {
 
  // pega os valores dos chamados abertos e em andamento
 
-$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO' AND cliente != 'EVENTOS'";
+$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO' AND cliente != 'EVENTOS' AND ano = '$ano'";
 $resultandamento = $mysqli->query($sqlandamento);
 $row = mysqli_fetch_assoc($resultandamento);
  
 
 // pega os valores dos chamados abertos e RESOLVIDO
 
-$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO' AND cliente != 'EVENTOS'";
+$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO' AND cliente != 'EVENTOS' AND ano = '$ano'";
 $resultresolvido = $mysqli->query($sqlresolvido);
 $row2= mysqli_fetch_assoc($resultresolvido);
 

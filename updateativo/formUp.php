@@ -1,7 +1,11 @@
 
 <?php
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
+
+
+// Definindo parametros de conexao 
+include("../conectar.php");
+
+
 $editarAtivo = trim($_GET['qrcode']);
 
 if($editarAtivo == ''){
@@ -11,31 +15,20 @@ $id = $_POST['R_id'];
 $qrcode = trim(strtoupper($_POST['R_qrcode']));
 $ativo = strtoupper($_POST['R_ativo']);
 $caract = strtoupper($_POST['R_caract']);
-$modelo =  strtoupper(utf8_encode($_POST['R_modelo']));
-$marca = strtoupper(utf8_encode($_POST['R_marca']));
-$predio = strtoupper(utf8_encode($_POST['R_predio']));
-$sala =  strtoupper(utf8_encode($_POST['R_sala']));
+$modelo =  strtoupper($_POST['R_modelo']);
+$marca = strtoupper($_POST['R_marca']);
+$predio = strtoupper($_POST['R_predio']);
+$sala =  strtoupper($_POST['R_sala']);
 $qrsala =  strtoupper($_POST['R_qrsala']);
-$andar = strtoupper(utf8_encode($_POST['R_andar']));
-$serie = strtoupper(utf8_encode($_POST['R_serie']));
+$andar = strtoupper($_POST['R_andar']);
+$serie = strtoupper($_POST['R_serie']);
 $setor = strtoupper($_POST['R_setor']);
 $horas = $_POST['R_horaLamp'];
-$situacaoequi = strtoupper(utf8_encode($_POST['R_situacaoequi']));
+$situacaoequi = strtoupper($_POST['R_situacaoequi']);
 
 }else{
 
-// Definindo parametros de conexao 
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
 
-// Conectando 
-try { 
-	$pdo = new PDO($dsn, $usuario, $senha); 
-	} catch (PDOException $e) { 
-	echo $e->getMessage(); 
-	exit(1); 
-	} 
 	
 	$select = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$editarAtivo'");
 	$result = $select->fetchAll(PDO::FETCH_ASSOC);
@@ -48,16 +41,16 @@ try {
 					$qrcode = trim(strtoupper($res['QRCODE']));
 					$ativo = strtoupper($res['TIPO_DE_EQUIPAMENTO']);
 					$caract = strtoupper($res['CARACTERISTICA']);
-					$modelo =  strtoupper(utf8_encode($res['MODELO']));
-					$marca = strtoupper(utf8_encode($res['MARCA']));
-					$predio = strtoupper(utf8_encode($res['PREDIO']));
-					$sala =  strtoupper(utf8_encode($res['SALA']));
+					$modelo =  strtoupper($res['MODELO']);
+					$marca = strtoupper($res['MARCA']);
+					$predio = strtoupper($res['PREDIO']);
+					$sala =  strtoupper($res['SALA']);
 					$qrsala =  strtoupper($res['QRSALA']);
-					$andar = strtoupper(utf8_encode($res['ANDAR']));
-					$serie = strtoupper(utf8_encode($res['N_SERIE']));
-					$setor = strtoupper(utf8_encode($res['SETOR']));
+					$andar = strtoupper($res['ANDAR']);
+					$serie = strtoupper($res['N_SERIE']);
+					$setor = strtoupper($res['SETOR']);
 					$horas = $res['HORAS_LAMP'];
-					$situacaoequi = strtoupper(utf8_encode($res['SITUACAO']));
+					$situacaoequi = strtoupper($res['SITUACAO']);
 
 
 			};

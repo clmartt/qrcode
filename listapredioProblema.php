@@ -1,13 +1,14 @@
 
 <?php
+ini_set('default_charset','UTF-8');
 ob_start();
 session_start(); //pega a sessao do usuario
 $cliente = $_SESSION['cliente'];
 
 
 // cabeçalho para utf8 
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
+
+
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
 
@@ -109,9 +110,9 @@ include("menu.php");
    
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';
      echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="grafdash.php?predio='.$linha['PREDIO'].'">';
+      echo '<a class="navbar-brand" href="grafdash.php?predio='.utf8_encode($linha['PREDIO']).'">';
        echo '<ion-icon src="./icon/md-business.svg"  size="small" class="btn btn-warning"  ></ion-icon>';
-        echo '  '.$linha['PREDIO'];
+        echo '  '.utf8_encode($linha['PREDIO']);
          echo '</a>';
           echo '</nav>';
      echo '</div>';

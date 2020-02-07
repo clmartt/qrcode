@@ -1,35 +1,24 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
-// Definindo parametros de conexao 
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
+
+include("../conectar.php");
 
 //recebendo do formulario os campos de login
 $id = $_POST['id'];
 $qrcode = $_POST['qrcode'];
-$ativo = utf8_decode(strtoupper($_POST['ativo']));
+$ativo = strtoupper($_POST['ativo']);
 $caract = strtoupper($_POST['caract']);
-$modelo =  utf8_decode(strtoupper($_POST['modelo']));
-$marca = utf8_decode(strtoupper($_POST['marca']));
-$predio = utf8_decode(strtoupper($_POST['predio']));
-$sala = utf8_decode(strtoupper($_POST['sala']));
+$modelo =  strtoupper($_POST['modelo']);
+$marca = strtoupper($_POST['marca']);
+$predio = strtoupper($_POST['predio']);
+$sala = strtoupper($_POST['sala']);
 $qrsala = strtoupper($_POST['qrsala']);
-$andar = utf8_decode(strtoupper($_POST['andar']));
-$setor = utf8_decode(strtoupper($_POST['setor']));
-$serie = utf8_decode(strtoupper($_POST['serie']));
+$andar = strtoupper($_POST['andar']);
+$setor = strtoupper($_POST['setor']);
+$serie = strtoupper($_POST['serie']);
 $horas = intval($_POST['horas']);
-$situEqui = utf8_decode(strtoupper($_POST['situacaoequi']));
+$situEqui = strtoupper($_POST['situacaoequi']);
 
 
-// Conectando 
-try { 
-$pdo = new PDO($dsn, $usuario, $senha); 
-} catch (PDOException $e) { 
-echo $e->getMessage(); 
-exit(1); 
-} 
 
 $select = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcode'");
 $result = $select->fetchAll(PDO::FETCH_ASSOC);

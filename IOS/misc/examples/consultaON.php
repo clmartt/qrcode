@@ -305,7 +305,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                             <input type="hidden"  id="R_marca" name="R_marca" value="<?php echo $R_marca?>">
                             <input type="hidden"  id="R_modelo" name="R_modelo" value="<?php echo $R_modelo?>">
                             <input type="hidden"  id="R_serie" name="R_serie" value="<?php echo $R_serie?>">
-                            <input type="hidden"  id="R_predio" name="R_predio" value="<?php echo $R_predio?>">
+                            <input type="hidden"  id="R_predio" name="R_predio" value="<?php echo utf8_encode($R_predio)?>">
                             <input type="hidden" id="R_andar" name="R_andar" value="<?php echo $R_andar?>">
                             <input type="hidden" id="R_setor" name="R_setor" value="<?php echo utf8_encode($R_setor)?>">
                             <input type="hidden" id="R_sala" name="R_sala" value="<?php echo utf8_encode($R_sala)?>">

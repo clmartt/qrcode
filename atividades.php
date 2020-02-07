@@ -2,6 +2,7 @@
 
 ob_start();
 session_start();
+include('timezone.php');
 
 // pega a sessao do usuario  verifica se o cliente esta vazio
 if($_SESSION['cliente']==''){
@@ -24,13 +25,11 @@ $resultado = $pdo->query($selecao); // pega o resultado da query e guarda na var
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Atividades Agendadas</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<title>Atividades Agendadas</title>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <script src="jquery-3.2.1.min.js"></script>
 <script>
@@ -50,6 +49,28 @@ $(document).on('click','#idButton',function(){
 
 
 $(document).ready(function(){
+  // esconde das divs do modal
+  $('#sit').hide();
+  $('#textobserv').hide();
+
+  // quando o select muda para finalizado mostra as divs acima que foram escondidas
+
+  $("#situacao").change(function(){
+    var texto = $(this).val();
+    if(texto == 'FINALIZADO'){
+          $('#sit').fadeIn();
+          $('#textobserv').fadeIn();
+
+    }else{
+
+        $('#sit').hide();
+        $('#textobserv').hide();
+    }
+    
+    
+
+  });
+
   // faz o envio da variaveis com o id da atividade e nova situação para update
   $("#gravar").click(function(){
       var pegaId = $("#numero_id").val();
@@ -86,7 +107,7 @@ $(document).ready(function(){
 
 
 <div class="container mt-3">
-  <h3>Atividades Agendadas</h3>
+  <h5>Atividades Agendadas  - <?php echo date('d/m/Y') ?> </h5>
   <hr>
   <p></p>
 
@@ -175,13 +196,7 @@ $(document).ready(function(){
   
 </div>
 
-<script>
-// Add the following code if you want the name of the file appear on select
-$(".custom-file-input").on("change", function() {
-  var fileName = $(this).val().split("\\").pop();
-  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-});
-</script>
+
 
 
 
@@ -212,7 +227,7 @@ $(".custom-file-input").on("change", function() {
                                                 <option value="FINALIZADO">FINALIZADO</option>
                                             </select>
                                 </div>
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-3" id="sit">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="inputGroupSelect01">Status</label>
                                             </div>
@@ -224,8 +239,8 @@ $(".custom-file-input").on("change", function() {
                                                 <option value="OK">OK</option>
                                             </select>
                                 </div>
-                                <div class="input-group">
-                                        <div class="input-group-prepend">
+                                <div class="input-group" id="textobserv">
+                                        <div class="input-group-prepend" >
                                           <span class="input-group-text">Obs:</span>
                                         </div>
                                         <textarea class="form-control" aria-label="With textarea" id="obs" name="obs"></textarea>
@@ -243,12 +258,10 @@ $(".custom-file-input").on("change", function() {
 </div>
 
 
-
-
-
-
-
-
-
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

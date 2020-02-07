@@ -1,11 +1,12 @@
 <?php
 
 ob_start();
-session_start();
 
+session_start();
 
 $usuario = $_GET['user'];
 
+$cliente = $_SESSION['cliente'];
 
 
 
@@ -127,15 +128,15 @@ $result = $mysqli->query($sql);
 
 <!--===============================================================================================-->
 
+	
+
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 
 	<script type="text/javascript">
 
 	$(document).ready(function(){
 
-		$('#pop').popover();
-
-		$('#pagina').load('atividades.php');
+		
 
 			$('#check').click(function(){
 
@@ -177,7 +178,21 @@ $result = $mysqli->query($sql);
 
 //=====================================================================================>>>>>>>>>
 
+			$('#chamado').click(function(){
 
+				$.get('downchamados.php', function(data){
+
+
+
+				});
+
+				alert("Chamados Enviado!");
+
+
+
+
+
+			});
 
 //=====================================================================================>>>>>>>>>
 
@@ -209,36 +224,61 @@ $result = $mysqli->query($sql);
 
 	<?php 
 
-	include("menuteste.php");
-echo "<br>";
+	include("menu.php");
 
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
 
 
 	?>
 
 	
-<p></p>
-<p></p>
-<p></p>
-<p></p>
 
-	<div id="pagina">
-	<p></p>
-<p></p>
-<p></p>
-<?php echo $_SESSION['email']?>
-<p></p>
-	<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover" id="pop">Toggle popover</a>
-	</div>
+	<div  >
+
+
+
+
+
+			
+
+		<HR>
+
+			
 
 		
+
+		<div align="center">
+
+
+
+					<div class="card" style="width: 18rem;">
+
+<!-- clock widget start -->
+<script type="text/javascript"> var css_file=document.createElement("link"); css_file.setAttribute("rel","stylesheet"); css_file.setAttribute("type","text/css"); css_file.setAttribute("href","//s.bookcdn.com//css/cl/bw-cl-180x170r5.css"); document.getElementsByTagName("head")[0].appendChild(css_file); </script> <div id="tw_15_2028337583"><div style="width:180px; height:190px; margin: 0 auto;"><a href="https://ibooked.com.br/time/sao-paulo-18266">São Paulo</a><br/></div></div> <script type="text/javascript"> function setWidgetData_2028337583(data){ if(typeof(data) != 'undefined' && data.results.length > 0) { for(var i = 0; i < data.results.length; ++i) { var objMainBlock = ''; var params = data.results[i]; objMainBlock = document.getElementById('tw_'+params.widget_type+'_'+params.widget_id); if(objMainBlock !== null) objMainBlock.innerHTML = params.html_code; } } } var clock_timer_2028337583 = -1; </script> <script type="text/javascript" charset="UTF-8" src="https://widgets.booked.net/time/info?ver=2&domid=585&type=15&id=2028337583&scode=124&city_id=18266&wlangid=8&mode=2&details=0&background=ffffff&color=265780&add_background=ffffff&add_color=333333&head_color=ffffff&border=0&transparent=0"></script>
+<!-- clock widget end -->
+
+
+						  <div class="card-body">
+
+
+
+
+						    <p></p>
+
+						    <a href="./cameras.php?user=<?php echo $_SESSION['email'] ?>" class="btn btn-primary">Vamos lá!</a>
+
+						  </div>
+
+					</div>
+
+					
+
+	
+
+		
+
+
+
+		</div>
 
 
 
@@ -358,7 +398,7 @@ echo "<br>";
 
 
 
-									<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
 
 </body>
 

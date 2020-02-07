@@ -1,25 +1,9 @@
 <?php
 // Definindo parametros de conexao 
-
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-
-$usuario = 'qrcodekvm'; 
-
-$senha = 'qrcodekvm';  
-
-// Conectando 
-
-try { 
-
-    $pdo = new PDO($dsn, $usuario, $senha); 
-    
-    } catch (PDOException $e) { 
-    
-    echo $e->getMessage(); 
-    
-    exit(1); 
-    
-    } 
+include('conectar.php') ;
+$email = $_GET['email'];
+$cliente = $_GET['cliente'];
+$perfil = $_GET['perfil'];
 
     $stmt = $pdo->query("select * from login_usuario group by cliente")->fetchAll();
 
@@ -104,7 +88,7 @@ try {
 
 					<div class="wrap-input100 validate-input" data-validate = "Ops!, estranho esse email tente o padrao: email@abc.com">
 
-						<input class="input100" name="email" placeholder="Email" >
+						<input class="input100" name="email" placeholder="Email" value="<?php echo $email?>" readonly>
 
 						<span class="focus-input100"></span>
 
@@ -115,6 +99,48 @@ try {
 						</span>
 
 					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Pode não ser o mais Bonito mas é o único que você tem!">
+
+						<input class="input100" type="text" name="cliente" placeholder="Cliente" value="<?php echo $cliente?>" readonly>
+
+						<span class="focus-input100"></span>
+
+						<span class="symbol-input100">
+
+							<i aria-hidden=true class ="fa fa-handshake-o"></i>
+
+						</span>
+
+					</div> 
+					
+					<div class="wrap-input100 validate-input" data-validate = "Pode não ser o mais Bonito mas é o único que você tem!">
+
+						<input class="input100" type="text" name="perfil" placeholder="perfil" value="<?php echo $perfil?>" readonly>
+
+						<span class="focus-input100"></span>
+
+						<span class="symbol-input100">
+
+							<i aria-hidden=true class ="fa fa-address-book-o"></i>
+
+						</span>
+
+					</div> 
+					
+					<div class="wrap-input100 validate-input" data-validate = "Pode não ser o mais Bonito mas é o único que você tem!">
+
+						<input class="input100" type="text" name="nome" placeholder="Nome Completo" >
+
+						<span class="focus-input100"></span>
+
+						<span class="symbol-input100">
+
+							<i aria-hidden=true class ="fa fa-address-card"></i>
+
+						</span>
+
+                    </div> 
 
 
 
@@ -134,37 +160,9 @@ try {
 
 					
 
-					<div class="wrap-input100 validate-input" data-validate = "Pode não ser o mais Bonito mas é o único que você tem!">
-
-						<input class="input100" type="text" name="nome" placeholder="Nome Completo">
-
-						<span class="focus-input100"></span>
-
-						<span class="symbol-input100">
-
-							<i aria-hidden=true class ="fa fa-user"></i>
-
-						</span>
-
-                    </div> 
-
-                    <div class="wrap-input100 validate-input" data-validate = "Qual Cliente?">
-
-						<div align="center" ><label for="exampleFormControlSelect1"><b>Cliente</b></label></div>
-                            <select class="input100" id="exampleFormControlSelect1" name="cliente">
-                                <?php
-                                foreach($stmt as $retorno){
-                                    echo "<option value=".$retorno['cliente'].">".$retorno['cliente']."</option>";
-
-                                }
-                                       
-                                ?>
-							</select>
-							
-
-					</div> 
-
 					
+
+                    	
 
 		
 

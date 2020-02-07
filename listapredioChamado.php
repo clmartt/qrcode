@@ -107,9 +107,9 @@ if($_SESSION['cliente']=='KVM'){
    
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';
      echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="./chamado/listaChamado.php?predio='.$linha['PREDIO'].'">';
+      echo '<a class="navbar-brand" href="./chamado/listaChamado.php?predio='.utf8_encode($linha['PREDIO']).'">';
        echo '<ion-icon src="./icon/md-business.svg"  size="small" class="btn btn-danger"  ></ion-icon>';
-        echo '  '.$linha['PREDIO'];
+        echo '  '.utf8_encode($linha['PREDIO']);
          echo '</a>';
           echo '</nav>';
      echo '</div>';

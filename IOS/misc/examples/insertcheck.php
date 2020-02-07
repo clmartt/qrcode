@@ -1,9 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-// Definindo parametros de conexao 
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
+date_default_timezone_set('America/Recife');
+
 
 //recebendo do formulario do consultaON.php
 $R_usuario_post = strtoupper($_POST['R_usuario']);
@@ -12,7 +10,7 @@ $R_ativo =  strtoupper($_POST['R_ativo']);
 $R_caract = strtoupper($_POST['R_caract']);
 $R_modelo = strtoupper($_POST['R_modelo']);
 $R_marca = strtoupper($_POST['R_marca']);
-$R_predio = strtoupper($_POST['R_predio']);
+$R_predio = strtoupper(utf8_decode($_POST['R_predio']));
 $R_andar = strtoupper($_POST['R_andar']);
 $R_setor = strtoupper(utf8_decode($_POST['R_setor']));
 $R_sala = strtoupper(utf8_decode($_POST['R_sala']));
@@ -27,14 +25,8 @@ $ano = date('Y');
 $hora = date('H:i:s');
 
 
+include("../../../conectar.php");
 
-// Conectando 
-try { 
-$pdo = new PDO($dsn, $usuario, $senha); 
-} catch (PDOException $e) { 
-echo $e->getMessage(); 
-exit(1); 
-} 
 
 
 

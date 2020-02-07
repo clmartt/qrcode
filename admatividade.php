@@ -2,26 +2,58 @@
 ob_start();
 session_start();
 
-// definições de host, database, usuário e senha
-$host = "qrcodekvm.mysql.dbaas.com.br";
-$db   = "qrcodekvm";
-$user = "qrcodekvm";
-$pass = "qrcodekvm"; 
+include('conectar.php');
 
 $cliente = $_SESSION['cliente'];
+$permissao = $_SESSION['permissao'];
+$perfil = $_SESSION['perfil'];
+$predio = $_GET['predio'];
 
 
-$mysqli = new mysqli($host, $user, $pass, $db);
 
-if($cliente == 'KVM'){
-    $sql = "SELECT * FROM AGENDAMENTO  ORDER BY DATAC";
-    $result = $mysqli->query($sql);
+
+
+if($permissao=='KVM'){ // quando a permissao for kvm listara tudo 
+
+  
+        // preenche o select dos predios
+        $pegapredio = "SELECT PREDIO FROM AGENDAMENTO GROUP BY PREDIO";
+        $predioResultado = $pdo->query($pegapredio);
+
+        //mostra todas as atividades pois A PERMISSAO É KVM
+                  if(isset($_GET['predio'])){
+                    // SE O PREDIO FOR ENVIADO FILTRA POR PREDIO
+                    $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE PREDIO = '$predio'";
+                    $resultado = $pdo->query($selecaoAtividades);
+                  }else{
+                    // SE NAO FOR ENVIADO O PREDIO MOSTRA TUDO
+                    $selecaoAtividades = "SELECT * FROM AGENDAMENTO";
+                    $resultado = $pdo->query($selecaoAtividades);
+
+                  }
+        
+
 
 }else{
+            // quando for filtrar por predio verifica se foi enviado pelo submit
+                if(isset($_GET['predio'])){
+                  $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE CLIENTE = '$permissao' AND PREDIO = '$predio' ORDER BY DATAC, HINICIO";
+                  $resultado = $pdo->query($selecaoAtividades);
 
-    $sql = "SELECT * FROM AGENDAMENTO WHERE CLIENTE ='$cliente' ORDER BY DATAC";
-    $result = $mysqli->query($sql);
-};
+                }else{
+
+                  $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE CLIENTE = '$permissao' ORDER BY DATAC, HINICIO";
+                  $resultado = $pdo->query($selecaoAtividades);
+                }
+  
+// preenche o select dos predios SE NAO FOR ENVIADO NADA PELO SELECT DE PREDIOS ENTAO PEGA PELA PERMISSAO USUARIO
+$pegapredio = "SELECT PREDIO FROM AGENDAMENTO WHERE CLIENTE = '$permissao' GROUP BY PREDIO";
+$predioResultado = $pdo->query($pegapredio);
+
+}
+
+
+
 
 
 
@@ -34,40 +66,21 @@ if($cliente == 'KVM'){
 <html lang="en">
 <head>
   <title>KVM INFORMATICA - QR CODE</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->  
-  <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->  
-  <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="css/util.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
-
-
-
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script src="jquery-3.2.1.min.js"></script>
 
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <script type="text/javascript">
   
 $(document).ready(function(){
-
+  
         $("#txtBusca").keyup(function(){
             var texto = $(this).val();
             var textm = texto.toString();
@@ -87,6 +100,7 @@ $(document).ready(function(){
           $("#bexcluir").click(function(){
               $("#imagemlixo").empty();
               var idAtividades = $("#idAtividade").val();
+              
 
               $.post('excluiratividades.php',{idAtividade:idAtividades},function(data) {
                                                     
@@ -114,6 +128,9 @@ $(document).ready(function(){
           });
 
 
+          $()
+
+
 
 
 
@@ -128,8 +145,7 @@ $(document).on('click','#editar',function(){
 });
 
 $(document).on('click','#excluir',function(){
-  
- 
+
   var ident = $(this).val();
   $("#imagemlixo").empty();
   $("#idAtividade").val(ident);
@@ -144,10 +160,42 @@ $(document).on('click','#excluir',function(){
 
 
 
+
+
+
 </script>
 <BODY>
-<?php include("menu.php"); ?>
+<?php include("menu.php"); 
+
+?>
 <br>
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+  
+<form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+            <div class="input-group" >
+                    <select class="custom-select" id="inputGroupSelect04" name="predio">
+                      <option selected>Escolha o Prédio</option>
+
+                      <?php
+                           foreach ($predioResultado as $resPredio) {
+                            echo'<option value="'.$resPredio['PREDIO'].'">'.$resPredio['PREDIO'].'</option>';
+                           }               
+                      
+                                
+                    ?>
+
+                    </select>
+                    <div class="input-group-append">
+                    <input class="btn btn-info" type="submit" value="Submit">
+                    </div>
+                    
+          </div>
+
+  </form>
+</nav>
+
+
 
 <div class="input-group mb-3">
   <div class="input-group-prepend">
@@ -160,23 +208,23 @@ $(document).on('click','#excluir',function(){
 
 
   <?php 
-  echo 'cleinte e´ --'.$cliente;
+ 
 
     echo '<div class="container">';
    
 
-  foreach($result as $res){
+  foreach($resultado as $res){
         
     if($res['SITUACAO']=='ABERTO'){
         echo  '<div class="card">';
         echo  '<div class="card-body">';
-        echo  '<h5>'.utf8_encode($res['RESUMO']).'</h5><br>';
+        echo  '<h5>'.$res['RESUMO'].'</h5><br>';
         echo  '<span class="font-weight-light">'.$res['RECURSO'].'</span><br>';
         echo  '<span class="font-weight-light">'.date('d-m-Y',strtotime($res['DATAC'])) .'</span><br>';
         echo  '<br>';
         echo  '<p class="text-danger">'.$res['SITUACAO'].'</p>';
-        echo  '<p class="text-secondary">'.'Solicitado por: '.utf8_encode($res['SOLICITANTE']).'</p>';
-        echo  '<p class="text-secondary">'.utf8_encode($res['OBSERVACAO']).'</p>';
+        echo  '<p class="text-secondary">'.'Solicitado por: '.$res['SOLICITANTE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['OBSERVACAO'].'</p>';
         echo '<div class="text-right"><button type="button" class="btn btn-danger btn-sm" id="excluir" value="'.$res['ID_AGENDAMENTO'].'" data-toggle="modal" data-target="#modalexcluir">Excluir</button></div>';
         echo  '</div>';
         echo  '</div>';
@@ -188,13 +236,13 @@ $(document).on('click','#excluir',function(){
 
         echo  '<div class="card">';
         echo  '<div class="card-body">';
-        echo  '<h5>'.utf8_encode($res['RESUMO']).'</h5><br>';
+        echo  '<h5>'.$res['RESUMO'].'</h5><br>';
         echo  '<span class="font-weight-light">'.$res['RECURSO'].'</span><br>';
         echo  '<span class="font-weight-light">'.date('d-m-Y',strtotime($res['DATAC'])) .'</span><br>';
         echo  '<br>';
         echo  '<p class="text-warning">'.$res['SITUACAO'].'</p>';
-        echo  '<p class="text-secondary">'.'Solicitado por: '.utf8_encode($res['SOLICITANTE']).'</p>';
-        echo  '<p class="text-secondary">'.utf8_encode($res['OBSERVACAO']).'</p>';
+        echo  '<p class="text-secondary">'.'Solicitado por: '.$res['SOLICITANTE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['OBSERVACAO'].'</p>';
         echo '<div class="text-right"><button type="button" class="btn btn-danger btn-sm" id="excluir" value="'.$res['ID_AGENDAMENTO'].'" data-toggle="modal" data-target="#modalexcluir">Excluir</button></div>';
         echo  '</div>';
         echo  '</div>';
@@ -206,13 +254,14 @@ $(document).on('click','#excluir',function(){
         
         echo  '<div class="card">';
         echo  '<div class="card-body">';
-        echo  '<h5>'.utf8_encode($res['RESUMO']).'</h5><br>';
+        echo  '<h5>'.$res['RESUMO'].'</h5><br>';
         echo  '<span class="font-weight-light">'.$res['RECURSO'].'</span><br>';
         echo  '<span class="font-weight-light">'.date('d-m-Y',strtotime($res['DATAC'])) .'</span><br>';
         echo  '<br>';
         echo  '<p class="text-info">'.$res['SITUACAO'].'</p>';
-        echo  '<p class="text-secondary">'.'Solicitado por: '.utf8_encode($res['SOLICITANTE']).'</p>';
-        echo  '<p class="text-secondary">'.utf8_encode($res['OBSERVACAO']).'</p>';
+        echo  '<p class="text-secondary">'.$res['CONSIDERACAO'].'</p>';
+        echo  '<p class="text-secondary">'.'Solicitado por: '.$res['SOLICITANTE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['OBSERVACAO'].'</p>';
         echo '<div class="text-right"><button type="button" class="btn btn-danger btn-sm" id="excluir" value="'.$res['ID_AGENDAMENTO'].'" data-toggle="modal" data-target="#modalexcluir">Excluir</button></div>';
         echo  '</div>';
         echo  '</div>';
@@ -256,7 +305,7 @@ $(document).on('click','#excluir',function(){
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" id="idAtividade">
+        <input type="hidden" id="idAtividade">
           <div class="text-center" id="imagemlixo"></div>
       </div>
       <div class="modal-footer">
@@ -267,6 +316,10 @@ $(document).on('click','#excluir',function(){
   </div>
 </div>
 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
  
 </BODY>

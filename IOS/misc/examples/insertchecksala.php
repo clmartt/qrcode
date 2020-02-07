@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+ini_set('default_charset','UTF-8');
 
 ob_start();
 session_start(); //pega a sessao do usuario
@@ -45,9 +46,9 @@ $R_ativo =  strtoupper($stmtSelect['TIPO_DE_EQUIPAMENTO']);
 $R_caract = strtoupper($stmtSelect['CARACTERISTICA']);
 $R_modelo = strtoupper($stmtSelect['MODELO']);
 $R_marca = strtoupper($stmtSelect['MARCA']);
-$R_predio = strtoupper($stmtSelect['PREDIO']);
+$R_predio = strtoupper(utf8_encode($stmtSelect['PREDIO']));
 $R_andar = strtoupper($stmtSelect['ANDAR']);
-$R_setor = strtoupper($stmtSelect['SETOR']);
+$R_setor = strtoupper(utf8_encode($stmtSelect['SETOR']));
 $R_sala = strtoupper(utf8_encode($stmtSelect['SALA']));
 $R_qrsala = strtoupper($stmtSelect['QRSALA']);
 $R_situacao = strtoupper($stmtSelect['SITUACAO']);

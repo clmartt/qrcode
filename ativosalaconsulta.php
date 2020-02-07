@@ -13,7 +13,7 @@ $ANDARES = $_GET['andar'];
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
-
+$mysqli -> set_charset("utf8");
 $sql = "SELECT * FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY SALA ";
 $result = $mysqli->query($sql);
 
@@ -144,9 +144,9 @@ $(document).ready(function(){
     echo '<tbody>'; 
     echo '<tr>';
     echo '<th scope="row" ><a href="./ativosSala/ativodetalhe.php?qrcode='.$res['QRCODE'].'">'.$res['QRCODE'].'</a></th>';
-    echo '<td>'.utf8_encode($res['TIPO_DE_EQUIPAMENTO']).'</td>';
-    echo '<td>'.utf8_encode($res['SALA']).'</td>';
-    echo '<td>'.utf8_encode($res['SETOR']).'</td>';
+    echo '<td>'.$res['TIPO_DE_EQUIPAMENTO'].'</td>';
+    echo '<td>'.$res['SALA'].'</td>';
+    echo '<td>'.$res['SETOR'].'</td>';
     echo '</tr>';
     echo '</tbody>';
       

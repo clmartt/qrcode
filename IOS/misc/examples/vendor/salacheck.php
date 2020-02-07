@@ -2,6 +2,8 @@
 ob_start();
 session_start();
 
+$cliente = $_SESSION['cliente'];
+
 // definições de host, database, usuário e senha
 $host = "qrcodekvm.mysql.dbaas.com.br";
 $db   = "qrcodekvm";
@@ -39,7 +41,7 @@ echo '<input type="hidden" id="usuario" value="'.$_SESSION['email'].'">';
 
     foreach($result as $res){// mostra o cabeçalho predio andar e sala
      
-        echo '<ion-icon src="./icon/ios-checkmark-circle.svg"  size="large" class="btn btn-primary" id="totalcheck"></ion-icon>'.' | '.'<ion-icon src="./icon/ios-contacts.svg"  size="large" class="btn btn-warning" id="totalocupado"></ion-icon>'. ' '.'<b> | '.$res['PREDIO'].' - '.$res['ANDAR'].' - '.$res['SALA'].'</b>';
+        echo '<ion-icon src="./icon/ios-checkmark-circle.svg"  size="large" class="btn btn-primary" id="totalcheck"></ion-icon>'.' | '.'<ion-icon src="./icon/ios-contacts.svg"  size="large" class="btn btn-warning" id="totalocupado"></ion-icon>'. ' '.'<b> | '.utf8_encode($res['PREDIO']).' - '.$res['ANDAR'].' - '.utf8_encode($res['SALA']).'</b>';
         echo '<hr>';
         echo '<br>';
 
@@ -210,10 +212,10 @@ $(document).ready(function(){
            var sala_split = sala.split(" ");
            $(this).addClass("btn btn-danger");
            $(this).off('click');
-           var fresh = confirm("Enviar o Chamado para o Fresh Service?");
+           var fresh = '<?php echo $cliente?>';
 
            // SE É NECESSÁRIO O ENVIO PARA O FRESH
-           if(fresh){
+           if(fresh == 'IBBA'){
 
               var identform = $(this).attr('id');
               var nomeIdform = "#form"+identform; // NOME DA DIV QUE RECEBE O FORM
@@ -307,7 +309,7 @@ $(document).ready(function(){
 
                     // chama a pagina que envia email OK
                   $.post('emailchamado.php',{qrcode:qrcodes,problema:problemas,dproblema:Descproblemas,usuario:user},function(data) {
-                   
+                   alert("Chamado enviado!!!");
                   });
 
                 var identform = $(this).text();

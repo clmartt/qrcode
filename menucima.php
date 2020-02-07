@@ -1,3 +1,29 @@
+
+<?php 
+
+ob_start();
+session_start();
+
+$clientes = $_SESSION['cliente'];
+include('conectar.php');
+
+
+if($_SESSION['cliente']=='KVM'){
+  // primeira forma	
+  $select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
+  $resultp = $pdo->query($select); // guardando o resultado da query acima na variavel
+  $qtd = $resultp-> rowCount(); // contanto o numero de linhas retornadas pela query
+  
+  }else{
+  
+    // primeira forma	
+  $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$cliente' GROUP BY PREDIO"; // query de consulta ao banco
+  $resultP = $pdo->query($select); // guardando o resultado da query acima na variavel
+  $qtd = $resultp-> rowCount(); // contanto o numero de linhas retornadas pela query
+  
+  };
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -13,38 +39,32 @@
   <body>
    
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-light ">
-  <a class="navbar-brand" href="#">
-    		<img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
-    ReQuest
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
-    		<span class="navbar-toggler-icon"></span>
-  </button>
+  <nav class="navbar sticky-top navbar-light bg-light">
+            <a class="navbar-brand" href="principal.php">
+              <img src="./images/logo.gif" width="30" height="30" class="d-inline-block align-top" alt="">
+              ReQuest - Dash <?php echo ' '.$PREDIO?>
+            </a>
 
-  <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item ">
-        	<a class="nav-link" href="./insertativo/formInsert.php">+ Ativos </a>
-	  </li>
+            <form class="form-inline my-2 my-lg-0" action="<?php echo $_SERVER['PHP_SELF'];?>" method="GET">
+            <div class="input-group">
+            <select class="custom-select" id="inputGroupSelect04" name="predio">
+              <option selected>Escolha o Prédio</option>
+              <?php
+              foreach ($resultp as $resp) {
+                      
+              echo'<option value="'.$resp['PREDIO'].'">'.$resp['PREDIO'].'</option>';
+            
+              
+              };
+              ?>
+            </select>
+            <div class="input-group-append">
+            <input class="btn btn-info" type="submit" value="Submit">
+            </div>
+          </div>
 
-	  <li class="nav-item ">
-       		<a class="nav-link" href="./ativosSala/ativoSala.php">Ativos por Sala</a>
-	  </li>
-
-	  <li class="nav-item ">
-	  		<a class="nav-link" href="#" data-toggle='modal' data-target='#exampleModal'>Sala Ocupada</a>
-      </li>
-      
-	</ul>
-	
-    <form class="form-inline my-2 my-lg-0">
-      		<input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-      		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-    </form>
-  </div>
-</nav>
-
+              </form>
+          </nav>
 
 
     <!-- JavaScript (Opcional) -->

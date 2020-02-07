@@ -31,7 +31,7 @@ $R_modelo = strtoupper($_POST['R_modelo']);
 
 $R_marca = strtoupper($_POST['R_marca']);
 
-$R_predio = strtoupper($_POST['R_predio']);
+$R_predio = strtoupper(utf8_decode($_POST['R_predio']));
 
 $R_andar = strtoupper($_POST['R_andar']);
 

@@ -1,32 +1,19 @@
 
 <?php
+
+
 ob_start();
 session_start(); //pega a sessao do usuario
 $cliente = $_SESSION['cliente'];
 
-
+include("conectar2.php");
 // cabeçalho para utf8 
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
+
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
 
-//conexao com banco de dadso
+ 
 
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
-
-// Conectando 
-// se nao conectar informa o erro
-try { 
-
-  
-$pdo = new PDO($dsn, $usuario, $senha); 
-} catch (PDOException $e) { 
-echo $e->getMessage(); 
-exit(1); 
-} 
 
 if($_SESSION['cliente']=='KVM'){
 // primeira forma	
@@ -60,7 +47,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
   	
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Meta tags Obrigatórias -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->

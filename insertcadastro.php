@@ -15,12 +15,15 @@ $senha = 'qrcodekvm';
 //recebendo do formulario os campos de login
 
 $email = $_POST['email'];
+$cliente = $_POST['cliente'];
+$perfil = $_POST['perfil'];
+$permissao = $_POST['cliente'];
 
 $senha_user = $_POST['senha'];
 
 $nome = $_POST['nome'];
 
-$cliente = $_POST['cliente'];
+
 
 
 
@@ -48,7 +51,7 @@ exit(1);
 
 
 
-$stmt = $pdo->prepare("INSERT INTO login_usuario (email,senha,nome,acesso,cliente) values ('$email','$senha_user','$nome','PENDENTE','$cliente')"); 
+$stmt = $pdo->prepare("INSERT INTO login_usuario (email,senha,nome,acesso,cliente,perfil,permissao) values ('$email','$senha_user','$nome','APROVADO','$cliente','$perfil','$permissao')"); 
 
 
 
@@ -72,7 +75,7 @@ $sessao = $email;
 
 echo "<script>
 
-	alert('Ótimo Bem Vindo, Aguarde a liberação da nossa equipe!'); location= './login.html';
+	alert('Ótimo, Você agora faz parte da nossa equipe!'); location= './login.html';
 
 	</script>"; 
 

@@ -13,7 +13,7 @@ $ANDAR = $_GET['andar'];
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
-
+$mysqli -> set_charset("utf8");
 $sql = "SELECT SETOR, SALA FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDAR'  GROUP BY SALA  ORDER BY SETOR,SALA";
 $result = $mysqli->query($sql);
 
@@ -130,12 +130,12 @@ $(document).ready(function(){
   echo '<tbody>';
 
   foreach($result as $res){
-    $pegasala = utf8_encode($res['SALA']);
+    $pegasala = $res['SALA'];
     $pegasetor = $res['SETOR'];
     echo '<tr>';
-    echo '<th scope="row" >'.utf8_encode($res['SETOR']).'</th>';
-    echo '<td>'.utf8_encode($res['SALA']).'</td>';
-    echo '<td><a class="navbar-brand" href="./insertativo/formInsert.php?andar='.$ANDAR.'&predio='.$PREDIO.'&sala='.utf8_encode($pegasala).'&setor='.utf8_encode($pegasetor).'"><ion-icon src="./icon/md-checkmark-circle-outline.svg"  size="small" ></ion-icon></a></td>';
+    echo '<th scope="row" >'.$res['SETOR'].'</th>';
+    echo '<td>'.$res['SALA'].'</td>';
+    echo '<td><a class="navbar-brand" href="./insertativo/formInsert.php?andar='.$ANDAR.'&predio='.$PREDIO.'&sala='.$pegasala.'&setor='.$pegasetor.'"><ion-icon src="./icon/md-checkmark-circle-outline.svg"  size="small" ></ion-icon></a></td>';
     echo '</tr>';
       
  

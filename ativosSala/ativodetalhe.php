@@ -11,43 +11,7 @@ $logado = $_GET['usuario'];
 $qrcode = $_GET['qrcode'];
 
 
-
-
-
-
-
-header('Content-Type: text/html; charset=utf-8');
-
-ini_set('default_charset','UTF-8');
-
-
-
-
-
-
-
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-
-$usuario = 'qrcodekvm'; 
-
-$senha = 'qrcodekvm';  
-
-
-
-// Conectando 
-
-try { 
-
-$pdo = new PDO($dsn, $usuario, $senha); 
-
-} catch (PDOException $e) { 
-
-echo $e->getMessage(); 
-
-exit(1); 
-
-} 
-
+include('../conectar.php');
 
 
 // PARA PREENCHER O SELECT DO HTML COM O PREDIO
@@ -191,9 +155,9 @@ $resultchamado = $pdo->query($selectchamado);
 
   echo '<h5>'.$resultado["QRCODE"].'</h5>';
 
-  echo '<p class="card-text">PREDIO : '.$resultado["PREDIO"].' - '.'ANDAR : '.$resultado["ANDAR"].'  <br> SETOR : '.utf8_encode($resultado["SETOR"]).' - SALA : '.utf8_encode($resultado["SALA"]).'</p>';
+  echo '<p class="card-text">PREDIO : '.$resultado["PREDIO"].' - '.'ANDAR : '.$resultado["ANDAR"].'  <br> SETOR : '.$resultado["SETOR"].' - SALA : '.$resultado["SALA"].'</p>';
 
-   echo '<p class="card-text">'.utf8_encode($resultado["TIPO_DE_EQUIPAMENTO"]).' - CARACTERISTICA : '.$resultado["CARACTERISTICA"].'<BR>HORAS LAMP : '.$resultado["HORAS_LAMP"].'<BR>MARCA : '.utf8_encode($resultado["MARCA"]).' <br> MODELO : '.$resultado["MODELO"].'<BR>N_SERIE : '.$resultado["N_SERIE"].'</p>';
+   echo '<p class="card-text">'.$resultado["TIPO_DE_EQUIPAMENTO"].' - CARACTERISTICA : '.$resultado["CARACTERISTICA"].'<BR>HORAS LAMP : '.$resultado["HORAS_LAMP"].'<BR>MARCA : '.$resultado["MARCA"].' <br> MODELO : '.$resultado["MODELO"].'<BR>N_SERIE : '.$resultado["N_SERIE"].'</p>';
 
   echo '</div>';
 
