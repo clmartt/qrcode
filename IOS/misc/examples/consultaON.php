@@ -257,6 +257,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                                
                               </nav>
                                <p></p>';
+                                echo '<div class="container">';
                                 echo '<div class="card-body">';
                                 echo '<h5 class="card-title"><button type="button" id="editar" class="btn btn-secondary">Editar</button>'.' | '.$row['QRCODE'].'</h5>';
                                 echo '<div id="resultado_chamado"><img src="./images/loading.gif"></div>';
@@ -271,6 +272,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 
 
                                     
+                                echo '</div>';
                                 echo '</div>';
                                 echo '</div>';
                                                        

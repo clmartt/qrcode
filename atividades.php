@@ -127,7 +127,7 @@ $(document).ready(function(){
       echo '</div>';
       echo '<div class="card-body">';
       echo '<h5 class="card-title">'.utf8_encode($res['SOLICITANTE']).'</h5>';
-      echo '<p class="card-text">'.utf8_encode($res['OBSERVACAO']).'</p>';
+      echo '<p class="card-text">'.$res['OBSERVACAO'].'</p>';
       echo '<button type="button" id = "idButton" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" value="'.$res['ID_AGENDAMENTO'].'">'.$res['SITUACAO'].'</button>';
       echo '</div>';
       echo '<div class="card-footer text-muted">';
@@ -145,7 +145,7 @@ $(document).ready(function(){
       echo '</div>';
       echo '<div class="card-body">';
       echo '<h5 class="card-title">'.utf8_encode($res['SOLICITANTE']).'</h5>';
-      echo '<p class="card-text">'.utf8_encode($res['OBSERVACAO']).'</p>';
+      echo '<p class="card-text">'.$res['OBSERVACAO'].'</p>';
       echo '<button type="button" id = "idButton" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" value="'.$res['ID_AGENDAMENTO'].'">'.$res['SITUACAO'].'</button>';
       echo '</div>';
       echo '<div class="card-footer text-muted">';
@@ -165,7 +165,7 @@ $(document).ready(function(){
       echo '</div>';
       echo '<div class="card-body">';
       echo '<h5 class="card-title">'.utf8_encode($res['SOLICITANTE']).'</h5>';
-      echo '<p class="card-text">'.utf8_encode($res['OBSERVACAO']).'</p>';
+      echo '<p class="card-text">'.$res['OBSERVACAO'].'</p>';
       echo '<button type="button" id = "idButton" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" value="'.$res['ID_AGENDAMENTO'].'">'.$res['SITUACAO'].'</button>';
       echo '</div>';
       echo '<div class="card-footer text-muted">';

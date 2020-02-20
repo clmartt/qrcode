@@ -1,13 +1,14 @@
 <?php
 ob_start();
 session_start();
-
+header("Refresh: 300"); 
 include('conectar.php');
 
 $cliente = $_SESSION['cliente'];
 $permissao = $_SESSION['permissao'];
 $perfil = $_SESSION['perfil'];
 $predio = $_GET['predio'];
+$datahoje = date('Y-m-d');
 
 
 
@@ -23,11 +24,11 @@ if($permissao=='KVM'){ // quando a permissao for kvm listara tudo
         //mostra todas as atividades pois A PERMISSAO É KVM
                   if(isset($_GET['predio'])){
                     // SE O PREDIO FOR ENVIADO FILTRA POR PREDIO
-                    $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE PREDIO = '$predio'";
+                    $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE PREDIO = '$predio' AND DATAC = '$datahoje' ";
                     $resultado = $pdo->query($selecaoAtividades);
                   }else{
                     // SE NAO FOR ENVIADO O PREDIO MOSTRA TUDO
-                    $selecaoAtividades = "SELECT * FROM AGENDAMENTO";
+                    $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE DATAC = '$datahoje'";
                     $resultado = $pdo->query($selecaoAtividades);
 
                   }
@@ -37,12 +38,12 @@ if($permissao=='KVM'){ // quando a permissao for kvm listara tudo
 }else{
             // quando for filtrar por predio verifica se foi enviado pelo submit
                 if(isset($_GET['predio'])){
-                  $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE CLIENTE = '$permissao' AND PREDIO = '$predio' ORDER BY DATAC, HINICIO";
+                  $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE CLIENTE = '$permissao' AND PREDIO = '$predio' AND DATAC = '$datahoje' ORDER BY DATAC, HINICIO";
                   $resultado = $pdo->query($selecaoAtividades);
 
                 }else{
 
-                  $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE CLIENTE = '$permissao' ORDER BY DATAC, HINICIO";
+                  $selecaoAtividades = "SELECT * FROM AGENDAMENTO WHERE CLIENTE = '$permissao' AND DATAC = '$datahoje' ORDER BY DATAC, HINICIO";
                   $resultado = $pdo->query($selecaoAtividades);
                 }
   

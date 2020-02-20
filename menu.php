@@ -39,13 +39,14 @@ if($permissao=='KVM'){
 $(document).ready(function(){
 
   var user = '<?php echo $usuarioADM ?>';
-  var teste = '<?php echo $perfil ?>';
-  if(user!="ADM"){
-    $("#agend").hide();
+  var perfil = '<?php echo $perfil ?>';
+  
+  if(perfil!="ADM"){
+    $("#agendamento").hide();
     $("#convite").hide();
    
   }else{
-    $("#agend").show();
+    $("#agendamento").show();
     $("#convite").show();
   };
 
@@ -100,18 +101,25 @@ $(document).ready(function(){
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="addlistapredio.php">+ Ativos</span></a>
-      </li>
-      <li class="nav-item active">
+
+    <li class="nav-item dropdown" id="agend">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Ativos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="nav-link" href="addlistapredio.php">Novo Ativos</span></a>
         <a class="nav-link" href="addlistapredioativosala.php">Ativos por Sala</a>
+        <a class="nav-link" href="#">Em Manutenção</a>
+          
       </li>
+
+     
       <li class="nav-item active">
       <a class="nav-link" href="addlistapredioocupada.php">Sala Ocupada</a>
       </li>
 
-      <li class="nav-item dropdown" id="agend">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <li class="nav-item dropdown" id="agendamento">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Agendamento
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

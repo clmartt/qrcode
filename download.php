@@ -4,6 +4,10 @@ ob_start();
 session_start();
 $cliente = $_SESSION['cliente'];
 
+if($cliente==""){
+  header("Location: ./login.html");
+
+};
 
 
 $logado = $_GET['usuario'];

@@ -48,7 +48,7 @@ if($_SESSION['cliente']==''){
 				$solicitante =  strtoupper($linha[11]);
 				$fechado =  strtoupper($linha[12]);
 				$hfechado =  strtoupper($linha[13]);
-				$obs =  strtoupper($linha[14]);
+				$obs =  strtoupper(utf8_encode($linha[14]));
 				$cliente = strtoupper($linha[15]);
             
               
@@ -78,7 +78,7 @@ if($_SESSION['cliente']==''){
 		$total = $contador-1;
 		header("Location: ../agendamento.php?retorno=Foram inseridos : ".$total." registros");
 		
-
+		
 
 	} else{
 		header("Location: ../agendamento.php?retorno='Necessário o envio do Arquivo'");

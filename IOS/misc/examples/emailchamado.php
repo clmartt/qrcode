@@ -112,7 +112,7 @@ $mailer->SMTPAuth = true; //define se haverá ou não autenticação
 
 $mailer->Username = 'sistema.qrcode@kvminformatica.com.br'; //Login de autenticação do SMTP
 
-$mailer->Password = 'Kvm@3255!'; //Senha de autenticação do SMTP
+$mailer->Password = 'f6YPnzrpnauI'; //Senha de autenticação do SMTP
 
 $mailer->FromName = 'Qrcode KVM'; //Nome que será exibido
 

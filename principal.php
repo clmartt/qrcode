@@ -8,22 +8,10 @@ $usuario = $_GET['user'];
 
 $cliente = $_SESSION['cliente'];
 
-
-
-
-
-
-
 if($_SESSION['email'] ==''){
-
-
-
 	header("Location: ./login.html");
 
 };
-
-
-
 
 
 // definições de host, database, usuário e senha

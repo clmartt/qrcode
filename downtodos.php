@@ -37,12 +37,14 @@ if($arquivo == 'check'){
 
                         //PEGA O OS DADOS DO CHECK
                         $mysqli = new mysqli($host, $user, $pass, $db);
+                        $mysqli -> set_charset("utf8");
                         $sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'   ORDER BY DATA_2";
                         $result = $mysqli->query($sql);
         }else{
 
                 //PEGA O OS DADOS DO CHECK
                 $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
                 $sql = "SELECT * FROM TABLE_CHECK where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY DATA_2";
                 $result = $mysqli->query($sql);
 
@@ -95,9 +97,9 @@ foreach ($result as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['PREDIO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['ANDAR']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['SETOR']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, utf8_encode($res['SALA']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['SALA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['SITUACAO']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, utf8_encode($res['OBSERVACAO']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, $res['OBSERVACAO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, $res['NOME_USER']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('O'.$contador, $res['OCUPADA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('P'.$contador, $res['PREVENTIVA']);
@@ -138,6 +140,7 @@ if($arquivo == 'chamados'){
         if($cliente=='KVM'){
                 //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
                 $sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  ORDER BY data_2";
                 $resultchamado = $mysqli->query($sqlchamado);
 
@@ -145,6 +148,7 @@ if($arquivo == 'chamados'){
 
                 //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
                 $sqlchamado = "SELECT * FROM CHAMADOS where data_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY data_2";
                 $resultchamado = $mysqli->query($sqlchamado);
 
@@ -195,16 +199,16 @@ foreach ($resultchamado as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['predio']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['andar']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['setor']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador,utf8_encode($res['sala']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador,$res['sala']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, $res['problema']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, utf8_encode($res['observacao']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, $res['observacao']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('O'.$contador, $res['nome_user']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('P'.$contador, $res['status']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('Q'.$contador, $res['horas_lamp']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('R'.$contador, $res['OS_BANCO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('S'.$contador, $res['data_fechado']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('T'.$contador, $res['fechado_por']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('U'.$contador, utf8_encode($res['solucao']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('U'.$contador, $res['solucao']);
 
                
                        $contador = $contador + 1;
@@ -235,6 +239,7 @@ if($_GET['arquivo'] == 'ativos'){
 if($cliente=='KVM'){
         //PEGA O OS DADOS DOS ATIVOS
         $mysqli = new mysqli($host, $user, $pass, $db);
+        $mysqli -> set_charset("utf8");
         $sql = "SELECT * FROM QRCODETABLE";
         $result = $mysqli->query($sql);
 
@@ -242,6 +247,7 @@ if($cliente=='KVM'){
 
                 //PEGA O OS DADOS DOS ATIVOS
                 $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
                 $sql = "SELECT * FROM QRCODETABLE WHERE  CLIENTE = '$cliente'";
                 $result = $mysqli->query($sql);
 };
@@ -286,8 +292,8 @@ foreach ($result as $res) {
                 $objPHPExcel->getActiveSheet()->SetCellValue('F'.$contador, $res['N_SERIE']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('G'.$contador, $res['PREDIO']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['ANDAR']);
-                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, utf8_encode($res['SETOR']));
-                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, utf8_encode($res['SALA']));
+                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['SETOR']);
+                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['SALA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['QRSALA']);
                 $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['HORAS_LAMP']);
                 

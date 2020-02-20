@@ -2,9 +2,6 @@
 
 
 
-}
-
-
 //require_once('./phpmailer/class.phpmailer.php');
 
 include("./phpmailer/class.phpmailer.php"); 
@@ -45,9 +42,10 @@ if(!$mailer->Send())
 
 echo "Message was not sent";
 
-echo "Mailer Error: " . $mailer->ErrorInfo; exit; }
+echo "Mailer Error: " . $mailer->ErrorInfo; exit; 
 
-print "E-mail enviado!"
+print "E-mail enviado!";
+};
 
 ?>
 

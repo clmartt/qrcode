@@ -8,11 +8,20 @@ ini_set('default_charset','UTF-8');
 
 // variavel que recebe o codido qrcode
 $qrcode = $_GET['qrcode'];
+
 $user = $_GET['user'];
 
-$_SESSION['email'] = $user;
 
-echo "Logado: "."<b>".$user."</b>"; 
+if($_SESSION['email']==''){
+
+    header("Location: ../../../login.html"); 
+};
+
+
+//$_SESSION['email'] = $user;
+
+
+
 
 // caso o acesso nao seja feito pela sessao iniciada, redirecionar
 /*if($_SESSION['email'] ==''){
@@ -79,7 +88,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
         $('#divproblema').hide();
 //====================================================================================>>>>>>>>>
         $('#editar').click(function(){
-          $('#form_envia').attr('action','https://kvm1000.websiteseguro.com/qrteste2/updateativo/formUp.php');
+          $('#form_envia').attr('action','../../../updateativo/formUp.php');
           $('#botao').trigger('click');
         });
 //====================================================================================>>>>>>>>>      
@@ -162,31 +171,15 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                 var info = $('#exampleFormControlTextarea5').val();
                 var os_banco = prompt('Digite a OS_BANCO ou nome do solicitante se existir!!!');
 
-                var fresh = confirm('Deseja enviar o chamado para o Fresh Service?');
-
-                if(fresh){
-
-                        $.post('insertchamado.php', 
-                        { R_usuario: R_usuario, R_qrcode: R_qrcode, R_ativo: R_ativo,R_caract: R_caract, R_modelo: R_modelo,R_marca:R_marca,R_predio:R_predio,R_andar:R_andar,R_setor: R_setor,R_sala:R_sala,R_serie:R_serie,R_horaLamp:R_horaLamp,situacao:situacao,problema:problema,status:status,info:info,os_banco:os_banco},
-                        function(data) {
-                            
-                        });
-
-                        $.post('emailchamado.php',{qrcode:R_qrcode,problema:problema,dproblema:info,usuario:R_usuario},function(data) {
-                   
-                         });
-
-                            $('#ap_chamado').fadeOut('slow');
-                            $('#divproblema').fadeOut('slow');
-                            alert('Chamado aberto!!!');
-
-                }else
+                // para enviar para fresh 
+                //var fresh = confirm('Deseja enviar o chamado para o Fresh Service?');
 
                 $.post('insertchamado.php', 
                 { R_usuario: R_usuario, R_qrcode: R_qrcode, R_ativo: R_ativo,R_caract: R_caract, R_modelo: R_modelo,R_marca:R_marca,R_predio:R_predio,R_andar:R_andar,R_setor: R_setor,R_sala:R_sala,R_serie:R_serie,R_horaLamp:R_horaLamp,situacao:situacao,problema:problema,status:status,info:info,os_banco:os_banco},
                 function(data) {
-                    
+                    alert('Chamado Aberto!!!');
                 });
+
                    $('#ap_chamado').fadeOut('slow');
                    $('#divproblema').fadeOut('slow');
                    
@@ -218,20 +211,13 @@ $mysqli = new mysqli($host, $user, $pass, $db);
 </head>
 <body>
 
-
-
-    
-  
-
-         
-                
-                
+ 
 
                 <div class="table-responsive" padding= 25px>
 
                    <?php 
                      ini_set('default_charset','UTF-8');
-                   if($mysqli){
+                        if($mysqli){
 
                         $sql = "SELECT * FROM QRCODETABLE where QRCODE = '$qrcode'";
                         $result = $mysqli->query($sql);
@@ -263,9 +249,16 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                                 // MOSTRANDO NA TELA
 
                                 echo '<div class="card">';
-                                echo '<h5 class="card-header"><button type="button" id="editar" class="btn btn-secondary">Editar</button></h5>';
+                                echo '<nav class="navbar navbar-dark bg-dark">
+                                <a class="navbar-brand" href="demo.php">
+                                 
+                                  Retornar
+                                </a>
+                               
+                              </nav>
+                               <p></p>';
                                 echo '<div class="card-body">';
-                                echo '<h5 class="card-title"><ion-icon src="./icon/md-arrow-dropdown-circle.svg"  size="large" class="btn btn-primary" id="busca_chamado"></ion-icon>'.' | '.$row['QRCODE'].'</h5>';
+                                echo '<h5 class="card-title"><button type="button" id="editar" class="btn btn-secondary">Editar</button>'.' | '.$row['QRCODE'].'</h5>';
                                 echo '<div id="resultado_chamado"><img src="./images/loading.gif"></div>';
                                 echo '<p class="card-text">'.utf8_encode($row['TIPO_DE_EQUIPAMENTO']).' - '.utf8_encode($row['CARACTERISTICA']).'</p>';
                                 echo '<p class="card-text">'.utf8_encode($row['MARCA']).' - '.utf8_encode($row['MODELO']).' - '.utf8_encode($row['N_SERIE']).'</p>';
@@ -280,44 +273,12 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                                     
                                 echo '</div>';
                                 echo '</div>';
-                              //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-                                /*
-                                echo "&nbsp&nbsp<button type='button' id='editar'class='btn btn-secondary btn-lg btn-block'>Editar</button><hr>";
-                                echo "&nbsp&nbsp<b><img src='./images/add.ico' id='busca_chamado' width=15 heigth=15>  QRCODE</b> : ".$row['QRCODE']."<BR>";
-                                echo "<div id='resultado_chamado'><img src='./images/loading.gif'></div>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>TIPO DE EQUIPAMENTO</b> : ".utf8_encode($row['TIPO_DE_EQUIPAMENTO'])."<BR>"; 
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>CARACTERISTICA </b>: ".utf8_encode($row['CARACTERISTICA'])."<BR>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>MARCA </b>: ".$row['MARCA']."<BR>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>MODELO </b>: ".$row['MODELO']."<BR>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>SERIE </b>: ".$row['N_SERIE']."<BR>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>PREDIO </b>: ".$row['PREDIO']."<BR>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>ANDAR </b>: ".$row['ANDAR']."<BR>";
-                                echo '<hr>';
-                                echo "&nbsp&nbsp<b>SETOR </b>: ".utf8_encode($row['SETOR'])."<BR>";
-                                echo "&nbsp&nbsp<b>SALA </b>: ".utf8_encode($R_sala)."<BR>";
-                                echo "&nbsp&nbsp<b>QRSALA </b>: ".strtoupper($R_qrsala)."<BR>";
-                                echo "&nbsp&nbsp<b>HORAS LAMP </b>: ".utf8_encode($row['HORAS_LAMP'])." - - > <img src='./images/atualizar.png' id='atualizar' width='30' heigth='30'><BR>";
-                                echo '<hr>';
-                                
-                                */
-                                
-
-
-
-                              
+                                                       
                             }
                         } else {
                             echo "<div class='alert alert-warning' role='alert'>
                                 Não encontramos esse QRCODE em nossos Registros </div>";
-                            echo "<a href='http://kvminformatica.com.br/qrteste2/insertativo/formInsert.php'><button type='button' class='btn btn-primary btn-lg btn-block'>Inserir um novo Ativo</button></a>";
+                            echo "<a href='demo.php'><button type='button' class='btn btn-primary btn-lg btn-block'>Tentar Novamente</button></a>";
                             echo "<br>";
                             echo "<script>$(document).ready(function(){
                                     $('#selecao').hide();
@@ -327,7 +288,7 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                         }     
                             }
                         else {
-                            echo "FALHA NA  CONEXOAO";
+                            echo "FALHA NA  CONEXAO";
                               };
                                                        
                      
@@ -344,9 +305,9 @@ $mysqli = new mysqli($host, $user, $pass, $db);
                             <input type="hidden"  id="R_marca" name="R_marca" value="<?php echo $R_marca?>">
                             <input type="hidden"  id="R_modelo" name="R_modelo" value="<?php echo $R_modelo?>">
                             <input type="hidden"  id="R_serie" name="R_serie" value="<?php echo $R_serie?>">
-                            <input type="hidden"  id="R_predio" name="R_predio" value="<?php echo $R_predio?>">
+                            <input type="hidden"  id="R_predio" name="R_predio" value="<?php echo utf8_encode($R_predio)?>">
                             <input type="hidden" id="R_andar" name="R_andar" value="<?php echo $R_andar?>">
-                            <input type="hidden" id="R_setor" name="R_setor" value="<?php echo $R_setor?>">
+                            <input type="hidden" id="R_setor" name="R_setor" value="<?php echo utf8_encode($R_setor)?>">
                             <input type="hidden" id="R_sala" name="R_sala" value="<?php echo utf8_encode($R_sala)?>">
                             <input type="hidden" id="R_sala" name="R_qrsala" value="<?php echo utf8_encode($R_qrsala)?>">
                             <input type="hidden" id="R_horaLamp" name="R_horaLamp" value="<?php echo $R_horasLamp?>">

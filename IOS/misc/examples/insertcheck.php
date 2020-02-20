@@ -1,7 +1,10 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set('America/Recife');
+ob_start();
+session_start();
 
+$cliente = $_SESSION['cliente'];
 
 //recebendo do formulario do consultaON.php
 $R_usuario_post = strtoupper($_POST['R_usuario']);
@@ -32,8 +35,8 @@ include("../../../conectar.php");
 
 // Preparando statement 
 	
-$stmt = $pdo->prepare("INSERT INTO TABLE_CHECK(DATA_2,MES,ANO,QRCODE,TIPO_DE_EQUIPAMENTO,CARACTERISTICA,MARCA,MODELO,PREDIO,ANDAR,SETOR,SALA,SITUACAO,OBSERVACAO,NOME_USER,STATUS,SERIE,HORAS_LAMP,HORAS,PREVENTIVA) 
-values ('$data_2','$mes',$ano,'$R_qrcode','$R_ativo','$R_caract','$R_modelo','$R_marca','$R_predio','$R_andar','$R_setor','$R_sala','$R_situacao','$R_info','$R_usuario_post','$R_status','$R_serie','$R_horaLamp','$hora','SIM')"); 
+$stmt = $pdo->prepare("INSERT INTO TABLE_CHECK(DATA_2,MES,ANO,QRCODE,TIPO_DE_EQUIPAMENTO,CARACTERISTICA,MARCA,MODELO,PREDIO,ANDAR,SETOR,SALA,SITUACAO,OBSERVACAO,NOME_USER,STATUS,SERIE,HORAS_LAMP,HORAS,PREVENTIVA,CLIENTE) 
+values ('$data_2','$mes',$ano,'$R_qrcode','$R_ativo','$R_caract','$R_modelo','$R_marca','$R_predio','$R_andar','$R_setor','$R_sala','$R_situacao','$R_info','$R_usuario_post','$R_status','$R_serie','$R_horaLamp','$hora','SIM','$cliente')"); 
 
 //para guarda o log
 $stmtlog = $pdo->prepare("INSERT INTO log_atividade(data,hora,user,atividade,predio,sala,andar) values ('$data_2','$hora','$R_usuario_post','fez check list  - QRCODE: $R_qrcode - HORA DE LAMPADAS :  $R_horaLamp','$R_predio','$R_sala','$R_andar')"); 	
