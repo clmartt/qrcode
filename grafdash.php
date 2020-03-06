@@ -501,7 +501,7 @@ if($cliente=='KVM'){
                                             $ktc = $it2;
                                             for ($i=0; $i < $ktc; $i++) { 
                                             ?>
-                                            ['<?php echo $tabela_andar_check[$i] ?>','<?php echo utf8_encode($tabela_sala_check[$i]) ?>','<?php echo  $tabela_usuario_horas[$i] ?>','<?php echo  $tabela_usuario_check[$i] ?>'],
+                                            ['<?php echo $tabela_andar_check[$i] ?>','<?php echo ($tabela_sala_check[$i]) ?>','<?php echo  $tabela_usuario_horas[$i] ?>','<?php echo  $tabela_usuario_check[$i] ?>'],
                                             
                                     <?php } ?>
 
@@ -564,9 +564,9 @@ if($cliente=='KVM'){
                     </div>
                     <select class="custom-select" id="filtro">
                       <option selected>Opções...</option>
-                      <option value="1">Chamados por Andar(10+)</option>
-                      <option value="2">Chamados por Sala(10+)</option>
-                      <option value="3">Chamados por Equipamento(10+)</option>
+                      <option value="1">Chamados por Andar</option>
+                      <option value="2">Chamados por Sala</option>
+                      <option value="3">Chamados por Equipamento</option>
                     </select>
             </div>
 <p></p>

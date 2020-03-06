@@ -8,10 +8,22 @@ $usuario = $_GET['user'];
 
 $cliente = $_SESSION['cliente'];
 
+
+
+
+
+
+
 if($_SESSION['email'] ==''){
+
+
+
 	header("Location: ./login.html");
 
 };
+
+
+
 
 
 // definições de host, database, usuário e senha
@@ -250,7 +262,7 @@ $result = $mysqli->query($sql);
 
 						    <p></p>
 
-						    <a href="./cameras.php?user=<?php echo $_SESSION['email'] ?>" class="btn btn-primary">Vamos lá!</a>
+						    <a href="./IOS/misc/examples/camsala.php" class="btn btn-primary">Vamos lá!</a>
 
 						  </div>
 

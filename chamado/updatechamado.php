@@ -23,10 +23,15 @@ exit(1);
 
 $predio = $_GET['predio'];
 $idChamado = $_GET['id_do_chamado']; // recebe o id do chamado
+$qr = $_GET['qrcode'];
 $data_2 = date('d/m/y');
 $solucao = $_GET['solucao'];
-$update = $pdo->query("UPDATE CHAMADOS SET status = 'RESOLVIDO', data_fechado = '$data_2', fechado_por = '$email', solucao='$solucao' WHERE id_chamado = $idChamado");
+
+$update = $pdo->query("UPDATE CHAMADOS SET status = 'RESOLVIDO', data_fechado = '$data_2', fechado_por = '$email', solucao='$solucao' WHERE id_chamado = '$idChamado' ");
 $update-> execute();
+
+$upativo = $pdo->query("UPDATE QRCODETABLE SET SITUACAO = 'OK' WHERE QRCODE = '$qr' ");
+$upativo->execute();
 
 
 

@@ -4,8 +4,7 @@
 ob_start(); 
 session_start();
 $user  = $_GET['user'];
-
-
+$_SESSION['email'] = $user;
 
 ?>
 
@@ -120,7 +119,7 @@ $user  = $_GET['user'];
         scanStart(function (data){
            
             alert("Encontrado..."+ data);
-            window.open('seletor.php?qrcode=' + data);
+            window.open('salacheck.php?qrcodesala=' + data + '&user=<?php echo $_SESSION['email']; ?> ', "_self");
         });
 
     </script>
@@ -154,12 +153,12 @@ $user  = $_GET['user'];
 	<nav class="navbar fixed-bottom navbar-dark bg-dark">
  
    
-    <form class="login100-form validate-form" action="seletor.php" method="get">
+    <form class="login100-form validate-form" action="salacheck.php" method="get">
           			
 					<div class="input-group mb-3">
                     <input type="hidden" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon2" name="user" value="<?php echo $_SESSION['email']; ?>">
 
-		                <input type="text" class="form-control" placeholder="Digite QRCODE" aria-label="Digite QRCODE" aria-describedby="basic-addon2" name="qrcode" required="qrcode" >
+		                <input type="text" class="form-control" placeholder="Digite QRCODE" aria-label="Digite QRCODE" aria-describedby="basic-addon2" name="qrcodesala" required="qrcode" >
 		                <div class="input-group-append">
 		                  <button class="btn btn-info" type="submit">Check</button></div>
 	</form>

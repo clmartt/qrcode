@@ -14,8 +14,6 @@ include('../timezone.php');
 $qrcode = $_GET['qrcode'];
 
 
-
-
 ?>
 
 
@@ -29,7 +27,7 @@ $qrcode = $_GET['qrcode'];
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Abrir Manutenção</title>
+    <title>Abrir Preventiva</title>
     <script src="jquery-3.2.1.min.js"></script>
   </head>
   <body>
@@ -43,32 +41,30 @@ $qrcode = $_GET['qrcode'];
 
                     <div class="card">
                         <div class="card-header">
-                            Retirada para Manutenção - <?php echo $qrcode ?>
+                            Preventiva - <?php echo $qrcode ?>
                         </div>
                         <div class="card-body">
-                        <form method="POST" action="guardamanu.php">
-                            <input type="hidden" value="<?php echo $email ?>" name="usuario">
+                            <form method="post" action="../prev/guardaprev.php">
                             <input type="hidden" value="<?php echo $qrcode ?>" name="qrcode">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Retirado por</label>
-                                <input type="text" class="form-control" id="retirado_por" aria-describedby="retirado" placeholder="Quem retirou o equipamento" name="retirado">
-                                <small id="retirado_por" class="form-text text-muted">Identifique quem retirou o equipamento</small>
+                                <label for="exampleFormControlSelect1">Example select</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="categoria">
+                                <option value="LIMPEZA">LIMPEZA</option>
+                                <option value="CABEAMENTO">CABEAMENTO</option>
+                                <option value="AJUSTES">AJUSTES</option>
+                                <option value="OUTROS">OUTROS</option>
+                                
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">OS Assistência</label>
-                                <input type="text" class="form-control" id="os" aria-describedby="os" placeholder="Se houver uma OS informe" name="os">
-                                <small id="retirado_por" class="form-text text-muted">Você poderá inserir mais tarde não se preocupe :)</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Destino</label>
-                                <input type="text" class="form-control" id="destino" placeholder="Destino" name="destino">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Descrição do Problema</label>
-                                <textarea class="form-control" id="problema" rows="3" name="problema"></textarea>
-                            </div>
-                            <div class="text-center"><button type="submit" class="btn btn-primary">Enviar</button></div>
-                        </form>
+                                
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Descrição da Preventiva</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="obs"></textarea>
+                                </div>
+                                <div class="text-center">
+                                <input class="btn btn-primary" type="submit" value="Submit">
+                                </div>
+                            </form>
                         </div>
                     </div>
 

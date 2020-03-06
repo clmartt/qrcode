@@ -2,7 +2,7 @@
 <?php
 ob_start();
 session_start(); //pega a sessao do usuario
-$cliente = $_SESSION['cliente'];
+$permissao = $_SESSION['permissao'];
 
 
 // cabeçalho para utf8 
@@ -28,7 +28,7 @@ exit(1);
 
 
 
-if($_SESSION['cliente']=='KVM'){
+if($_SESSION['permissao']=='KVM'){
   // primeira forma	
   $select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
   $result = $pdo->query($select); // guardando o resultado da query acima na variavel
@@ -37,7 +37,7 @@ if($_SESSION['cliente']=='KVM'){
   }else{
   
     // primeira forma	
-  $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$cliente' GROUP BY PREDIO"; // query de consulta ao banco
+  $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$permissao' GROUP BY PREDIO"; // query de consulta ao banco
   $result = $pdo->query($select); // guardando o resultado da query acima na variavel
   $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
   

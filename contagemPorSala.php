@@ -9,8 +9,8 @@ echo '<div class="text-center">'.'teste: '.$explodeValores[2].'</div>';
 
 $selecao = "SELECT * FROM CHAMADOS WHERE predio = 'CTO' AND andar = '9' and sala like '%".$sala."%' ";
 $resultado = $pdo->query($selecao);
-
-echo '<table class="table table-hover">';
+echo '<div class="table-responsive">';
+echo '<table class="table table-sm">';
 echo '<thead>';
 echo '<tr>';
 echo '<th scope="col">Qtd</th>';
@@ -35,6 +35,7 @@ foreach ($resultado as $res) {
 echo '</tr>';
 echo '</tbody>';
 echo '</table>';
+echo '</div>';
 
 
 

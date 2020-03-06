@@ -58,7 +58,8 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
       // QUANDO CLICAR NO BOTAO QUE TEM O NUMERO DO CHAMADO 
       $(document).on('click','#nChamado',function(){
-        var idchamado = $(this).text(); // PEGA O TEXTO DO BOTAO
+            var idchamado = $(this).text(); // PEGA O TEXTO DO BOTAO
+            var qr = $(this).val(); // PEGA O QRCODE DO BOTA
             var usuariologado = "<?php echo $logado; ?>";// PEGA O USUARIO LOGADO (EMAIL)
             var vpredio = "<?php echo $predio; ?>";// PEGA O PREDIO
             var fechar = confirm("Deseja fechar o Chamado?"); // ABRE UMA JANELA DE CONFIRMAÇÃO
@@ -70,7 +71,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
               
              
               alert("Chamado RESOLVIDO por :"+"<?php echo $logado; ?>");// mostra a confirmação do fechamento
-              window.location.replace("updatechamado.php?id_do_chamado="+idchamado+"&logado="+usuariologado+"&solucao="+solucao+"&predio="+vpredio);// envia as variaveis para a pagina de update
+              window.location.replace("updatechamado.php?id_do_chamado="+idchamado+"&logado="+usuariologado+"&solucao="+solucao+"&predio="+vpredio+"&qrcode="+qr);// envia as variaveis para a pagina de update
             }
 
       });
@@ -177,7 +178,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     if($dias >= 10){
     	echo '<div class="card">';
       echo ' <div class="card-body">';
-    	echo '<h5 class="card-title"> <button class="btn btn-danger" id="nChamado" >'.$linha['id_chamado'].'</button> -  '.$linha['qrcode'].'    </h5>'.'Aberto: '.'<b>'.
+    	echo '<h5 class="card-title"> <button class="btn btn-danger" id="nChamado" value="'.$linha['qrcode'].'">'.$linha['id_chamado'].'</button> -  '.$linha['qrcode'].'    </h5>'.'Aberto: '.'<b>'.
       date("d/m/Y",strtotime($linha['data_2'])).' - '.$dias.' dias em aberto'.'</b>'."<br> Ativo : ".$linha['ativo']."<br> Predio: ".$linha['predio']." - Andar: ".$linha['andar']." - Sala: ".$linha['sala'];
     	
       echo '<p class="font-italic">'.'Chamado aberto pelo <b>'.$linha['nome_user'].'</b> com o Problema: <i>('.$linha['observacao'].')</i> seu status é  : '.$linha['status'].'</p>';
@@ -193,7 +194,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
       echo '<div class="card">';
       echo ' <div class="card-body">';
-      echo '<h5 class="card-title"> <button class="btn btn-info" id="nChamado">'.$linha['id_chamado'].'</button> -  '.$linha['qrcode'].'    </h5>'.'Aberto :'.'<b>'.
+      echo '<h5 class="card-title"> <button class="btn btn-info" id="nChamado" value="'.$linha['qrcode'].'">'.$linha['id_chamado'].'</button> -  '.$linha['qrcode'].'    </h5>'.'Aberto :'.'<b>'.
       date("d/m/Y",strtotime($linha['data_2'])).' - '.$dias.' dias em aberto'.'</b>'."<br> Ativo : ".$linha['ativo']."<br> Predio: ".$linha['predio']." - Andar: ".$linha['andar']." - Sala: ".$linha['sala'];
       
       echo '<p class="font-italic">'.'Chamado aberto pelo <b>'.$linha['nome_user'].'</b> com o Problema: <i>('.$linha['observacao'].')</i> seu status é  : '.$linha['status'].'</p>';

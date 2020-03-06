@@ -95,7 +95,7 @@ $pegaproblema = $pdo->query("SELECT * FROM PROBLEMAS");
                  });
                  $.post('insertchecksala.php',{qrcode:pegaqr},function(data) {
                                        //alert(pegaqr);
-                                     
+                                       
                                        $('td').fadeOut();
                                        $('#checktudo').text('CHECADO!').off();
 

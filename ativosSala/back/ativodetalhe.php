@@ -9,7 +9,6 @@ $usuario = $_SESSION['email'];
 $cliente = $_SESSION['cliente'];
 $qrcode = $_GET['qrcode'];
 
-
 if(isset($_GET['obs'])){
     $retornoobs = $_GET['obs'];
 }else{
@@ -30,10 +29,6 @@ $resultcheck = $pdo->query($selectcheck);
 $selectchamado = "SELECT * FROM CHAMADOS where QRCODE = '$qrcode' ";
 $resultchamado = $pdo->query($selectchamado);
 
-
-// pega os problemas da tabela de problemas
-
-$prob = $pdo->query("SELECT * FROM PROBLEMAS");
 
 ?>
 
@@ -144,7 +139,7 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   <body>
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="../principal.php">
-      Retornar 
+      Retornar
     </a>
   </nav>
 
@@ -189,7 +184,7 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   echo '<p class="card-text">PREDIO : '.$resultado["PREDIO"].' - '.'ANDAR : '.$resultado["ANDAR"].'  <br> SETOR : '.$resultado["SETOR"].' - SALA : '.$resultado["SALA"].'</p>';
    echo '<p class="card-text">'.$resultado["TIPO_DE_EQUIPAMENTO"].' - CARACTERISTICA : '.$resultado["CARACTERISTICA"].'<BR>HORAS LAMP : <button class="btn btn-outline-info" value="'.$resultado["QRCODE"].'" id="uphora">'.$resultado["HORAS_LAMP"].'</button><BR>MARCA : '.$resultado["MARCA"].' <br> MODELO : '.$resultado["MODELO"].'<BR>N_SERIE : '.$resultado["N_SERIE"].'</p>';
    echo '<p>'.$resultado["SITUACAO"].'</p>';
-   echo '<div class="text-center"><button type="button" class="btn btn-success" value="'.$resultado["QRCODE"].'" id="checar">Pronto!</button></div>';
+   echo '<div class="text-center"><button type="button" class="btn btn-success" value="'.$resultado["QRCODE"].'" id="checar">Tudo Ok!</button></div>';
    echo '<div id="descricao"></div>';
    echo '<p id="statuschamado"></p>';
    echo '<div class="card-footer text-center">';
@@ -244,13 +239,15 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
                                 
                                 <label for="exampleFormControlSelect1">Problema</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="problema">
-                                  <?php  
-                                    foreach ($prob as $probs) {
-                                      echo '<option value="'.$probs['PROBLEMA'].'">'.$probs['PROBLEMA'].'</option>';
-                                    }
-                                  
-                                  ?>
-                                  
+                                  <option value='ÁUDIO'>Áudio</option>
+                                  <option value='VÍDEO'>Vídeo</option>
+                                  <option value='AUTOMAÇÃO'>Automação</option>
+                                  <option value='VGA'>VGA</option>
+                                  <option value='TELA'>Tela</option>
+                                  <option value='CONTROLE'>Controle</option>
+                                  <option value='SENSOR'>Sensor</option>
+                                  <option value='ADAPTADOR'>Adaptador</option>
+                                  <option value='OUTROS'>Outros</option>
                                 </select>
                                 
                               </div>

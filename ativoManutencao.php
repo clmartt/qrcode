@@ -1,4 +1,5 @@
 <?php
+
 ob_start();
 session_start();
 
@@ -6,11 +7,10 @@ include('conectar.php');
 include('timezone.php');
 
 $permissao = $_SESSION['permissao'];
-echo $permissao;
+
 if($permissao==''){
     header("Location: ./login.html");
-};
-
+}
 
 if($permissao=='KVM'){
     $selecao = $pdo->query("SELECT * FROM MANUTENCAO WHERE SITUACAO = 'ABERTO' ORDER BY DATA_RETIRADA");
@@ -19,6 +19,7 @@ if($permissao=='KVM'){
 
 }
 
+$total = $selecao->rowCount();
 
 
 
@@ -61,9 +62,9 @@ if($permissao=='KVM'){
         });
 
         $(document).on('click','#devolver',function(){
-                alert($(this).val());
+              
                 var idmanus = $(this).val();
-
+                
                 $.post('ativoManuRetorno.php',{idManu:idmanus},function(data){
 
                     alert(data);
@@ -77,8 +78,14 @@ if($permissao=='KVM'){
 
         $(document).on('click','#OrdemServico',function(){
             var vos = prompt('Digite o numero da OS');
+            var idManu = $(this).val(); 
+
             if(vos){
-                alert($(this).val());
+                
+                $.post('ativoAtualizaOs.php',{nos:vos,idManus:idManu},function(data){
+                    alert(data);
+                    window.location.reload();
+                });
 
             }else{
                 alert('vazio');
@@ -94,10 +101,10 @@ if($permissao=='KVM'){
 
   </head>
   <body>
-    
+    <?php include('menu.php')?>
     <br>
     <div class="container">
-    <h5>Equipamentos em Manutenção</h5>
+    <h5>Equipamentos em Manutenção - <?php echo $total ?></h5>
     
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -109,13 +116,15 @@ if($permissao=='KVM'){
     
     <?php
     foreach ($selecao as $res) {
+       
         echo '<div class="card text-center">';
         echo '<div class="card-header">';
         echo 'Enviado para Manutenção em : '.date("d-m-Y",strtotime($res['DATA_RETIRADA']));
         echo '</div>';
-        echo '<div class="card-body text-left">';
-        echo '  <h5 class="card-title">'.$res['QRCODE'].'</h5>';
+        echo '  <div class="card-body text-left">';
+        echo '  <h5 class="card-title" >'.$res['QRCODE'].'</h5>';
         echo '  <p class="card-text">'.$res['ATIVO'].'</p>';
+        echo '  <p class="card-text">Aberto Por : '.$res['ABERTO_POR'].'</p>';
         echo '  <p class="card-text">Retirado por : '.$res['RETIRADO_POR'].'</p>';
         echo '  <p class="card-text">Problema : '.$res['PROBLEMA'].'</p>';
         echo '  <li><b>DE</b></li>';
@@ -132,7 +141,13 @@ if($permissao=='KVM'){
         echo '<div>';
         echo '<p></p>';
     }
+   echo '<br>';
+   echo '<br>';
+   echo '<br>';
+  
     
+    
+
 ?>
 
 

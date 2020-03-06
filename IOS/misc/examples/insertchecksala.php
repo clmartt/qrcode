@@ -9,11 +9,12 @@ $dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm';
 $usuario = 'qrcodekvm'; 
 $senha = 'qrcodekvm';  
 
-$qrcodeequip = $_GET['qrcode']; // RECEBE O QR DO SALACHECK.PHP
+$qrcodeequip = $_POST['qrcode']; // RECEBE O QR DO SALACHECK.PHP
 $arrayqrcode = explode(',', $qrcodeequip);
 $ocupada = $_GET['ocupada'];
 
-//echo count($arrayqrcode).'<br>';
+
+
 
 
 
@@ -29,9 +30,9 @@ exit(1);
 
 
 
-for ($i=0; $i < count($arrayqrcode) ; $i++) { 
+for ($i=0; $i < count($qrcodeequip) ; $i++) { 
  
-$codigoQrcodes = $arrayqrcode[$i];
+$codigoQrcodes = $qrcodeequip[$i];
 
 $stmtSelect = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$codigoQrcodes'")->fetch(); // REALIZANDO A QUERY
 //var_dump($stmtSelect);
@@ -71,9 +72,9 @@ $hora = date('H:i:s');
 
 // Executando statement 
 $stmt->execute(); 
-echo $R_qrcode.' - AFETADA : '.$stmt->rowCount().'<hr>';
 
-$teste = $stmt->rowCount();
+
+$contagem = $stmt->rowCount();
 $conteste  += $teste;
 
 
@@ -86,7 +87,7 @@ $conteste  += $teste;
 //header('Location: ./camsala.php?user='.$R_usuario_post);
 
 };
-
+/*
 define('TEAMS_WEBHOOK', 'https://outlook.office.com/webhook/e6a8f984-235d-4f40-8145-81560ba9afcf@407e34f8-c571-4354-9ab3-de195ab979a6/IncomingWebhook/d5da74e9f60849b58391886fd25152b3/f69d8532-4ecd-4add-9072-a2c3e06820ef');
 
   $messageTeams = json_encode(array('text' => 'O '.$R_usuario_post.'<br>'.' está no predio '.$R_predio.' no '.$R_andar.' andar na sala '.$R_sala.' e fez check-in em '.$conteste.' equipamentos'));
@@ -101,7 +102,7 @@ define('TEAMS_WEBHOOK', 'https://outlook.office.com/webhook/e6a8f984-235d-4f40-8
 
   header('Location: ./camsala.php?user='.$R_usuario_post);
 
-
+*/
 
 
 //===========================================================================================>>>>>>>>

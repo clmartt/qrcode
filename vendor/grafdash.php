@@ -21,7 +21,7 @@ $ano = date('Y');
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
-
+$mysqli -> set_charset("utf8");
 
 
 
@@ -38,7 +38,7 @@ $listprob = array(); // CRIA ARRAY PARA GUARDAR O NOME DOS PROBLEMAS
 $listqtd = array();  //CRIA O ARRAY PARA GUARDAR A QUANTIDADE
 
 while ($row = mysqli_fetch_object($result)) {
-  $prob = utf8_encode($row->problema);// recebe os problemas
+  $prob = $row->problema;// recebe os problemas
   $probqtd = $row->qtd; // recebe a quantidade dos problemas (count(problema) as qtd)
   $listprob[$i] = $prob; // joga dentro deste array os problemas
   $listqtd[$i] = $probqtd; // joga dentro deste array as quantidades
@@ -53,20 +53,22 @@ while ($row = mysqli_fetch_object($result)) {
   // PEGA OS VALORES PARA A TABELA DE SALAS COM PROBLEMAS
 
 
-  $sqltabela1 = "SELECT andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  AND cliente != 'EVENTOS' ORDER BY id_chamado,andar";
+  $sqltabela1 = "SELECT id_chamado,andar,sala,problema,data_2 FROM CHAMADOS WHERE problema != '' and status ='ANDAMENTO' AND predio = '$PREDIO'  AND cliente != 'EVENTOS' ORDER BY id_chamado,andar";
   $resulttabela1 = $mysqli->query($sqltabela1);
   
   $it = 0;
   $v = 0;
+  $tabela_Idchamado = array();
   $tabela_andar = array();
   $tabela_sala = array();
   $tabela_problema = array();
   $tabela_dif_data = array();
   
   while ($row = mysqli_fetch_object($resulttabela1)) {
+    $A_Idchamado = $row->id_chamado;// pega os IDs dos chamados;
     $A_andar = $row->andar; // pega o problema
     $A_sala = $row->sala; // pega o andar
-    $A_problema = utf8_encode($row->problema); // pega a sala
+    $A_problema = $row->problema; // pega a sala
     $A_data_chamado = $row->data_2; // pega a data do chamado
     $A_data_chamado_tratada = date_create($A_data_chamado);
     $datahoje_tratada = date_create(date('Y-m-d'));
@@ -74,7 +76,7 @@ while ($row = mysqli_fetch_object($result)) {
 
 
     
-
+    $tabela_Idchamado[$it] = $A_Idchamado;
     $tabela_andar[$it] = $A_andar;
     $tabela_sala[$it] = $A_sala;
     $tabela_problema[$it] = $A_problema;
@@ -123,7 +125,7 @@ while ($row = mysqli_fetch_object($result)) {
 
     // pega os valores para o grafico de barra
 
-  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE problema != ''  AND predio = '$PREDIO' AND cliente != 'EVENTOS' GROUP BY mes ORDER BY month(data_2)";
+  $sqlbarra = "SELECT count(problema) as qtd, mes,data_2 FROM CHAMADOS WHERE ano = '$ano' AND problema != ''  AND predio = '$PREDIO' AND cliente != 'EVENTOS' GROUP BY mes ORDER BY month(data_2)";
   $resultbarra = $mysqli->query($sqlbarra);
   
   $ib = 0;
@@ -147,14 +149,14 @@ while ($row = mysqli_fetch_object($result)) {
 
  // pega os valores dos chamados abertos e em andamento
 
-$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO' AND cliente != 'EVENTOS'";
+$sqlandamento = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'ANDAMENTO' AND predio = '$PREDIO' AND cliente != 'EVENTOS' AND ano = '$ano'";
 $resultandamento = $mysqli->query($sqlandamento);
 $row = mysqli_fetch_assoc($resultandamento);
  
 
 // pega os valores dos chamados abertos e RESOLVIDO
 
-$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO' AND cliente != 'EVENTOS'";
+$sqlresolvido = "SELECT COUNT(problema) as qtd FROM `CHAMADOS` WHERE status = 'RESOLVIDO' AND predio = '$PREDIO' AND cliente != 'EVENTOS' AND ano = '$ano'";
 $resultresolvido = $mysqli->query($sqlresolvido);
 $row2= mysqli_fetch_assoc($resultresolvido);
 
@@ -289,7 +291,7 @@ if($cliente=='KVM'){
                                                             
                 });
 
-            });
+            });// FIM #SALADETALHES
 
 
             $(document).on('click','#ativodetalhes',function(){
@@ -304,7 +306,29 @@ if($cliente=='KVM'){
                       $('#modaldetalhes').modal('show');               
                                                             
                 });
+            }); // FIM DO #ATIVODETALHES
+
+//-------------------- PARA PEGAR OS VALORES DO NUMERO DE CHAMADO E ABRIR NO MODAL
+
+
+            $(document).on('click','#Bsalas',function(){
+               
+              var numeroChamado = $(this).text();
+              $.post('PorNumeroChamado.php',{numero:numeroChamado},function(data) { // manda via post e pega as informações do contagemPorAndar
+                      
+                      $('.modal-title').html('Informações do Chamado');
+                      $('.modal-body').html(data);
+                      $('#modaldetalhes').modal('show');               
+                                                            
+                });
+
+
             });
+
+
+
+
+
 
           });
 
@@ -422,6 +446,7 @@ if($cliente=='KVM'){
 
                 function drawTable() {
                   var data = new google.visualization.DataTable();
+                  data.addColumn('string', 'Nº');
                   data.addColumn('string', 'Andar');
                   data.addColumn('string', 'Sala');
                   data.addColumn('string', 'Problema');
@@ -432,7 +457,7 @@ if($cliente=='KVM'){
                             $kt1 = $it;
                             for ($i=0; $i < $kt1; $i++) { 
                             ?>
-                             ['<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
+                             ['<?php echo '<button class="btn btn-info" id="Bsalas">'.$tabela_Idchamado[$i].'</button>' ?>','<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
                             
                     <?php } ?>
 
@@ -441,8 +466,10 @@ if($cliente=='KVM'){
                   ]);
 
                   var table = new google.visualization.Table(document.getElementById('table_div'));
+                  
 
-                  table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+                  table.draw(data, {allowHtml:true, showRowNumber: true, width: '100%', height: '100%'});
+                 
                 }
     
         
@@ -474,7 +501,7 @@ if($cliente=='KVM'){
                                             $ktc = $it2;
                                             for ($i=0; $i < $ktc; $i++) { 
                                             ?>
-                                            ['<?php echo $tabela_andar_check[$i] ?>','<?php echo utf8_encode($tabela_sala_check[$i]) ?>','<?php echo  $tabela_usuario_horas[$i] ?>','<?php echo  $tabela_usuario_check[$i] ?>'],
+                                            ['<?php echo $tabela_andar_check[$i] ?>','<?php echo ($tabela_sala_check[$i]) ?>','<?php echo  $tabela_usuario_horas[$i] ?>','<?php echo  $tabela_usuario_check[$i] ?>'],
                                             
                                     <?php } ?>
 
@@ -670,7 +697,7 @@ if($cliente=='KVM'){
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="modal_body">
         ...
       </div>
       <div class="modal-footer">
@@ -681,6 +708,9 @@ if($cliente=='KVM'){
   </div>
 </div>
   
+
+
+
 
   </body>
 </html>

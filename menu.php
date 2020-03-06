@@ -109,7 +109,7 @@ $(document).ready(function(){
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="nav-link" href="addlistapredio.php">Novo Ativos</span></a>
         <a class="nav-link" href="addlistapredioativosala.php">Ativos por Sala</a>
-        <a class="nav-link" href="#">Em Manutenção</a>
+        <a class="nav-link" href="ativoManutencao.php">Em Manutenção</a>
           
       </li>
 
@@ -149,7 +149,7 @@ $(document).ready(function(){
 			<nav class="navbar fixed-bottom  navbar-dark bg-light">
 			<a href="atividades.php" ><ion-icon src="./icon/md-today.svg"  size="large" class="text-secondary" ></ion-icon></a>
 			<a href="listapredioChamado.php"><ion-icon src="./icon/md-information-circle-outline.svg"  size="large" class="text-secondary"></ion-icon></a>
-			<a href="./cameras.php"><ion-icon src="./icon/ios-videocam.svg"  size="large" class="text-secondary"></ion-icon></a>
+			<a href="./IOS/misc/examples/camsala.php"><ion-icon src="./icon/ios-videocam.svg"  size="large" class="text-secondary"></ion-icon></a>
 			<a href="listapredioProblema.php"><ion-icon src="./icon/md-podium.svg"  size="large" class="text-secondary"></ion-icon></a>
 			<a href="download.php"><ion-icon src="./icon/md-cloud-download.svg"  size="large"  class="text-secondary"></ion-icon></a>
 			</nav>

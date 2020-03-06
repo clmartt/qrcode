@@ -31,10 +31,6 @@ $selectchamado = "SELECT * FROM CHAMADOS where QRCODE = '$qrcode' ";
 $resultchamado = $pdo->query($selectchamado);
 
 
-// pega os problemas da tabela de problemas
-
-$prob = $pdo->query("SELECT * FROM PROBLEMAS");
-
 ?>
 
 <!DOCTYPE html>
@@ -144,7 +140,7 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   <body>
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="../principal.php">
-      Retornar 
+      Retornar <?php echo $usuario ?>
     </a>
   </nav>
 
@@ -244,13 +240,15 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
                                 
                                 <label for="exampleFormControlSelect1">Problema</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="problema">
-                                  <?php  
-                                    foreach ($prob as $probs) {
-                                      echo '<option value="'.$probs['PROBLEMA'].'">'.$probs['PROBLEMA'].'</option>';
-                                    }
-                                  
-                                  ?>
-                                  
+                                  <option value='ÁUDIO'>Áudio</option>
+                                  <option value='VÍDEO'>Vídeo</option>
+                                  <option value='AUTOMAÇÃO'>Automação</option>
+                                  <option value='VGA'>VGA</option>
+                                  <option value='TELA'>Tela</option>
+                                  <option value='CONTROLE'>Controle</option>
+                                  <option value='SENSOR'>Sensor</option>
+                                  <option value='ADAPTADOR'>Adaptador</option>
+                                  <option value='OUTROS'>Outros</option>
                                 </select>
                                 
                               </div>

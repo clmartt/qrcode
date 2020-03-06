@@ -18,7 +18,7 @@ if($_SESSION['cliente']==''){
 	$ext = pathinfo($path, PATHINFO_EXTENSION);
 
 
-	if(!empty($_FILES['arquivo']['tmp_name']) && $ext == 'CSV'){
+	if(!empty($_FILES['arquivo']['tmp_name']) && $ext == 'csv'){
         $nomeAarquivo = $_FILES['arquivo']['tmp_name'];
 		$objeto = fopen($nomeAarquivo,'r');
 		
@@ -35,7 +35,7 @@ if($_SESSION['cliente']==''){
                 $predio =strtoupper($linha[0]);
                 $andar = strtoupper($linha[1]);
 				$sala =  strtoupper($linha[2]);
-				$atividade =  strtoupper($linha[3]);
+				$atividade =  strtoupper(utf8_encode($linha[3]));
 				$pegadata = explode('/',$linha[4]);
 				$dataTratada = $pegadata[2]."-".$pegadata[1]."-".$pegadata[0];
 				$datac = $dataTratada;

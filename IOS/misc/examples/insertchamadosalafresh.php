@@ -30,16 +30,13 @@ if($_POST['situacao']=='ANDAMENTO'){
 
 include("../../../conectar.php");
 
-// Preparando statement PEGANDO OS DADOS DO EQUIPAMENTO PELO QRCODE
-
-$stmtSelect = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcodeequipamento'")->fetch();
+// Preparando statement PEGANDO OS DADOS DO EQUIPAMENTO PELO QRCODE-----------------------------------------------------------------------------------------------------------------
 
 
+$stmtSelect = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcodeequipamento'")->fetch();// fetch() usado para retornar somente um registro
 
+//alocando variaveis na memoria-----------------------------------------------------------------------------------------------------------------
 
-
-
-//alocando variaveis na memoria
 $R_string_id = "KVM: ".$stmtSelect['PREDIO']." - ".$stmtSelect['SALA']." - ".$stmtSelect['ANDAR'];
 $R_usuario_post = strtoupper($_SESSION['email']);
 $R_qrcode = strtoupper($stmtSelect['QRCODE']);
@@ -63,13 +60,33 @@ $mes =  date('F');
 $ano = date('Y');
 $horas = date('H:i:s');
 
-
- 
+// enviao de email para o freshservice --------------------------------------------------------------------------------------------
 	
+$mailer = new PHPMailer();
+$mailer->IsSMTP();
+$mailer->SMTPDebug = 1;
+$mailer->Port = 587; //Indica a porta de conexão 
+$mailer->Host = 'smtp.office365.com';//Endereço do Host do SMTP 
+$mailer->SMTPAuth = true; //define se haverá ou não autenticação 
+$mailer->Username = 'sistema.qrcode@kvminformatica.com.br'; //Login de autenticação do SMTP
+$mailer->Password = 'f6YPnzrpnauI'; //Senha de autenticação do SMTP
+$mailer->FromName = 'Qrcode KVM'; //Nome que será exibido
+$mailer->From = 'sistema.qrcode@kvminformatica.com.br'; //Obrigatório ser a mesma caixa postal configurada no remetente do SMTP
+$mailer->AddAddress('freshservice@kvminformatica.com.br');//Destinatários freshservice@kvminformatica.com.br
+$mailer->Subject = 'Chamado enviado via Sistema QRCODE KVM';
+$mailer->Body = 'O '.$R_usuario_post.' enviou um chamado para o - '.$R_predio.' - Andar: '.$R_andar.' - '.$R_sala.'- QRCODE : '.$R_qrcode.' informando o problema: '. $problema.' | '.$Dproblema;
+
+if(!$mailer->Send()){
+
+echo "A mensagem não foi enviada para o FRESH, porem o chamado foi armazenado na base!"."<br>";
+//echo "Mailer Error: " . $mailer->ErrorInfo; exit; 
+
+};
+/// fim do envio de email-----------------------------------------------------------------------------------------------------------------
 
 
 
-
+// inseri chamado na base-----------------------------------------------------------------------------------------------------------------
 
 
 	$stmt = $pdo->prepare("INSERT INTO CHAMADOS(
@@ -80,7 +97,7 @@ $horas = date('H:i:s');
 	// Executando statement
 
 	if($stmt->execute()){
-		echo '<img src="./images/enviado.gif" width="30" height="30">';
+		echo '<img src="./images/fresh.jpg" width="30" height="30">';
 	}else{
 		$stmt->error_reporting;
 	}; 
