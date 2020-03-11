@@ -91,6 +91,36 @@ include('menu.php')
 
         });
 
+
+
+
+        $('#consultarpdf').click(function(){
+          var datai = $("#datainicio").val();
+          var dataSplit1 = datai.split('-');
+          var Rdatai = dataSplit1[2]+"/"+dataSplit1[1]+"/"+dataSplit1[0];
+           
+
+          var dataf = $("#datafim").val();
+          var dataSplit2 = dataf.split('-');
+          var Rdataf = dataSplit2[2]+"/"+dataSplit2[1]+"/"+dataSplit2[0];
+          
+
+          var arquivo = $('#arquivos').val();
+          
+          var predio = $("#predio").val();
+          
+          if(predio == 'todos'){
+            window.location.href = "./gerarpdf/downtodospdf.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
+           
+          }else{
+            window.location.href = "./gerarpdf/downcheckperiodopdf.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
+          };
+    
+
+
+        });
+
+
      });
 
 
@@ -140,9 +170,12 @@ include('menu.php')
     
     
   </div>
-   <div class="card-footer text-muted" align="center">
-    <div align="center"><button type="button" class="btn btn-primary mb-2" id="consultar">BAIXAR</button></div>
+   <div class="card-footer text-center">
+    <div class="text-center"><button type="button" class="btn btn-outline-success" id="consultar" style="margin: 0 20px">XLS</button> <button type="button" class="btn btn-outline-warning" id="consultarpdf">PDF</button></div>
+    
+  
   </div>
+  
 </div>
 
  

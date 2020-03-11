@@ -37,12 +37,12 @@ $selEquipamentos = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsal
 $qtd = $selEquipamentos->rowCount();
 
 // abaixo para pegar informações do nome da sala
-$nomesala = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsala' group by SALA");
+$nomesala = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsala' group by SALA,QRSALA");
 
 foreach ($nomesala as $sala) {
     echo "<br>";
     echo "<div class='container'>";
-    echo "<b>". $sala['PREDIO']. " - ".$sala['SALA']." - ".$sala['ANDAR']."º</b>";
+    echo "<b>". $sala['PREDIO']. " - ".$sala['SALA']." - ".$sala['ANDAR']."º  - ".$qtd." Ativos</b>";
     echo "<hr>";
     echo "</div>";
 };
@@ -171,7 +171,7 @@ $pegaproblema = $pdo->query("SELECT * FROM PROBLEMAS");
         
         ?>
     <div class="container">
-        <h4><span id="retorno">Lista de Ativos</span></h4><br>
+        <h4><span id="retorno">Lista de Ativos  </span></h4><br>
 
         <table class="table table-hover">
             <thead>
