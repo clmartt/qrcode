@@ -108,6 +108,20 @@ if($_SESSION['permissao']=='KVM'){
                     <option value="MANUTENÇÃO">MANUTENÇÃO</option>
                 </select>
             </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="tipo">Tipo</label>
+                </div>
+                <select class="custom-select" id="tipo" name="tipo">
+                    <option selected>N/A</option>
+                    <option value="VC">VÍDEO CONFERÊNCIA</option>
+                    <option value="TP">TELEPRESENÇA</option>
+                    <option value="SERVIÇOS">SERVIÇOS</option>
+                    <option value="INSTALAÇÃO">INSTALAÇÃO</option>
+                    <option value="REPOSIÇÃO">REPOSIÇÃO</option>
+
+                </select>
+            </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Data</label>
                 <input type="date" class="form-control" id="paraData" aria-describedby="Data" placeholder="Data" name="paraData">

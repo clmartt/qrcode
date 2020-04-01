@@ -8,7 +8,14 @@ $logado = $_GET['usuario'];
 $usuario = $_SESSION['email'];
 $cliente = $_SESSION['cliente'];
 $qrcode = $_GET['qrcode'];
+$ano  = date('Y');
 
+if($usuario==''){
+  header("Location: ../login.html");
+ 
+
+
+}
 
 if(isset($_GET['obs'])){
     $retornoobs = $_GET['obs'];
@@ -21,6 +28,7 @@ include('../conectar.php');
 
 
 $result  = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE='$qrcode' ");
+$selChamado = $pdo->query("SELECT id_chamado,data_2,status,data_fechado,problema,observacao, COUNT(problema) as qtd FROM CHAMADOS WHERE qrcode ='$qrcode' AND ano = '$ano' group by problema,id_chamado,data_2,status,observacao ORDER BY status,data_2");
 
 // faz o select dos chamados
 
@@ -180,13 +188,16 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   echo '    <li class="nav-item active">';
   echo '      <a class="btn btn-link" href="formManu.php?qrcode='.$resultado["QRCODE"].'">Manutenção</a>';
   echo '    </li>';
+  echo '    <li class="nav-item active">';
+  echo '      <a class="btn btn-link " href="./move/movepredio.php?qrcode='.$resultado["QRCODE"].'">Mover</a>';
+  echo '    </li>';
   echo '  </ul>';
   echo '</div>';
   echo '</nav>';
   echo '</div>';
   echo '<div class="card-body">';
   
-  echo '<p class="card-text">PREDIO : '.$resultado["PREDIO"].' - '.'ANDAR : '.$resultado["ANDAR"].'  <br> SETOR : '.$resultado["SETOR"].' - SALA : '.$resultado["SALA"].'</p>';
+  echo '<p class="card-text">PREDIO : '.$resultado["PREDIO"].' - '.'ANDAR : '.$resultado["ANDAR"].'  <br> SETOR : '.$resultado["SETOR"].' - SALA : '.$resultado["SALA"].' - QRSALA : '.$resultado["QRSALA"].'</p>';
    echo '<p class="card-text">'.$resultado["TIPO_DE_EQUIPAMENTO"].' - CARACTERISTICA : '.$resultado["CARACTERISTICA"].'<BR>HORAS LAMP : <button class="btn btn-outline-info" value="'.$resultado["QRCODE"].'" id="uphora">'.$resultado["HORAS_LAMP"].'</button><BR>MARCA : '.$resultado["MARCA"].' <br> MODELO : '.$resultado["MODELO"].'<BR>N_SERIE : '.$resultado["N_SERIE"].'</p>';
    echo '<p>'.$resultado["SITUACAO"].'</p>';
    echo '<div class="text-center"><button type="button" class="btn btn-success" value="'.$resultado["QRCODE"].'" id="checar">Pronto!</button></div>';
@@ -206,7 +217,52 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   
 
 ?>
+<?php
+  echo '<br>';
+  echo '<div class="container">'; 
+  echo '<nav aria-label="breadcrumb">';
+  echo '<ol class="breadcrumb">';
+  echo '<li class="breadcrumb-item active" aria-current="page">Chamados do Ativo (Ano Vigente)</li>';
+  echo '</ol>';
+  echo '</nav>';
+  echo '<table class="table table-sm">';
+  echo '<thead>';
+  echo '<tr>';
+  echo '<th scope="col">Nº</th>';
+  echo '<th scope="col">Problema</th>';
+  echo '<th scope="col">Desc</th>';
+  echo '<th scope="col">Status</th>';
+  echo '<th scope="col">Aberto</th>';
+  echo '<th scope="col">Fechado</th>';
+  echo '</tr>';
+  echo '</thead>';
+  echo '<tbody>';
+  
+  
 
+  foreach ($selChamado as $cha) {
+    echo '<tr>';
+    echo '<th scope="row">'.$cha['id_chamado'].'</th>';
+    echo '<td>'.$cha['problema'].'</td>';
+    echo '<td>'.$cha['observacao'].'</td>';
+    echo '<td>'.$cha['status'].'</td>';
+    echo '<td>'.date('d-m-Y',strtotime($cha['data_2'])) .'</td>';
+    echo '<td>'.$cha['data_fechado'].'</td>';
+    
+    echo '</tr>';
+  }
+ 
+    
+  echo '</tbody>';
+  echo '</table>';
+  
+ 
+
+  echo '</div>'; 
+
+
+
+?>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -269,7 +325,7 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
                                 </select>
                                 <br>
                                 <div class="form-group">
-                                <label for="solucao_aplicada">Solicitante</label>
+                                <label for="solucao_aplicada">OS Banco ou Solicitante</label>
                                 <input type="text" class="form-control" id="solicitante" rows="5" name="solicitante">
                                 </div>
                                 <br>

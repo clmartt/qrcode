@@ -457,7 +457,7 @@ if($cliente=='KVM'){
                             $kt1 = $it;
                             for ($i=0; $i < $kt1; $i++) { 
                             ?>
-                             ['<?php echo '<button class="btn btn-info" id="Bsalas">'.$tabela_Idchamado[$i].'</button>' ?>','<?php echo $tabela_andar[$i] ?>','<?php echo utf8_encode($tabela_sala[$i]) ?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
+                             ['<?php echo '<button class="btn btn-info" id="Bsalas">'.$tabela_Idchamado[$i].'</button>' ?>','<?php echo $tabela_andar[$i] ?>','<?php echo $tabela_sala[$i]?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
                             
                     <?php } ?>
 

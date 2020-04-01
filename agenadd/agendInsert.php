@@ -5,8 +5,7 @@ if(!$_POST){
 
 };
 // cabeçalho para utf8 
-header('Content-Type: text/html; charset=utf-8');
-ini_set('default_charset','UTF-8');
+
 ob_start();
 session_start(); //pega a sessao do usuario
 
@@ -19,6 +18,7 @@ $predio = strtoupper($_POST['predio']);
 $andar = strtoupper($_POST['andar']);
 $sala = strtoupper($_POST['sala']);
 $atividade = strtoupper($_POST['atividade']);
+$tipo = strtoupper($_POST['tipo']);
 $datac = $_POST['paraData'];
 $hinicio = $_POST['hinicio'];
 $hfim = $_POST['hfim'];
@@ -30,7 +30,7 @@ $solicitante = strtoupper($_POST['solicitante']);
 $obs = strtoupper($_POST['observacao']);
 $cliente = strtoupper($_SESSION['permissao']);
 
-$stm = $pdo->prepare("INSERT INTO AGENDAMENTO(PREDIO,ANDAR,SALA,ATIVIDADE,DATAC,HINICIO,HFIM,RECURSO,SITUACAO,RESUMO,ABERTO_POR,SOLICITANTE,OBSERVACAO,CLIENTE)VALUES('$predio','$andar','$sala','$atividade','$datac','$hinicio','$hfim','$recurso','$situacao','$resumo','$aberto_por','$solicitante','$obs','$cliente')");
+$stm = $pdo->prepare("INSERT INTO AGENDAMENTO(PREDIO,ANDAR,SALA,ATIVIDADE,TIPO,DATAC,HINICIO,HFIM,RECURSO,SITUACAO,RESUMO,ABERTO_POR,SOLICITANTE,OBSERVACAO,CLIENTE)VALUES('$predio','$andar','$sala','$atividade','$tipo','$datac','$hinicio','$hfim','$recurso','$situacao','$resumo','$aberto_por','$solicitante','$obs','$cliente')");
 
 if($stm->execute()){
 

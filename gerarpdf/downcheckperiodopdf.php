@@ -29,7 +29,7 @@ $dataPortFinal = $_GET['dataF'];
 $dataPortFinalExplode = explode("/", $dataPortFinal);
 $dataInglesFinal = $dataPortFinalExplode[2]."-".$dataPortFinalExplode[1]."-".$dataPortFinalExplode[0];
 
-$predio = $_GET['predio'];
+$predio = strval($_GET['predio']);
 
 $arquivo = $_GET['arquivo'];
 
@@ -207,6 +207,140 @@ foreach ($sql as $res) {
        
 
 };
+
+
+
+if($arquivo == 'preventiva'){
+
+        //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        
+        $sqlchamado = $pdo->query("SELECT * FROM PREVENTIVAS where DATA_PREV BETWEEN '$dataInglesInicial' and '$dataInglesFinal' and PREDIO = '$predio' AND CLIENTE != 'EVENTOS' ORDER BY DATA_PREV") ;
+        
+        $html  = '<html>';
+        $html .= '<body>';
+        $html .= '<b>Preventivas - Predio : '.$predio.' de </b>: '.date('d-m-Y',strtotime($dataInglesInicial)).' - '. date('d-m-Y',strtotime($dataInglesFinal));
+        $html .= '<hr>'; 
+        $html .= '<div class="table-responsive">';
+        
+        $html .='<table class="table table-sm" border="1" cellspacing=0 cellpadding=2 bordercolor="666633">';
+        $html .='<thead>';
+        $html .='<tr>';
+        $html .='<th scope="col">DATA</th>';
+        $html .='<th scope="col">QRCODE</th>';
+        $html .='<th scope="col">ATIVO</th>';
+        $html .='<th scope="col">PREDIO</th>';
+        $html .='<th scope="col">ANDAR</th>';
+        $html .='<th scope="col">SETOR</th>';
+        $html .='<th scope="col">SALA</th>';
+        $html .='<th scope="col">ATIVIDADE</th>';
+        $html .='<th scope="col">USUARIO</th>';
+        $html .='<th scope="col">OBS</th>';
+        $html .='<th scope="col">CLIENTE</th>';
+        $html .='</tr>';
+        $html .='</thead>';
+        $html .='<tbody>';
+        
+        
+        
+        foreach ($sqlchamado as $res) {
+         $html .= "<tr>";
+         $html .= "<td>".date('d-m-Y',strtotime($res['DATA_PREV']))." </td>";
+         $html .= "<td>".$res['QRCODE']." </td>";
+         $html .= "<td>".$res['ATIVO']." </td>";
+         $html .= "<td>".$res['PREDIO']." </td>";
+         $html .= "<td>".$res['ANDAR']." </td>";
+         $html .= "<td>".$res['SETOR']." </td>";
+         $html .= "<td>".$res['SALA']." </td>";
+         $html .= "<td>".$res['ATIVIDADE']." </td>";
+         $html .= "<td>".$res['USUARIO']." </td>";
+         $html .= "<td>".$res['OBS']." </td>";
+         $html .= "<td>".$res['CLIENTE']." </td>";
+         $html .= "</tr>";     
+        }
+        
+        $html .= "</tbody>";
+        $html .= "</table>";
+        $html .= "</body>";
+        $html .= "</html>";
+        $html .= "</div>"; 
+        
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+        
+        
+        
+        
+        };
+
+
+
+        if($arquivo == 'manutencao'){
+
+                //PEGA O OS DADOS DOs CHAMADOS --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                
+                $sqlchamado = $pdo->query("SELECT * FROM MANUTENCAO where DATA_RETIRADA BETWEEN '$dataInglesInicial' and '$dataInglesFinal' and PREDIO = '$predio' AND CLIENTE != 'EVENTOS' ORDER BY DATA_RETIRADA") ;
+                
+                $html  = '<html>';
+                $html .= '<body>';
+                $html .= '<b>Equipamentos em Manutenção - Predio : '.$predio.' de </b>: '.date('d-m-Y',strtotime($dataInglesInicial)).' - '. date('d-m-Y',strtotime($dataInglesFinal));
+                $html .= '<hr>'; 
+                $html .= '<div class="table-responsive">';
+                
+                $html .='<table class="table table-sm" border="1" cellspacing=0 cellpadding=2 bordercolor="666633">';
+                $html .='<thead>';
+                $html .='<tr>';
+                $html .='<th scope="col">DATA RETIRADA</th>';
+                $html .='<th scope="col">QRCODE</th>';
+                $html .='<th scope="col">ATIVO</th>';
+                $html .='<th scope="col">PREDIO</th>';
+                $html .='<th scope="col">ANDAR</th>';
+                $html .='<th scope="col">SETOR</th>';
+                $html .='<th scope="col">SALA</th>';
+                $html .='<th scope="col">QRSALA</th>';
+                $html .='<th scope="col">ABERTO_POR</th>';
+                $html .='<th scope="col">RETIRADO_POR</th>';
+                $html .='<th scope="col">DESTINO</th>';
+                $html .='<th scope="col">OS</th>';
+                $html .='<th scope="col">SITUAÇÃO</th>';
+                $html .='<th scope="col">CLIENTE</th>';
+                $html .='</tr>';
+                $html .='</thead>';
+                $html .='<tbody>';
+                
+                
+                
+                foreach ($sqlchamado as $res) {
+                 $html .= "<tr>";
+                 $html .= "<td>".date('d-m-Y',strtotime($res['DATA_RETIRADA']))." </td>";
+                 $html .= "<td>".$res['QRCODE']." </td>";
+                 $html .= "<td>".$res['ATIVO']." </td>";
+                 $html .= "<td>".$res['PREDIO']." </td>";
+                 $html .= "<td>".$res['ANDAR']." </td>";
+                 $html .= "<td>".$res['SETOR']." </td>";
+                 $html .= "<td>".$res['SALA']." </td>";
+                 $html .= "<td>".$res['QRSALA']." </td>";
+                 $html .= "<td>".$res['ABERTO_POR']." </td>";
+                 $html .= "<td>".$res['RETIRADO_POR']." </td>";
+                 $html .= "<td>".$res['DESTINO']." </td>";
+                 $html .= "<td>".$res['OS']." </td>";
+                 $html .= "<td>".$res['SITUACAO']." </td>";
+                 $html .= "<td>".$res['CLIENTE']." </td>";
+                 $html .= "</tr>";     
+                }
+                
+                $html .= "</tbody>";
+                $html .= "</table>";
+                $html .= "</body>";
+                $html .= "</html>";
+                $html .= "</div>"; 
+                
+                $mpdf->WriteHTML($html);
+                $mpdf->Output();
+                
+                
+                
+                
+                };
 
 
 

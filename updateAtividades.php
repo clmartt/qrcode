@@ -1,6 +1,6 @@
 <?php 
-include('conectar.php');
-include("timezone.php");
+include('./conectar.php');
+include("./timezone.php");
 
 session_start();
 
@@ -13,29 +13,24 @@ $feedback = $_POST['feedback'];//  SE É SHOW - NO_SHOW ETC
 $obs = strtoupper($_POST['obs']); // COMENTARIOS DO TECNICO QUE FECHOU 
 $hora = date("H:i:s");
 $user = strtoupper($_POST['user']);
+$dataFechado = date("Y-m-d");
+
+
 
 
 if($situacao!=='FINALIZADO'){
 
-    $selecao = $pdo->query("UPDATE AGENDAMENTO SET SITUACAO = '$situacao',HFECHADO ='',FECHADO_POR = '',RETORNO = '',CONSIDERACAO = ''  WHERE ID_AGENDAMENTO = '$id'");
-}else{
+    $selecao = $pdo->prepare("UPDATE AGENDAMENTO SET SITUACAO = '$situacao' WHERE ID_AGEN = '$id' ");
+}
 
-    $selecao = $pdo->query("UPDATE AGENDAMENTO SET SITUACAO = '$situacao',HFECHADO ='$hora',FECHADO_POR = '$user',RETORNO = '$feedback',CONSIDERACAO = '$obs'  WHERE ID_AGENDAMENTO = '$id'");
+else{
+
+    $selecao = $pdo->prepare("UPDATE AGENDAMENTO SET SITUACAO = '$situacao', FECHADO_POR = '$user' , DATA_FECHADO = '$dataFechado', HORA_FECHADO = '$hora', OBSERVACAO = '$obs', ST_RETORNO = '$feedback' WHERE ID_AGEN = '$id' ");
 
 }
 
 
-
-
-if($selecao->execute()){
-
-    echo $situacao;
-
-
-};
-
-
-
+$selecao->execute();
 
 
 ?>

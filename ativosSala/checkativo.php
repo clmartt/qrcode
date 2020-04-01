@@ -3,12 +3,23 @@
 ob_start();
 session_start();
 $cliente = $_SESSION['cliente'];
+$emailuser = $_SESSION['email'];
+
+if($_POST['usuario']==''){
+  $R_usuario_post = $_SESSION['email'];
+
+}else{
+  $R_usuario_post = strtoupper($_POST['usuario']);
+
+}
 
 include("../conectar.php");
 include("../timezone.php");
 
 $qrcode = $_POST['qrcode'];
 $R_usuario_post = strtoupper($_POST['usuario']);
+
+
 $desc = $_POST['descs'];
 $R_situacao  =$_POST['stats'];
 

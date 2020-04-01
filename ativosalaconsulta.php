@@ -1,26 +1,15 @@
 <?php
 ob_start();
 session_start();
-
-// definições de host, database, usuário e senha
-$host = "qrcodekvm.mysql.dbaas.com.br";
-$db   = "qrcodekvm";
-$user = "qrcodekvm";
-$pass = "qrcodekvm"; 
+include("./conectar.php");
 
 $PREDIO = urldecode($_GET['predio']);
 $ANDARES = $_GET['andar'];
 
-
-$mysqli = new mysqli($host, $user, $pass, $db);
-$mysqli -> set_charset("utf8");
-$sql = "SELECT * FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY SALA ";
-$result = $mysqli->query($sql);
-
-
+$sql = $pdo->query("SELECT * FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES' GROUP BY SALA,QRSALA ORDER BY SALA");
 
    echo '<nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="principal.php">
+  <a class="navbar-brand" href="./principal.php">
    
     Retornar
   </a>
@@ -116,52 +105,39 @@ $(document).ready(function(){
 <BODY>
 <br>
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1"><ion-icon src="./icon/md-search.svg"  size="small" ></ion-icon></span>
-  </div>
-  <input type="text" class="form-control" placeholder="Digite a sala" aria-label="Usuário" aria-describedby="basic-addon1" id="txtBusca" >
-</div>
-
-
-
-
   <?php 
   
-  echo '<div class="table-responsive">';
-  echo '<table class="table table-sm">';
-  echo '<thead>';
-  echo '<tr>';
-  echo '<th scope="col">QRCODE</th>';
-  echo '<th scope="col">ATIVO</th>';
-  echo '<th scope="col">SALA</th>';
-  echo '<th scope="col">SETOR</th>';
-  echo '</tr>';
-  echo '</thead>';
-  echo '<tbody>';
+echo '<div class="container">';
 
-  foreach($result as $res){
-    echo '<tbody>'; 
-    echo '<tr>';
-    echo '<th scope="row" ><a href="./ativosSala/ativodetalhe.php?qrcode='.$res['QRCODE'].'">'.$res['QRCODE'].'</a></th>';
-    echo '<td>'.$res['TIPO_DE_EQUIPAMENTO'].'</td>';
-    echo '<td>'.$res['SALA'].'</td>';
-    echo '<td>'.$res['SETOR'].'</td>';
-    echo '</tr>';
-    echo '</tbody>';
-      
-   
-   
+  foreach($sql as $res){
+    $pegasala = $res['SALA'];
+    $pegaQrsala = $res['QRSALA'];
+    echo '<div class="card">';
+    echo '<div class="card-header">';
+    echo '  Sala : '.$res['SALA'].' - Qrsala : '.$res['QRSALA'].'';
+    echo '</div>';
+    echo '</div>';
+    if($pegaQrsala==''){
+        $sqlAtivo = $pdo->query("SELECT * FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES' AND SALA = '$pegasala'");
+    }else{
+
+        $sqlAtivo = $pdo->query("SELECT * FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES' AND SALA = '$pegasala' AND QRSALA = '$pegaQrsala'");
+    };
     
+    foreach ($sqlAtivo as $at) {
+        $totalAtivo = count($at);
+        echo '<br>';
+        echo '<ul class="list-group list-group-flush">';
+        echo '<li class="list-group-item">'.'<a href="./IOS/misc/examples/seletor.php?qrcode='.$at['QRCODE'].'">'.$at['QRCODE'].'</a> - '.$at['TIPO_DE_EQUIPAMENTO'].' - '.$at['MARCA'].'</li>';
+        echo '</ul>';
+        
+      
+    }
+    echo '<br>';
+
+        
 }
-
-
-echo '</table>';
 echo '</div>';
-echo "<br>";
-   echo "<br>";
-   echo "<br>";
-
 
   ?>
   

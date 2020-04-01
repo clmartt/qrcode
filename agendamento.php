@@ -38,9 +38,9 @@ $retorno = $_GET['retorno'];
   <h3>Upload Agendamento</h3>
   <p></p>
   
-  <form method="POST" action="./agen/processa.php" enctype="multipart/form-data">
+  <form method="POST" action="./agendamento/processa.php" enctype="multipart/form-data">
       <p class="text-left">
-      <a href="./agenadd/agenpredio.php">Novo Agendamento</a>
+      <a href="./agendamento/formagendamento.php">Novo Agendamento</a>
       </p>
      
     <hr>
@@ -62,7 +62,7 @@ $retorno = $_GET['retorno'];
 
       <figure>
       <p class="text-center">
-      <a href="./agenadd/template_v1.zip" download="templateV1"><img src="./images/exceldown.png" width="50" height="50"></a>
+      <a href="./agendamento/template_v1.zip" download="templateV1"><img src="./images/exceldown.png" width="50" height="50"></a>
         
       </p>  
       </figure>

@@ -2,6 +2,7 @@
 <?php
 ob_start();
 session_start(); //pega a sessao do usuario
+$permissao = $_SESSION['permissao'];
 
 
 // cabeçalho para utf8 
@@ -27,11 +28,20 @@ exit(1);
 
 
 
-// primeira forma	
-$select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
-$result = $pdo->query($select); // guardando o resultado da query acima na variavel
-$qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
-
+if($_SESSION['permissao']=='KVM'){
+  // primeira forma	
+  $select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
+  $result = $pdo->query($select); // guardando o resultado da query acima na variavel
+  $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+  
+  }else{
+  
+    // primeira forma	
+  $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$permissao' GROUP BY PREDIO"; // query de consulta ao banco
+  $result = $pdo->query($select); // guardando o resultado da query acima na variavel
+  $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
+  
+  };
 
 
 
@@ -73,7 +83,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
   </head>
   <body>
 
-    <?php include('home.php');?>
+  <?php include("menu.php");?>
   
 
 
@@ -88,18 +98,18 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
  
     <?PHP 
 
-    echo "</br>";
-    echo "</br>";
-    echo "</br>";
+  
     
+    echo "<div class='text-center font-weight-bold'>Chamados Abertos<div> ";
+    echo "</br>";
 
     foreach ($result as $linha) {
    
     echo '<div class="shadow p-3 mb-5 bg-white rounded">';
      echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="./chamado/listaChamado.php?predio='.$linha['PREDIO'].'">';
-       echo '<ion-icon src="./icon/md-business.svg"  size="large" class="btn btn-danger"  ></ion-icon>';
-        echo '  '.$linha['PREDIO'];
+      echo '<a class="navbar-brand" href="./chamado/listaChamado.php?predio='.utf8_encode($linha['PREDIO']).'">';
+       echo '<ion-icon src="./icon/md-business.svg"  size="small" class="btn btn-danger"  ></ion-icon>';
+        echo '  '.utf8_encode($linha['PREDIO']);
          echo '</a>';
           echo '</nav>';
      echo '</div>';
@@ -111,6 +121,9 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
 <?php
 };
+
+echo '<br>';
+echo '<br>';
 ?>
 
 
@@ -122,10 +135,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   
-<?PHP 
 
-include("menu.php");
-?>
-
+    <?php include('Jmodal.php');?>
   </body>
 </html>

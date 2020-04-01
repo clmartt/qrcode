@@ -8,7 +8,7 @@ $permissao = $_SESSION['permissao'];
 
 if($perfil=="ADM"){
   $usuarioADM = "ADM";
- echo $perfil;
+ 
 };
 
 include('conectar.php');
@@ -123,8 +123,9 @@ $(document).ready(function(){
           Agendamento
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="agendamento.php">Novo Agendamento</a>
-          <a class="dropdown-item" href="admatividade.php">Ver Agendamentos</a>
+          	
+          <a class="dropdown-item" href="agendamento.php" >Novo Agendamento</a>
+          <a class="dropdown-item" href="atividadesadm.php" >Ver Agendamentos</a>
           
       </li>
 
@@ -132,7 +133,7 @@ $(document).ready(function(){
       <a class="nav-link" href="" id="convidar" >Convidar</a>
       </li>
 
-      <form class="form-inline my-2 my-lg-0" method="get" action="./ativosSala/ativodetalhe.php">
+      <form class="form-inline my-2 my-lg-0" method="get" action="./IOS/misc/examples/seletor.php">
       <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar QRCODE" aria-label="Pesquisar" name='qrcode'>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
     </form>

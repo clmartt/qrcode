@@ -14,7 +14,7 @@
        
 
     if($insert->execute()){
-        echo " - Postado!";
+        echo "Postado!";
 
     }
 

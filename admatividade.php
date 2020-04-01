@@ -225,6 +225,8 @@ $(document).on('click','#excluir',function(){
         echo  '<br>';
         echo  '<p class="text-danger">'.$res['SITUACAO'].'</p>';
         echo  '<p class="text-secondary">'.'Solicitado por: '.$res['SOLICITANTE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['ATIVIDADE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['TIPO'].'</p>';
         echo  '<p class="text-secondary">'.$res['OBSERVACAO'].'</p>';
         echo '<div class="text-right"><button type="button" class="btn btn-danger btn-sm" id="excluir" value="'.$res['ID_AGENDAMENTO'].'" data-toggle="modal" data-target="#modalexcluir">Excluir</button></div>';
         echo  '</div>';
@@ -243,6 +245,8 @@ $(document).on('click','#excluir',function(){
         echo  '<br>';
         echo  '<p class="text-warning">'.$res['SITUACAO'].'</p>';
         echo  '<p class="text-secondary">'.'Solicitado por: '.$res['SOLICITANTE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['ATIVIDADE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['TIPO'].'</p>';
         echo  '<p class="text-secondary">'.$res['OBSERVACAO'].'</p>';
         echo '<div class="text-right"><button type="button" class="btn btn-danger btn-sm" id="excluir" value="'.$res['ID_AGENDAMENTO'].'" data-toggle="modal" data-target="#modalexcluir">Excluir</button></div>';
         echo  '</div>';
@@ -262,6 +266,8 @@ $(document).on('click','#excluir',function(){
         echo  '<p class="text-info">'.$res['SITUACAO'].'</p>';
         echo  '<p class="text-secondary">'.$res['CONSIDERACAO'].'</p>';
         echo  '<p class="text-secondary">'.'Solicitado por: '.$res['SOLICITANTE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['ATIVIDADE'].'</p>';
+        echo  '<p class="text-secondary">'.$res['TIPO'].'</p>';
         echo  '<p class="text-secondary">'.$res['OBSERVACAO'].'</p>';
         echo '<div class="text-right"><button type="button" class="btn btn-danger btn-sm" id="excluir" value="'.$res['ID_AGENDAMENTO'].'" data-toggle="modal" data-target="#modalexcluir">Excluir</button></div>';
         echo  '</div>';

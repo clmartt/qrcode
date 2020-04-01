@@ -1,16 +1,19 @@
 <?php
-include('conectar.php');
+include('./conectar.php');
 
 $id = $_POST['idAtividade'];
 
 
-$sql = "DELETE FROM AGENDAMENTO WHERE ID_AGENDAMENTO =  :ATVID";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':ATVID', $id, PDO::PARAM_INT);	
+$sql = $pdo->prepare("DELETE FROM AGENDAMENTO WHERE ID_AGEN = '$id' ");
 
-if($stmt->execute()){
+
+if($sql->execute()){
 
     echo "OK";
+}else{
+
+    echo $id.'Nao feito';
+
 };
 
 

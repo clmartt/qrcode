@@ -33,6 +33,7 @@ include("../../../conectar.php");
 // Preparando statement PEGANDO OS DADOS DO EQUIPAMENTO PELO QRCODE
 
 $stmtSelect = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcodeequipamento'")->fetch();
+$statusAtivo = $pdo->query("UPDATE QRCODETABLE SET SITUACAO = 'PROBLEMA' WHERE QRCODE = '$qrcodeequipamento'");
 
 
 
@@ -80,6 +81,7 @@ $horas = date('H:i:s');
 	// Executando statement
 
 	if($stmt->execute()){
+		$statusAtivo->execute();
 		echo '<img src="./images/enviado.gif" width="30" height="30">';
 	}else{
 		$stmt->error_reporting;

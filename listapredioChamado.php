@@ -3,6 +3,7 @@
 ob_start();
 session_start(); //pega a sessao do usuario
 $permissao = $_SESSION['permissao'];
+include("./conectar.php");
 
 
 // cabeçalho para utf8 
@@ -11,33 +12,19 @@ ini_set('default_charset','UTF-8');
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
 
-//conexao com banco de dadso
-
-$dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-$usuario = 'qrcodekvm'; 
-$senha = 'qrcodekvm';  
-
-// Conectando 
-// se nao conectar informa o erro
-try { 
-$pdo = new PDO($dsn, $usuario, $senha); 
-} catch (PDOException $e) { 
-echo $e->getMessage(); 
-exit(1); 
-} 
 
 
 
 if($_SESSION['permissao']=='KVM'){
   // primeira forma	
-  $select = "SELECT * FROM  QRCODETABLE GROUP BY PREDIO"; // query de consulta ao banco
+  $select = "SELECT predio, count(id_chamado) as qtd FROM  CHAMADOS WHERE status = 'ANDAMENTO' GROUP BY predio"; // query de consulta ao banco
   $result = $pdo->query($select); // guardando o resultado da query acima na variavel
   $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
   
   }else{
   
     // primeira forma	
-  $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$permissao' GROUP BY PREDIO"; // query de consulta ao banco
+  $select = "SELECT predio, count(id_chamado) as qtd FROM  CHAMADOS WHERE CLIENTE= '$permissao' AND status = 'ANDAMENTO' GROUP BY predio"; // query de consulta ao banco
   $result = $pdo->query($select); // guardando o resultado da query acima na variavel
   $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
   
@@ -85,48 +72,40 @@ if($_SESSION['permissao']=='KVM'){
 
   <?php include("menu.php");?>
   
+ <div class="container">
+      <p></p>
+      <div class="text-center">
+        <h6>Chamados em Andamento</h6>
+      </div>
+      <hr>
+
+      <div class="table-responsive">
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Prédio</th>
+              <th scope="col">Qtd</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            foreach ($result as $linha) {
+             echo' <tr>';
+             echo'<th scope="row"> <a href="./chamado/listaChamado.php?predio='.$linha['predio'].'">'.$linha['predio'].'</a></th>';
+             echo'<td>'.$linha['qtd'].'</td>';
+             echo'</tr>';
+            }
+             
+            ?>
+          </tbody>
+    </table>
 
 
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
+      </div>
+      
+ </div>
  
-    <?PHP 
-
-  
-    
-    echo "<div class='text-center font-weight-bold'>Chamados Abertos<div> ";
-    echo "</br>";
-
-    foreach ($result as $linha) {
    
-    echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-     echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="./chamado/listaChamado.php?predio='.utf8_encode($linha['PREDIO']).'">';
-       echo '<ion-icon src="./icon/md-business.svg"  size="small" class="btn btn-danger"  ></ion-icon>';
-        echo '  '.utf8_encode($linha['PREDIO']);
-         echo '</a>';
-          echo '</nav>';
-     echo '</div>';
-
-
-     ?>
-    
-
-
-<?php
-};
-
-echo '<br>';
-echo '<br>';
-?>
-
-
 
 
     <!-- JavaScript (Opcional) -->

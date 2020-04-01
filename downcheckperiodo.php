@@ -288,6 +288,170 @@ foreach ($result as $res) {
 
 };
 
+if($_GET['arquivo'] == 'preventiva'){
+
+        //PEGA O OS DADOS DOS ATIVOS
+        $mysqli = new mysqli($host, $user, $pass, $db);
+        $mysqli -> set_charset("utf8");
+        $sqlchamado = "SELECT * FROM PREVENTIVAS where DATAs_PREV BETWEEN '$dataInglesInicial' and '$dataInglesFinal' and PREDIO = '$predio' AND CLIENTE != 'EVENTOS' ORDER BY DATA_PREV";
+        $result = $mysqli->query($sqlchamado);
+        
+        
+        
+        
+        
+        
+        
+        
+        $objPHPExcel = new PHPExcel();
+        
+        $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'DATA');
+        $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'QRCODE');
+        $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'ATIVO');
+        $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'PREDIO');
+        $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'ANDAR');
+        $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'SETOR');
+        $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'SALA');
+        $objPHPExcel->getActiveSheet()->SetCellValue('H1', 'ATIVIDADE');
+        $objPHPExcel->getActiveSheet()->SetCellValue('I1', 'USUARIO');
+        $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'OBS');
+        $objPHPExcel->getActiveSheet()->SetCellValue('K1', 'CLIENTE');
+       
+        
+        
+        
+        
+        $contador = 2;
+        
+        foreach ($result as $res) {
+        
+                       
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A'.$contador, $res['DATA_PREV']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B'.$contador, $res['QRCODE']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C'.$contador, $res['ATIVO']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D'.$contador, $res['PREDIO']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('E'.$contador, $res['ANDAR']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('F'.$contador, $res['SETOR']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('G'.$contador, $res['SALA']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['ATIVIDADE']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['USUARIO']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['OBS']);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['CLIENTE']);
+                        
+                        
+                      
+                       
+                               $contador = $contador + 1;
+         };
+        
+        
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="lista_de_ativos-'.date('d/m/Y').'.xlsx"');
+                header('Cache-Control: max-age=0');
+                header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 
+                header('Cache-Control: cache, must-revalidate'); 
+                header('Pragma: public'); 
+        
+        
+        //$objPHPExcel->getActiveSheet()->SetTitle("checklist");
+        //$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        //$objWriter->save('php://output');
+        
+        
+        
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                ob_end_clean();
+                $objWriter->save('php://output');
+        
+        };
+
+
+
+        if($_GET['arquivo'] == 'manutencao'){
+
+                //PEGA O OS DADOS DOS ATIVOS
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
+                $sqlchamado = "SELECT * FROM MANUTENCAO where DATA_RETIRADA BETWEEN '$dataInglesInicial' and '$dataInglesFinal' and PREDIO = '$predio' AND CLIENTE != 'EVENTOS' ORDER BY DATA_RETIRADA";
+                $result = $mysqli->query($sqlchamado);
+                
+                
+                
+                
+                
+                
+                
+                
+                $objPHPExcel = new PHPExcel();
+                
+                $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'DATA RETIRADA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'QRCODE');
+                $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'ATIVO');
+                $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'PREDIO');
+                $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'ANDAR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'SETOR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'SALA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('H1', 'QRSALA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('I1', 'ABERTO_POR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'RETIRADO_POR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('K1', 'DESTINO');
+                $objPHPExcel->getActiveSheet()->SetCellValue('L1', 'OS');
+                $objPHPExcel->getActiveSheet()->SetCellValue('M1', 'SITUAÇÃO');
+                $objPHPExcel->getActiveSheet()->SetCellValue('N1', 'CLIENTE');
+               
+                
+                
+                
+                
+                $contador = 2;
+                
+                foreach ($result as $res) {
+                
+                               
+                                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$contador, $res['DATA_RETIRADA']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$contador, $res['QRCODE']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('C'.$contador, $res['ATIVO']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('D'.$contador, $res['PREDIO']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('E'.$contador, $res['ANDAR']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('F'.$contador, $res['SETOR']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('G'.$contador, $res['SALA']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['QRSALA']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['ABERTO_POR']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['RETIRADO_POR']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['DESTINO']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['OS']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, $res['SITUACAO']);
+                                $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, $res['CLIENTE']);
+                                
+                                
+                              
+                               
+                                       $contador = $contador + 1;
+                 };
+                
+                
+                        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                        header('Content-Disposition: attachment;filename="lista_de_ativos-'.date('d/m/Y').'.xlsx"');
+                        header('Cache-Control: max-age=0');
+                        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
+                        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 
+                        header('Cache-Control: cache, must-revalidate'); 
+                        header('Pragma: public'); 
+                
+                
+                //$objPHPExcel->getActiveSheet()->SetTitle("checklist");
+                //$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+                //$objWriter->save('php://output');
+                
+                
+                
+                        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                        ob_end_clean();
+                        $objWriter->save('php://output');
+                
+                };
+
 
 
 

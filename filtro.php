@@ -70,16 +70,16 @@ include('conectar.php');
             # code...
         
             echo '<tr>';
-            echo '<td>'.utf8_encode($res['qtd']).'</td>';
-            echo '<td>'.utf8_encode($res['andar']).'</td>';
-            echo '<td>'.utf8_encode($res['sala']).'</button></td>';
-            echo '<td>'.utf8_encode($res['problema']).'</td>';
-            echo '<td>'.utf8_encode($res['qrcode']).'</td>';
-            echo '<td>'.utf8_encode($res['ativo']).'</td>';
-            echo '<td>'.utf8_encode($res['status']).'</td>';
-            echo '<td>'.utf8_encode($res['observacao']).'</td>';
-            echo '<td>'.utf8_encode($res['OS_BANCO']).'</td>';
-            echo '<td>'.utf8_encode($res['solucao']).'</td>';
+            echo '<td>'.$res['qtd'].'</td>';
+            echo '<td>'.$res['andar'].'</td>';
+            echo '<td>'.$res['sala'].'</button></td>';
+            echo '<td>'.$res['problema'].'</td>';
+            echo '<td>'.$res['qrcode'].'</td>';
+            echo '<td>'.$res['ativo'].'</td>';
+            echo '<td>'.$res['status'].'</td>';
+            echo '<td>'.$res['observacao'].'</td>';
+            echo '<td>'.$res['OS_BANCO'].'</td>';
+            echo '<td>'.$res['solucao'].'</td>';
             
             echo '</tr>';
         };
