@@ -35,6 +35,8 @@ $postado = $pdo->query("SELECT * FROM POST_CHAMADOS WHERE ID_CHAMADO = '$idChama
     <script src="jquery-3.2.1.min.js"></script>
 
     <script>
+
+
         $(document).on('click','#excluirPost',function(){
             var confirmar  = confirm("Deseja excluir o Post?");
             if(confirmar){
@@ -46,6 +48,36 @@ $postado = $pdo->query("SELECT * FROM POST_CHAMADOS WHERE ID_CHAMADO = '$idChama
 
 
         });
+
+        $(document).on('click','#responder',function(){
+            var idPost = $(this).val();
+            $("#recebeIdPost").empty();
+            $("#txtResposta").val("");
+            $("#recebeIdPost").val(idPost);
+            
+            $("#respostas").modal("show");
+        });
+
+///////////////////////////BOTAO MOSTRAR RESPOSTAS/////////////////////////////////////////////////////
+        $(document).on('click','#mostraRespostas',function(){
+              var load = '<div class="text-center"><img src="../images/ajax.gif"></div>';
+              $(this).closest('div > #postado').children().children('#recebeRespostas').empty();
+              $(this).closest('div > #postado').children().children('#recebeRespostas').append(load);
+              var idPost = $(this).val();
+              var ele = $(this);
+                // $(this).closest('div > #postado').children().children('#recebeRespostas').append('carregou');
+                $.post('getResposta.php',{idPost:idPost},function(data){
+                    ele.closest('div > #postado').children().children('#recebeRespostas').empty();
+                    ele.closest('div > #postado').children().children('#recebeRespostas').append(data);
+                  });
+              
+
+        });
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $(document).ready(function(){
             var pagina = '../listapredioChamado.php';
@@ -84,12 +116,29 @@ $postado = $pdo->query("SELECT * FROM POST_CHAMADOS WHERE ID_CHAMADO = '$idChama
                     var load = '<div class="text-center"><img src="../images/ajax.gif"></div>';
                     $("#resposta").append(load);
                     $.post('updatechamado.php',{id_do_chamado:idChamado,logado:email,solucao:solucao,qrcode:qrcodeAtivo},function(){
+                        
                         location.reload();
                     });
                 }
                 
 
             });
+
+            $("#ResponderPost").click(function(){
+                var usuario = '<?php echo $email ?>';
+                var idPost = $("#recebeIdPost").val();
+                var resposta = $("#txtResposta").val();
+                alert(idPost);
+
+                $.post('insertResposta.php',{usuario:usuario,idPost:idPost,resposta:resposta},function(data){
+                  $("#ResponderPost").fadeOut();
+                  location.reload();
+                });
+
+            });
+
+
+
         
         
         });//document
@@ -136,7 +185,7 @@ $postado = $pdo->query("SELECT * FROM POST_CHAMADOS WHERE ID_CHAMADO = '$idChama
                         </div>
                         </div>
             
-            <div class="text-center"><button  class="btn btn-primary" style="margin: 0 20px" id="criarPost"  value="<?php echo $idChamado ?>">Postar</button><button  class="btn btn-danger" id="fechaChamado" value="<?php echo $idChamado?>">Fechar</button></div>
+            <div class="text-center"><button  class="btn btn-primary" style="margin: 0 20px" id="criarPost"  value="<?php echo $idChamado ?>">Criar Post</button><button  class="btn btn-danger" id="fechaChamado" value="<?php echo $idChamado?>">Fechar</button></div>
         </div>
         <div class="text-center" id="resposta"></div>
 
@@ -144,15 +193,18 @@ $postado = $pdo->query("SELECT * FROM POST_CHAMADOS WHERE ID_CHAMADO = '$idChama
     </div>
     <?php
     foreach ($postado as $p) {
-        echo '<div class="card shadow-sm p-3 mb-5 bg-white rounded">';
+        echo '<div class="card shadow-sm p-3 mb-5 bg-white rounded" id="postado">';
         echo '<div class="card-body">';
         echo '<h5 class="card-title">'.$p['TITULO'].'</h5>';
         echo '<h6 class="card-subtitle mb-2 text-muted">'.$p['USUARIO'].'</h6>';
         echo ' <p class="card-text">'.$p['DESCRICAO'].'</p>';
         echo ' <p class="card-text">'.date("d-m-Y",strtotime($p['DATA_POST'])).' - '.date("H:i:s",strtotime($p['HORA_POST'])).'</p>';
 
-        echo ' <button class="btn btn-danger" id="excluirPost" value="'.$p['ID_POST'].'">Excluir</button>';
-        
+        echo ' <button class="btn btn-info" id="responder" value="'.$p['ID_POST'].'" style="margin: 0 25px">Responder</button><button class="btn btn-danger" id="excluirPost" value="'.$p['ID_POST'].'">Excluir</button>';
+        echo '<br>';
+        echo '<div class="text-right" ><button class="btn btn-link" id="mostraRespostas" value="'.$p['ID_POST'].'"> Respostas</button></div>';
+        echo '<div id="recebeRespostas" ></div>';
+        echo '<br>';
         echo '</div>';
         echo '</div>';
     }
@@ -200,11 +252,47 @@ $postado = $pdo->query("SELECT * FROM POST_CHAMADOS WHERE ID_CHAMADO = '$idChama
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary" id="postar">POSTAR</button>
+        <button type="button" class="btn btn-primary" id="postar">Postar</button>
       </div>
     </div>
   </div>
 </div>
+
+
+
+ <!-- Modal respostas --------------------------------------------------------------------------------------------------->
+ <div class="modal fade" id="respostas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Responder Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                  <form>
+                    <input type="hidden" id="recebeIdPost">
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Responder Post</label>
+                        <textarea class="form-control" id="txtResposta" rows="5"></textarea>
+                      </div>
+                                            
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" id="ResponderPost">Postar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 

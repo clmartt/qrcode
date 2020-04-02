@@ -50,7 +50,7 @@ if($_SESSION['permissao']=='KVM'){
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>ATIVIDADES DE HOJE </title>
+    <title>Chamados em Andamento </title>
 
 	<script src="jquery-3.2.1.min.js"></script>
     <script>
@@ -77,10 +77,25 @@ if($_SESSION['permissao']=='KVM'){
       <div class="text-center">
         <h6>Chamados em Andamento</h6>
       </div>
-      <hr>
 
+
+      <div class="card">
+          <div class="card-body">
+          <form class="form-inline" method="GET" action="./chamado/detalheChamado.php">
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="idChamado" class="sr-only">Password</label>
+                  <input type="text" class="form-control" id="idChamado" name="idChamado" placeholder="Nº Chamado">
+                </div>
+                 <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+          </form>
+          </div>
+      </div>
+     <br>
+
+
+      <div class="card-body shadow-sm p-3 mb-5 bg-white rounded">
       <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-hover table-sm">
           <thead>
             <tr>
               <th scope="col">Prédio</th>
@@ -101,6 +116,7 @@ if($_SESSION['permissao']=='KVM'){
     </table>
 
 
+      </div>
       </div>
       
  </div>

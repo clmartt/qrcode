@@ -152,7 +152,7 @@ if($mail == ''){
 
             <div class="container ">
                           
-                <h5>Atividades Agendadas</h5>
+                <h5>Atividades Agendadas - <?php echo date('d-m-Y') ?></h5>
                 
                
                

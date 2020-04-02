@@ -102,29 +102,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
 
 
-            $("#sala").change(function(){
-                var predio = $("#predio option:selected").val();
-                var andar = $("#andar option:selected").val();
-                var sala  = $(this).val();
-                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
-                $("#setor").empty();
-                $("#carregaSetor").append(load);
-                $("#setor").append('<option>Selecione Setor</option>');
-                           
-
-                $.getJSON('./json/qrcodetable/pegasetor.php',{predios:predio,andares:andar,salas:sala},function(data){
-                    
-                    for(i=0;i<data.length;i++){
-                        var opcao = '<option>'+data[i].SETOR+'</option>';
-                        $("#setor").append(opcao);
-                    }
-                            
-                    $("#carregaSetor").empty();
-                });
-            });
-
-
-    		
+                		
     	});
 
     </script>
@@ -169,13 +147,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                     <option>Escolha Sala</option>
                 </select>
             </div>
-            <div class="text-center" id="carregaSetor" ></div>
-            <div class="form-group">
-                <select class="form-control form-control-sm" id="setor" name="setor">
-                    <option>Escolha Setor</option>
-                </select>
-            </div>
-            
+         
             
             <div class="text-center"><button type="submit" class="btn btn-primary">Submit</button></div>
         </form>
