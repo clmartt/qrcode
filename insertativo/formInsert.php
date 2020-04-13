@@ -48,8 +48,8 @@ $addsetor = $_GET['setor'];
   </a>
 </nav>
 
-	<div class="container-contact100">
-		<div class="wrap-contact100">
+	<div class="container">
+		<div class="card-body shadow p-3 mb-5 bg-white rounded">
 			<form class="contact100-form validate-form" action="insertativo.php" method="POST">
 				<span class="contact100-form-title">
 					Novo Ativo

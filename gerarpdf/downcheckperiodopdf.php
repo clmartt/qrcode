@@ -186,7 +186,7 @@ $html .='<tbody>';
 foreach ($sql as $res) {
         $html .= "<tr>";
         $html .= "<td>".$res['QRCODE']." </td>";
-        $html .= "<td>".$res['ATIVO']." </td>";
+        $html .= "<td>".$res['TIPO_DE_EQUIPAMENTO']." </td>";
         $html .= "<td>".$res['MARCA']." </td>";
         $html .= "<td>".$res['N_SERIE']." </td>";
         $html .= "<td>".$res['ANDAR']." </td>";

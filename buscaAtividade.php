@@ -38,7 +38,7 @@ if($atividade == 'Minhas'){
 
     <title>Busca Atividade</title>
 
-    <script src="jquery-3.2.1.min.js"></script>
+    
     <script>
             
 

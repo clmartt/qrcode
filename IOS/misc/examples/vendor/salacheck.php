@@ -37,12 +37,12 @@ $selEquipamentos = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsal
 $qtd = $selEquipamentos->rowCount();
 
 // abaixo para pegar informações do nome da sala
-$nomesala = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsala' group by SALA");
+$nomesala = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRSALA = '$qrsala' group by SALA,QRSALA");
 
 foreach ($nomesala as $sala) {
     echo "<br>";
     echo "<div class='container'>";
-    echo "<b>". $sala['PREDIO']. " - ".$sala['SALA']." - ".$sala['ANDAR']."º</b>";
+    echo "<b>". $sala['PREDIO']. " - ".$sala['ANDAR']."º - ".$sala['SALA']." - ".$qtd." Ativos</b>";
     echo "<hr>";
     echo "</div>";
 };
@@ -171,7 +171,7 @@ $pegaproblema = $pdo->query("SELECT * FROM PROBLEMAS");
         
         ?>
     <div class="container">
-        <h4><span id="retorno">Lista de Ativos</span></h4><br>
+        <h4><span id="retorno">Lista de Ativos  </span></h4><br>
 
         <table class="table table-hover">
             <thead>
@@ -219,7 +219,7 @@ $pegaproblema = $pdo->query("SELECT * FROM PROBLEMAS");
   
 
 
-        <!-- Modal -->
+        <!-- Modal ------------------------------------------------------------------------------------------------------>
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -230,7 +230,7 @@ $pegaproblema = $pdo->query("SELECT * FROM PROBLEMAS");
                 </button>
             </div>
             <div class="modal-body">
-                        <form >
+                        <form>
                             <div class="form-group">
                                 <label for="txtqrcode">Qrcode</label>
                                 <input type="text" class="form-control" id="txtqrcode" name='qrcode'>

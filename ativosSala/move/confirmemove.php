@@ -59,7 +59,7 @@ $dadosAtivo = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcode'");
                 $("#divpara").empty();
                 $("#divpara").append("ATUAL");
                 $("#home").fadeIn();
-                alert(data);
+                
 
 
             });
@@ -75,12 +75,7 @@ $dadosAtivo = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcode'");
     </script>
   </head>
   <body>
-      
-  <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand"  href="../ativodetalhe.php?qrcode=<?php echo $qrcode?>">
-      Retornar 
-    </a>
-  </nav>
+  
   <br>
     <div class='container'><h5>Confirme sua solicitação</h5></div>
     <br>

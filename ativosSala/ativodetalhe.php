@@ -26,11 +26,11 @@ if(isset($_GET['obs'])){
 
 include('../conectar.php');
 
-
+// faz o select dos chamados
 $result  = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE='$qrcode' ");
 $selChamado = $pdo->query("SELECT id_chamado,data_2,status,data_fechado,problema,observacao, COUNT(problema) as qtd FROM CHAMADOS WHERE qrcode ='$qrcode' AND ano = '$ano' group by problema,id_chamado,data_2,status,observacao ORDER BY status,data_2");
 
-// faz o select dos chamados
+
 
 $selectcheck = "SELECT DATA_2 FROM TABLE_CHECK where QRCODE = '$qrcode' ";
 $resultcheck = $pdo->query($selectcheck);
@@ -189,7 +189,7 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   echo '      <a class="btn btn-link" href="formManu.php?qrcode='.$resultado["QRCODE"].'">Manutenção</a>';
   echo '    </li>';
   echo '    <li class="nav-item active">';
-  echo '      <a class="btn btn-link " href="./move/movepredio.php?qrcode='.$resultado["QRCODE"].'">Mover</a>';
+  echo '      <a class="btn btn-link " href="./move/localmover.php?qrcode='.$resultado["QRCODE"].'">Mover</a>';
   echo '    </li>';
   echo '  </ul>';
   echo '</div>';
@@ -222,7 +222,7 @@ $prob = $pdo->query("SELECT * FROM PROBLEMAS");
   echo '<div class="container">'; 
   echo '<nav aria-label="breadcrumb">';
   echo '<ol class="breadcrumb">';
-  echo '<li class="breadcrumb-item active" aria-current="page">Chamados do Ativo (Ano Vigente)</li>';
+  echo '<li class="breadcrumb-item active" aria-current="page">Chamados do Ativo '.date('Y').'</li>';
   echo '</ol>';
   echo '</nav>';
   echo '<table class="table table-sm">';

@@ -5,6 +5,8 @@ session_start();
 $cliente = $_SESSION['cliente'];
 $emailuser = $_SESSION['email'];
 
+
+
 if($_POST['usuario']==''){
   $R_usuario_post = $_SESSION['email'];
 

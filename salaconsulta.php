@@ -8,30 +8,19 @@ $db   = "qrcodekvm";
 $user = "qrcodekvm";
 $pass = "qrcodekvm"; 
 
-$PREDIO = urldecode($_GET['predio']);
-$ANDARES = $_GET['andar'];
+$PREDIO = urldecode($_POST['predio']);
+$ANDARES = $_POST['andar'];
+
 
 
 $mysqli = new mysqli($host, $user, $pass, $db);
 $mysqli -> set_charset("utf8");
-$sql = "SELECT DISTINCT SALA, SETOR, ANDAR,PREDIO FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY SETOR ";
+$sql = "SELECT DISTINCT SALA, SETOR, ANDAR,PREDIO FROM QRCODETABLE WHERE PREDIO ='$PREDIO' and ANDAR = '$ANDARES'  ORDER BY ANDAR, SALA, SETOR ";
 $result = $mysqli->query($sql);
 
 
 
-   echo '<nav class="navbar fixed-top navbar-dark bg-dark">
-  <a class="navbar-brand" href="principal.php">
-   
-    Retornar
-  </a>
-</nav>';
-echo "<p></p>";
-echo "</br>";
-echo "</br>";
-echo "</br>";
-
-
-    
+      
 
 
  
@@ -59,7 +48,7 @@ echo "</br>";
   <link rel="stylesheet" type="text/css" href="css/util.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-  <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+
   <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -72,7 +61,7 @@ echo "</br>";
   
 $(document).ready(function(){
 
-          $('button').mousedown(function(){
+          $('.btn btn-outline-warning').mousedown(function(){
            var sala = $(this).val();
            var sala_split = sala.split(" ");
            
@@ -113,45 +102,23 @@ $(document).ready(function(){
 
 
 </script>
+
+
 <BODY>
 <br>
 
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon1"><ion-icon src="./icon/md-search.svg"  size="small" ></ion-icon></span>
-  </div>
-  <input type="text" class="form-control" placeholder="Digite a sala" aria-label="Usuário" aria-describedby="basic-addon1" id="txtBusca" >
-</div>
-
-
-
-
   <?php 
-  
-  echo '<div class="table-responsive">';
-  echo '<table class="table table-sm">';
-  echo '<thead>';
-  echo '<tr>';
-  echo '<th scope="col">Andar</th>';
-  echo '<th scope="col">Setor</th>';
-  echo '<th scope="col">Sala</th>';
-  echo '<th scope="col">Marcar</th>';
-  echo '</tr>';
-  echo '</thead>';
-  echo '<tbody>';
 
   foreach($result as $res){
-    echo '<tbody>'; 
-    echo '<tr>';
-    echo '<th scope="row" >'.$res['ANDAR'].'</th>';
-    echo '<td>'.$res['SETOR'].'</td>';
-    echo '<td>'.$res['SALA'].'</td>';
-    echo '<td>'.'<button class="btn btn-outline-warning" Value="'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.$res['SETOR'].'-'.$res['SALA'].'">'.'<ion-icon src="./icon/md-contacts.svg"  size="small" ></ion-icon></button>'.'</td>';
-    echo '</tr>';
-    echo '</tbody>';
+    echo '<div class="card shadow-sm p-3 mb-5 bg-white rounded">';
+    echo '<div class="card-body">';
+    echo '<h5 class="card-title">'.$res['SALA'].'</h5>';
+    echo '<h6 class="card-subtitle mb-2 text-muted">'.$res['SETOR'].'</h6>';
+    echo '<td>'.'<div class="text-right"><button class="btn btn-outline-warning" Value="'.$res['PREDIO'].'-'.$res['ANDAR'].'-'.$res['SETOR'].'-'.$res['SALA'].'">'.'<ion-icon src="./icon/md-contacts.svg"  size="small" ></ion-icon></button></div>'.'</td>';
+    echo '</div>';
+    echo '</div>';
+
       
-   
-   
     
 }
 

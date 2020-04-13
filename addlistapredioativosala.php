@@ -1,17 +1,18 @@
 
 <?php
 
+
 ob_start();
 session_start(); //pega a sessao do usuario
 $cliente = $_SESSION['cliente'];
 
 include("conectar.php");
+// cabeçalho para utf8 
 
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
 
-//conexao com banco de dadso
-
+ 
 
 
 if($_SESSION['cliente']=='KVM'){
@@ -22,7 +23,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
 }else{
 
-  // primeira forma	
+  
 $select = "SELECT * FROM  QRCODETABLE WHERE CLIENTE= '$cliente' GROUP BY PREDIO"; // query de consulta ao banco
 $result = $pdo->query($select); // guardando o resultado da query acima na variavel
 $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela query
@@ -46,7 +47,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
   	
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Meta tags Obrigatórias -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -59,12 +60,103 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     	
     	
     	$(document).ready(function(){
+            $("#setor").hide();
+            $("#predio").change(function(){
+                var predio  = $(this).val();
+                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                $("#carregaAndar").append(load);
+                $("#andar").empty();
+                $("#andar").append('<option>Selecione Andar</option>');
+                $("#sala").empty();
+                $("#setor").empty();
+               
 
-      
+                $.getJSON('./json/qrcodetable/pegaandar.php',{predios:predio},function(data){
+                    for(i=0;i<data.length;i++){
+                        var opcao = '<option>'+ data[i].ANDAR+'</option>';
+                        $("#andar").append(opcao);
+                    }
+                            
+                    $("#carregaAndar").empty();
+                });
+            });
+
+            $("#andar").change(function(){
+                var predio = $("#predio option:selected").val();
+                var andar  = $(this).val();
+                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                $("#carregaSala").append(load);
+                $("#sala").empty();
+                $("#sala").append('<option>Selecione Sala</option>');
+                           
+
+                $.getJSON('./json/qrcodetable/pegasala.php',{predios:predio,andares:andar},function(data){
+                    for(i=0;i<data.length;i++){
+                        var opcao = '<option>'+ data[i].SALA+'</option>';
+                        $("#sala").append(opcao);
+                    }
+                            
+                    $("#carregaSala").empty();
+                });
+            });
 
 
-    		//espaço reservado para biblioteca jquery caso seja necessário o uso
 
+            $("#sala").change(function(){
+                var predio = $("#predio option:selected").val();
+                var andar = $("#andar option:selected").val();
+                var sala  = $(this).val();
+                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                $("#setor").empty();
+                $("#carregaSetor").append(load);
+                $("#setor").append('<option>Selecione Setor</option>');
+                           
+
+                $.getJSON('./json/qrcodetable/pegasetor.php',{predios:predio,andares:andar,salas:sala},function(data){
+                    
+                    for(i=0;i<data.length;i++){
+                        
+                        if(data[i].SETOR == ""){
+                            $("#setor").empty();
+                           
+                        }else{
+
+                            var opcao = '<option>'+data[i].SETOR+'</option>';
+                             $("#setor").append(opcao);
+                             
+                             $("#setor").fadeIn();
+                        }
+                        
+                    }// end for
+                            
+                         $("#carregaSetor").empty();
+
+                    
+                    
+                });
+            });
+
+
+            $("#buscaAtivos").click(function(){
+                $("#listaAtivos").empty();
+                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                $("#listaAtivos").append(load);
+                var predio = $("#predio option:selected").val();
+                var andar = $("#andar option:selected").val();
+                var sala = $("#sala option:selected").val();
+                var setor = $("#setor option:selected").val();
+                $.post('getAtivosSala.php',{predio:predio,andar:andar,sala:sala,setor:setor},function(data){
+                     
+                    $("#listaAtivos").empty();
+                   
+                    $("#listaAtivos").append(data);
+                });
+
+
+            });
+
+
+    		
     	});
 
     </script>
@@ -73,46 +165,64 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
   </head>
   <body>
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  
+
+
+  </div>
       <?php include("menu.php");?>
 
+<br>
 
-    <?PHP 
- 
-  echo "</br>";
-    echo "<div class='text-center font-weight-bold'>Escolha Prédio<div> ";
-    echo "</br>";
-    foreach ($result as $linha) {
-   
-    echo '<div class="shadow p-3 mb-5 bg-white rounded">';
-     echo '<nav class="navbar navbar-light bg-light">';
-      echo '<a class="navbar-brand" href="addandarativosala.php?predio='.$linha['PREDIO'].'">';
-       echo '<ion-icon src="./icon/md-business.svg"  size="small" class="text-secondary"  ></ion-icon>';
-        echo '  '.$linha['PREDIO'];
-         echo '</a>';
-          echo '</nav>';
-     echo '</div>';
+<div class="container">
+    <h5>Ativos por Sala</h5>
+      <div class="card-body shadow p-3 mb-5 bg-white rounded">
+      <form method="GET" action="./insertativo/formInsert.php">
+            <div class="form-group">
+                <select class="form-control form-control-sm" id="predio" name="predio">
+                    <option>Escolha Prédio</option>
+                    <?php
+                        foreach ($result as $linha) {
+                            echo '<option>'.$linha['PREDIO'].'</option>';
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="text-center" id="carregaAndar"></div>
+
+            <div class="form-group">
+                <select class="form-control form-control-sm" id="andar" name="andar">
+                    <option>Escolha Andar</option>
+                </select>
+            </div>
+
+            <div class="text-center" id="carregaSala" ></div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" id="sala" name="sala">
+                    <option>Escolha Sala</option>
+                </select>
+            </div>
+            <div class="text-center" id="carregaSetor" ></div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" id="setor" name="setor">
+                <option>Escolha Setor</option>
+                </select>
+            </div>
+            
+            
+            <div class="text-center"><button type="button" class="btn btn-primary" id="buscaAtivos">Buscar</button></div>
+        </form>
+        <br>
+
+        <div id="listaAtivos"></div>
+                        
+ </div>
      
-
-
-     ?>
-    
-
-
-<?php
-};
-
-echo '<br>';
-echo '<br>';
-?>
-
-
 
 
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   

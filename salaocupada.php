@@ -60,7 +60,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     	
     	
     	$(document).ready(function(){
-
+            $("#setor").hide();
             $("#predio").change(function(){
                 var predio  = $(this).val();
                 var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
@@ -102,7 +102,58 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
 
 
-                		
+            $("#sala").change(function(){
+                var predio = $("#predio option:selected").val();
+                var andar = $("#andar option:selected").val();
+                var sala  = $(this).val();
+                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                $("#setor").empty();
+                $("#carregaSetor").append(load);
+                $("#setor").append('<option>Selecione Setor</option>');
+                           
+
+                $.getJSON('./json/qrcodetable/pegasetor.php',{predios:predio,andares:andar,salas:sala},function(data){
+                    
+                    for(i=0;i<data.length;i++){
+                        
+                        if(data[i].SETOR == ""){
+                            $("#setor").empty();
+                        }else{
+
+                            var opcao = '<option>'+data[i].SETOR+'</option>';
+                             $("#setor").append(opcao);
+                             $("#setor").fadeIn();
+                        }
+                        
+                    }// end for
+                            
+                         $("#carregaSetor").empty();
+
+                    
+                    
+                });
+            });
+
+
+            $("#buscaAtivos").click(function(){
+                $("#listasala").empty();
+                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                $("#listasala").append(load);
+                var predio = $("#predio option:selected").val();
+                var andar = $("#andar option:selected").val();
+                
+                $.post('salaconsulta.php',{predio:predio,andar:andar},function(data){
+                     
+                    $("#listasala").empty();
+                   
+                    $("#listasala").append(data);
+                });
+
+
+            });
+
+
+    		
     	});
 
     </script>
@@ -121,6 +172,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 <br>
 
 <div class="container">
+ <h5>Marcar Sala Ocupada</h5>
       <div class="card-body shadow p-3 mb-5 bg-white rounded">
       <form method="GET" action="./insertativo/formInsert.php">
             <div class="form-group">
@@ -141,18 +193,15 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                 </select>
             </div>
 
-            <div class="text-center" id="carregaSala" ></div>
-            <div class="form-group">
-                <select class="form-control form-control-sm" id="sala" name="sala">
-                    <option>Escolha Sala</option>
-                </select>
-            </div>
-         
+                
             
-            <div class="text-center"><button type="submit" class="btn btn-primary">Submit</button></div>
+            <div class="text-center"><a href="#" class="btn btn-primary" id="buscaAtivos">Buscar</a></div>
         </form>
-    
-      </div>
+        <br>
+
+        <div id="listasala"></div>
+                        
+ </div>
      
 
 

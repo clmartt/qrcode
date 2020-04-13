@@ -5,36 +5,20 @@
 //sessao
 
 use function PHPSTORM_META\type;
-
 ob_start();
-
 session_start();
-
-
-
 
 
 // Definindo parametros de conexao 
 
 $dsn = 'mysql:host=qrcodekvm.mysql.dbaas.com.br;dbname=qrcodekvm'; 
-
 $usuario = 'qrcodekvm'; 
-
 $senha = 'qrcodekvm'; 
-
-
-
 //recebendo do formulario os campos de login
 
 $email = $_POST['email'];
-
 $senha_user = preg_replace('/[^[:alpha:]_]/', '',$_POST['senha']);
-
-
 $_SESSION['email'] = $email;
-
-
-
 $data_2 = date('d/m/y'); // guarda a data
 
  // Criando configuraçaõ do Slack
@@ -85,11 +69,7 @@ $obj = $stmt->fetchObject();
 
 if ($obj) { 
 
-
-
 $_SESSION['email'] = $_POST['email']; 
-
-
 $Vsessao = $_SESSION['email'];
 
 echo $Vsessao;
@@ -99,7 +79,7 @@ foreach ($result as $retorno) {
   $_SESSION['cliente'] = $retorno['cliente'];
   $_SESSION['perfil'] = $retorno['perfil'];
   $_SESSION['permissao'] = $retorno['permissao'];
-  $_SESSION['prefil'] = $retorno['perfil'];
+  $_SESSION['nome'] = $retorno['nome'];
 
 }
 $scliente = $_SESSION['cliente'];
