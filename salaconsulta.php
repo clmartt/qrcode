@@ -61,7 +61,7 @@ $result = $mysqli->query($sql);
   
 $(document).ready(function(){
 
-          $('.btn btn-outline-warning').mousedown(function(){
+          $('.btn-outline-warning').mousedown(function(){
            var sala = $(this).val();
            var sala_split = sala.split(" ");
            

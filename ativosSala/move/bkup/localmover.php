@@ -6,11 +6,12 @@ ob_start();
 session_start(); //pega a sessao do usuario
 $cliente = $_SESSION['cliente'];
 
-include("conectar.php");
+include("../../conectar.php");
 // cabeçalho para utf8 
 
 
 $logado = $_GET['usuario']; // guardando usuario logado na variavel
+$qrcode = $_GET['qrcode'];
 
  
 
@@ -53,7 +54,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>ATIVOS POR SALA </title>
+    <title>ADICIONAR ATIVO </title>
 
 	<script src="jquery-3.2.1.min.js"></script>
     <script>
@@ -63,7 +64,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
             $("#setor").hide();
             $("#predio").change(function(){
                 var predio  = $(this).val();
-                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                var load = '<div class="text-center"><img src="../../images/ajax.gif"></div>';
                 $("#carregaAndar").append(load);
                 $("#andar").empty();
                 $("#andar").append('<option>Selecione Andar</option>');
@@ -71,7 +72,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                 $("#setor").empty();
                
 
-                $.getJSON('./json/qrcodetable/pegaandar.php',{predios:predio},function(data){
+                $.getJSON('../../json/qrcodetable/pegaandar.php',{predios:predio},function(data){
                     for(i=0;i<data.length;i++){
                         var opcao = '<option>'+ data[i].ANDAR+'</option>';
                         $("#andar").append(opcao);
@@ -84,13 +85,13 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
             $("#andar").change(function(){
                 var predio = $("#predio option:selected").val();
                 var andar  = $(this).val();
-                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                var load = '<div class="text-center"><img src="../../images/ajax.gif"></div>';
                 $("#carregaSala").append(load);
                 $("#sala").empty();
                 $("#sala").append('<option>Selecione Sala</option>');
                            
 
-                $.getJSON('./json/qrcodetable/pegasala.php',{predios:predio,andares:andar},function(data){
+                $.getJSON('../../json/qrcodetable/pegasala.php',{predios:predio,andares:andar},function(data){
                     for(i=0;i<data.length;i++){
                         var opcao = '<option>'+ data[i].SALA+'</option>';
                         $("#sala").append(opcao);
@@ -106,24 +107,22 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                 var predio = $("#predio option:selected").val();
                 var andar = $("#andar option:selected").val();
                 var sala  = $(this).val();
-                var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
+                var load = '<div class="text-center"><img src="../../images/ajax.gif"></div>';
                 $("#setor").empty();
                 $("#carregaSetor").append(load);
                 $("#setor").append('<option>Selecione Setor</option>');
                            
 
-                $.getJSON('./json/qrcodetable/pegasetor.php',{predios:predio,andares:andar,salas:sala},function(data){
+                $.getJSON('../../json/qrcodetable/pegasetor.php',{predios:predio,andares:andar,salas:sala},function(data){
                     
                     for(i=0;i<data.length;i++){
                         
                         if(data[i].SETOR == ""){
                             $("#setor").empty();
-                           
                         }else{
 
                             var opcao = '<option>'+data[i].SETOR+'</option>';
                              $("#setor").append(opcao);
-                             
                              $("#setor").fadeIn();
                         }
                         
@@ -137,7 +136,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
             });
 
 
-            $("#buscaAtivos").click(function(){
+            $("#confirmar").click(function(){
                 $("#listaAtivos").empty();
                 var load = '<div class="text-center"><img src="./images/ajax.gif"></div>';
                 $("#listaAtivos").append(load);
@@ -145,7 +144,8 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                 var andar = $("#andar option:selected").val();
                 var sala = $("#sala option:selected").val();
                 var setor = $("#setor option:selected").val();
-                $.post('getAtivosSala.php',{predio:predio,andar:andar,sala:sala,setor:setor},function(data){
+                var qrcode = '<?php echo $qrcode ?>';
+                $.get('confirmemove.php',{predio:predio,andar:andar,sala:sala,setor:setor,qrcode:qrcode},function(data){
                      
                     $("#listaAtivos").empty();
                    
@@ -170,12 +170,16 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
 
   </div>
-      <?php include("menu.php");?>
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" onclick="history.go(-1)" href="#">
+      Retornar 
+    </a>
+  </nav>
 
 <br>
 
 <div class="container">
-    <h5>Ativos por Sala</h5>
+    <h5>Escolha o Destino</h5>
       <div class="card-body shadow p-3 mb-5 bg-white rounded">
       <form method="GET" action="./insertativo/formInsert.php">
             <div class="form-group">
@@ -205,12 +209,12 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
             <div class="text-center" id="carregaSetor" ></div>
             <div class="form-group">
                 <select class="form-control form-control-sm" id="setor" name="setor">
-                <option>Escolha Setor</option>
+                    
                 </select>
             </div>
             
             
-            <div class="text-center"><button type="button" class="btn btn-primary" id="buscaAtivos">Buscar</button></div>
+            <div class="text-center"><button type="button" class="btn btn-primary" id="confirmar">Buscar</button></div>
         </form>
         <br>
 

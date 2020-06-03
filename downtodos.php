@@ -385,7 +385,7 @@ foreach ($resultchamado as $res) {
 
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="chamados-'.date('d/m/Y').'.xlsx"');
+        header('Content-Disposition: attachment;filename="preventiva-'.date('d/m/Y').'.xlsx"');
         header('Cache-Control: max-age=0');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 
@@ -472,7 +472,7 @@ foreach ($resultchamado as $res) {
 
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="chamados-'.date('d/m/Y').'.xlsx"');
+        header('Content-Disposition: attachment;filename="manutencao-'.date('d/m/Y').'.xlsx"');
         header('Cache-Control: max-age=0');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 
@@ -489,6 +489,98 @@ foreach ($resultchamado as $res) {
 
 
 };
+
+
+
+if($arquivo == 'movimentação'){
+
+        if($cliente=='KVM'){
+                //PEGA O OS DADOS da tabela mover --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
+                $sqlchamado = "SELECT * FROM MOVER where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  ORDER BY DATA_2";
+                $resultchamado = $mysqli->query($sqlchamado);
+
+        }else{
+
+                //PEGA O OS DADOS da tabela mover --->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                $mysqli = new mysqli($host, $user, $pass, $db);
+                $mysqli -> set_charset("utf8");
+                $sqlchamado = "SELECT * FROM MOVER where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY DATA_2";
+                $resultchamado = $mysqli->query($sqlchamado);
+
+
+        }
+
+
+
+$objPHPExcel = new PHPExcel();
+
+$objPHPExcel->getActiveSheet()->SetCellValue('A1', 'DATA');
+                
+
+                $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'DATA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'HORA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'QRCODE');
+                $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DE_PREDIO');
+                $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'DE_ANDAR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'DE_SETOR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'DE_SALA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('H1', 'DE_QRSALA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('I1', 'PARA_PREDIO');
+                $objPHPExcel->getActiveSheet()->SetCellValue('J1', 'PARA_ANDAR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('K1', 'PARA_SETOR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('L1', 'PARA_SALA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('M1', 'PARA_QRSALA');
+                $objPHPExcel->getActiveSheet()->SetCellValue('N1', 'FEITO_POR');
+                $objPHPExcel->getActiveSheet()->SetCellValue('O1', 'MOTIVO');
+
+
+$contador = 2;
+
+foreach ($resultchamado as $res) {
+
+               
+        $objPHPExcel->getActiveSheet()->SetCellValue('A'.$contador, $res['DATA_2']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('B'.$contador, $res['HORA']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('C'.$contador, $res['QRCODE']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('D'.$contador, $res['DE_PREDIO']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('E'.$contador, $res['DE_ANDAR']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('F'.$contador, $res['DE_SETOR']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('G'.$contador, $res['DE_SALA']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('H'.$contador, $res['DE_QRSALA']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('I'.$contador, $res['PARA_PREDIO']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('J'.$contador, $res['PARA_ANDAR']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('K'.$contador, $res['PARA_SETOR']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('L'.$contador, $res['PARA_SALA']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('M'.$contador, $res['PARA_QRSALA']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('N'.$contador, $res['FEITO_POR']);
+        $objPHPExcel->getActiveSheet()->SetCellValue('O'.$contador, $res['MOTIVO']);
+
+               
+                       $contador = $contador + 1;
+ };
+
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="movimentacao-'.date('d/m/Y').'.xlsx"');
+        header('Cache-Control: max-age=0');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 
+        header('Cache-Control: cache, must-revalidate'); 
+        header('Pragma: public'); 
+
+
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        ob_end_clean();
+        $objWriter->save('php://output');
+
+
+
+
+};
+
 
 
 

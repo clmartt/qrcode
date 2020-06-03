@@ -73,13 +73,17 @@ include('menu.php')
 
           var arquivo = $('#arquivos').val();
           
+          
           var predio = $("#predio").val();
+          alert(predio);
+          $("#aguarde").append("Aguarde.... :)");
           
           if(predio == 'todos'){
             window.location.href = "downtodos.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
-           
+            $("#aguarde").hide();
           }else{
             window.location.href = "downcheckperiodo.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
+            $("#aguarde").hide();
           };
 
                 
@@ -108,6 +112,7 @@ include('menu.php')
           var arquivo = $('#arquivos').val();
           
           var predio = $("#predio").val();
+          $("#aguarde").append("Aguarde.... :)");
           
           if(predio == 'todos'){
             window.location.href = "./gerarpdf/downtodospdf.php?dataI="+Rdatai+"&dataF="+Rdataf+"&arquivo="+arquivo+"&predio="+predio;
@@ -150,13 +155,15 @@ include('menu.php')
                   <option value="check">CHECK LIST</option>
                   <option value="chamados">CHAMADOS</option>
                   <option value="ativos">ATIVOS</option>
+                  <option value="preventiva">PREVENTIVA</option>
+                  <option value="manutencao">MANUTENÇÃO</option>
                 </select>
 
                  &nbspPredio  :&nbsp &nbsp<select class="form-control" name="PREDIO" id="predio">
                     <?PHP 
                         foreach ($result as $res) {
                           
-                         echo "<option value=".$res['PREDIO'].">".$res['PREDIO']."</option>";
+                         echo "<option value='".$res['PREDIO']."'>".$res['PREDIO']."</option>";
                          };
       
                      ?> 
@@ -172,9 +179,8 @@ include('menu.php')
   </div>
    <div class="card-footer text-center">
     <div class="text-center"><button type="button" class="btn btn-outline-success" id="consultar" style="margin: 0 20px">XLS</button> <button type="button" class="btn btn-outline-warning" id="consultarpdf">PDF</button></div>
-    
-  
-  </div>
+    </div>
+    <div id="aguarde" class="text-center"></div>
   
 </div>
 

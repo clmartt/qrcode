@@ -73,7 +73,9 @@ include('menu.php')
 
           var arquivo = $('#arquivos').val();
           
+          
           var predio = $("#predio").val();
+         
           $("#aguarde").append("Aguarde.... :)");
           
           if(predio == 'todos'){
@@ -155,13 +157,14 @@ include('menu.php')
                   <option value="ativos">ATIVOS</option>
                   <option value="preventiva">PREVENTIVA</option>
                   <option value="manutencao">MANUTENÇÃO</option>
+                  <option value="movimentação">MOVIMENTAÇÃO</option>
                 </select>
 
                  &nbspPredio  :&nbsp &nbsp<select class="form-control" name="PREDIO" id="predio">
                     <?PHP 
                         foreach ($result as $res) {
                           
-                         echo "<option value=".$res['PREDIO'].">".$res['PREDIO']."</option>";
+                         echo "<option value='".$res['PREDIO']."'>".$res['PREDIO']."</option>";
                          };
       
                      ?> 

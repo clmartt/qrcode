@@ -15,6 +15,7 @@ $setor = $_POST['setor'];
 $qrsala = $_POST['qrsala'];
 $motivo = $_POST['motivo'];
 $usuario = $_POST['usuario'];
+$permissao = $_POST['permissao'];
 
 
 //pega as informações atuais do ativo
@@ -27,7 +28,7 @@ foreach ($pegaativo as $at) {
     $de_qrsala = $at['QRSALA'];
 };
 // guarda na tabela move
-$guarda = $pdo->prepare("INSERT INTO MOVER (DATA_2,HORA,QRCODE,DE_PREDIO,DE_ANDAR,DE_SETOR,DE_SALA,DE_QRSALA,PARA_PREDIO,PARA_ANDAR,PARA_SETOR,PARA_SALA,PARA_QRSALA,NOME_USER,MOTIVO)VALUES('$dataAtual','$hora','$qrcode','$de_predio','$de_andar','$de_setor','$de_sala','$de_qrsala','$predio','$andar','$setor','$sala','$qrsala','$usuario','$motivo')");
+$guarda = $pdo->prepare("INSERT INTO MOVER (DATA_2,HORA,QRCODE,DE_PREDIO,DE_ANDAR,DE_SETOR,DE_SALA,DE_QRSALA,PARA_PREDIO,PARA_ANDAR,PARA_SETOR,PARA_SALA,PARA_QRSALA,NOME_USER,MOTIVO,CLIENTE)VALUES('$dataAtual','$hora','$qrcode','$de_predio','$de_andar','$de_setor','$de_sala','$de_qrsala','$predio','$andar','$setor','$sala','$qrsala','$usuario','$motivo','$permissao')");
 $guarda->execute();
 
 

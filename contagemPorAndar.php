@@ -1,6 +1,6 @@
 <?php
  
- include_once('conectar.php');
+ include('conectar.php');
 $pegaValores = $_POST['detalheAndar'];
 $explodeValores = explode('-',$pegaValores);
 $dataInicial = $_POST['datasInicio'];
@@ -32,8 +32,8 @@ foreach ($resultado as $res) {
     echo '<tr>';
     
     echo '<td>'.$res['qtd'].'</td>';
-    echo '<td>'.utf8_encode($res['sala']).'</td>';
-    echo '<td>'.utf8_encode($res['problema']).'</td>';
+    echo '<td>'.$res['sala'].'</td>';
+    echo '<td>'.$res['problema'].'</td>';
     echo '<td>'.$res['qrcode'].'</td>';
     echo '<td>'.$res['ativo'].'</td>';
     echo '<td>'.$res['status'].'</td>';

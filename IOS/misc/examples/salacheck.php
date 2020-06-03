@@ -7,7 +7,7 @@ $cliente = $_SESSION['cliente'];
 
 
 //----------------------------------------------------------------------------------------------------------------------
-if($usuario=="" || $cliente){
+if($usuario=="" || $cliente == ""){
     header("Location: ../../../login.html");
 }else{
     // inseri a barra de voltar
@@ -184,7 +184,7 @@ $pegaproblema = $pdo->query("SELECT * FROM PROBLEMAS");
             </thead>
             <tbody>
                 <?php
-
+                        
                         foreach ($selEquipamentos as $equip) {
                                 
                                 if(in_array($equip['QRCODE'],$codes)){

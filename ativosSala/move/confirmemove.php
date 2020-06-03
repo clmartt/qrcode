@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 $email = $_SESSION['email'];
+$permissao = $_SESSION['permissao'];
 
 if(!isset($_SESSION['email'])){
     header("Location: ../../login.html");
@@ -38,6 +39,8 @@ $dadosAtivo = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcode'");
     <script src="jquery-3.2.1.min.js"></script>
     <script>
         $(document).ready(function(){
+            var permissao = '<?php echo $permissao ?>';
+         
             $("#home").hide();
             $('#atualizar').click(function(){
             var qrcodes = '<?php echo $qrcode ?>';
@@ -48,8 +51,9 @@ $dadosAtivo = $pdo->query("SELECT * FROM QRCODETABLE WHERE QRCODE = '$qrcode'");
             var qrsalas = '<?php echo $Pqrsala?>';
             var user = '<?php echo $email?>';
             var motivos = prompt("Qual o motivo da movimentação?");
+            var client
 
-            $.post('atualiza.php',{predio:predios,andar:andars,sala:salas,setor:setors,qrsala:qrsalas,qrcode:qrcodes,motivo:motivos,usuario:user},function(data){
+            $.post('atualiza.php',{predio:predios,andar:andars,sala:salas,setor:setors,qrsala:qrsalas,qrcode:qrcodes,motivo:motivos,usuario:user,permissao:permissao},function(data){
                 
                 $("#atualizar").text("Feito!");
                 $("#atualizar").addClass("btn btn-success");

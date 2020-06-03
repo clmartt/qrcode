@@ -1,27 +1,18 @@
 <?php
 
+
+
+/*
 ob_start();
-
 session_start();
-
 $usuario = $_GET['user'];
-
 $cliente = $_SESSION['cliente'];
 
-
-
-
-
-
-
 if($_SESSION['email'] ==''){
-
-
-
 	header("Location: ./login.html");
 
 };
-
+*/
 
 
 
@@ -136,76 +127,7 @@ $result = $mysqli->query($sql);
 
 	$(document).ready(function(){
 
-		
-
-			$('#check').click(function(){
-
-				$.get('downcheck.php', function(data){
-
-
-
-				});
-
-				alert("Check Enviado!");
-
-
-
-
-
-			});
-
-
-
-//=====================================================================================>>>>>>>>>
-
-			$('#ativo').click(function(){
-
-				$.get('downativo.php', function(data){
-
-
-
-				});
-
-				alert("Ativo Enviado!");
-
-
-
-
-
-			});
-
-
-
-//=====================================================================================>>>>>>>>>
-
-			$('#chamado').click(function(){
-
-				$.get('downchamados.php', function(data){
-
-
-
-				});
-
-				alert("Chamados Enviado!");
-
-
-
-
-
-			});
-
-//=====================================================================================>>>>>>>>>
-
-
-
-
-
-	//=================================================================================================================>>>>>>>
-
-				
-
-
-
+	
 
 
 	});
@@ -244,9 +166,11 @@ $result = $mysqli->query($sql);
   <body>
 
 
- 		<div class="container">
-			 
-		 <div class="text-center"><img src="./images/logo2.jpg"</div>
+ 		<div id="intro">
+		 <div >
+		<iframe width="100%" height="600" frameborder="1"  src="./grafPrincipal/grafPrincipal.php" ></iframe>
+		</div>
+		
 		 <div>
 
     <!-- Optional JavaScript -->

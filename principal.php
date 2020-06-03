@@ -166,7 +166,7 @@ $result = $mysqli->query($sql);
   <body>
 
 
- 		<div id="intro">
+ 		<div style="padding: 2px 1em 0 1em;">
 		 <div >
 		<iframe width="100%" height="600" frameborder="1"  src="./grafPrincipal/grafPrincipal.php" ></iframe>
 		</div>

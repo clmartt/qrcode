@@ -13,7 +13,7 @@ if($qtd>0){
 
     
 
-}else{
+}if($qtd==0){
 
    
     header("Location: salacheck.php?qrcodesala=".$qrcode);

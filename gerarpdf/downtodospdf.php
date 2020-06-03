@@ -410,6 +410,91 @@ if($arquivo == 'manutencao'){
 
 };
 
+if($arquivo == 'movimentação'){
+
+        if($cliente=='KVM'){
+
+                        //PEGA O OS DADOS DO CHECK
+                    
+                        $sql = $pdo->query("SELECT * FROM MANUTENCAO where DATA_RETIRADA BETWEEN '$dataInglesInicial' and '$dataInglesFinal'   ORDER BY DATA_RETIRADA,PREDIO");
+                        
+        }else{
+
+                //PEGA O OS DADOS da tabela mover
+                
+                $sql = $pdo->query("SELECT * FROM MOVER where DATA_2 BETWEEN '$dataInglesInicial' and '$dataInglesFinal'  AND CLIENTE = '$cliente' ORDER BY DATA_2,DE_PREDIO");
+                
+
+        };
+
+        $html  = '<html>';
+                $html .= '<body>';
+                $html .= '<b>Movimentação de Ativos - Predio : '.$predio.' de </b>: '.date('d-m-Y',strtotime($dataInglesInicial)).' - '. date('d-m-Y',strtotime($dataInglesFinal));
+                $html .= '<hr>'; 
+                $html .= '<div class="table-responsive">';
+                
+                $html .='<table class="table table-sm" border="1" cellspacing=0 cellpadding=2 bordercolor="666633">';
+                        $html .='<thead>';
+                        $html .='<tr>';
+                        $html .='<th scope="col">DATA</th>';
+                        $html .='<th scope="col">HORA</th>';
+                        $html .='<th scope="col">QRCODE</th>';
+                        $html .='<th scope="col">DE_PREDIO</th>';
+                        $html .='<th scope="col">DE_ANDAR</th>';
+                        $html .='<th scope="col">DE_SETOR</th>';
+                        $html .='<th scope="col">DE_SALA</th>';
+                        $html .='<th scope="col">DE_QRSALA</th>';
+                        $html .='<th scope="col">PARA_PREDIO</th>';
+                        $html .='<th scope="col">PARA_ANDAR</th>';
+                        $html .='<th scope="col">PARA_SETOR</th>';
+                        $html .='<th scope="col">PARA_SALA</th>';
+                        $html .='<th scope="col">PARA_QRSALA</th>';
+                        $html .='<th scope="col">FEITO POR</th>';
+                        $html .='<th scope="col">MOTIVO</th>';
+                        $html .='</tr>';
+                        $html .='</thead>';
+                        $html .='<tbody>';
+        
+
+
+
+        foreach ($sql as $res) {
+                $html .= "<tr>";
+                         $html .= "<td>".date('d-m-Y',strtotime($res['DATA_2']))." </td>";
+                         $html .= "<td>".$res['HORA']." </td>";
+                         $html .= "<td>".$res['QRCODE']." </td>";
+                         $html .= "<td>".$res['DE_PREDIO']." </td>";
+                         $html .= "<td>".$res['DE_ANDAR']." </td>";
+                         $html .= "<td>".$res['DE_SETOR']." </td>";
+                         $html .= "<td>".$res['DE_SALA']." </td>";
+                         $html .= "<td>".$res['DE_QRSALA']." </td>";
+                         $html .= "<td>".$res['PARA_PREDIO']." </td>";
+                         $html .= "<td>".$res['PARA_ANDAR']." </td>";
+                         $html .= "<td>".$res['PARA_SETOR']." </td>";
+                         $html .= "<td>".$res['PARA_SALA']." </td>";
+                         $html .= "<td>".$res['PARA_QRSALA']." </td>";
+                         $html .= "<td>".$res['NOME_USER']." </td>";
+                         $html .= "<td>".$res['MOTIVO']." </td>";
+                         $html .= "</tr>";     
+        }
+
+        $html .= "</tbody>";
+        $html .= "</table>";
+        $html .= "</body>";
+        $html .= "</html>";
+        $html .= "</div>"; 
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+
+
+
+
+
+
+
+};
+
 
 
 

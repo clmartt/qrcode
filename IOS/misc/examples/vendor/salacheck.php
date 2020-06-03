@@ -7,7 +7,7 @@ $cliente = $_SESSION['cliente'];
 
 
 //----------------------------------------------------------------------------------------------------------------------
-if($usuario==""){
+if($usuario=="" || $cliente == ""){
     header("Location: ../../../login.html");
 }else{
     // inseri a barra de voltar

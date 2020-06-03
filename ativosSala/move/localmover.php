@@ -116,14 +116,17 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                 $.getJSON('../../json/qrcodetable/pegasetor.php',{predios:predio,andares:andar,salas:sala},function(data){
                     
                     for(i=0;i<data.length;i++){
+                        $("#pegaQrsala").val(data[i].QRSALA);
                         
                         if(data[i].SETOR == ""){
                             $("#setor").empty();
+                            alert(data[i].QRSALA);
                         }else{
 
                             var opcao = '<option>'+data[i].SETOR+'</option>';
                              $("#setor").append(opcao);
                              $("#setor").fadeIn();
+                            
                         }
                         
                     }// end for
@@ -145,7 +148,8 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
                 var sala = $("#sala option:selected").val();
                 var setor = $("#setor option:selected").val();
                 var qrcode = '<?php echo $qrcode ?>';
-                $.get('confirmemove.php',{predio:predio,andar:andar,sala:sala,setor:setor,qrcode:qrcode},function(data){
+                var qrsala = $("#pegaQrsala").val();
+                $.get('confirmemove.php',{predio:predio,andar:andar,sala:sala,setor:setor,qrcode:qrcode,qrsala:qrsala},function(data){
                      
                     $("#listaAtivos").empty();
                    
@@ -165,7 +169,7 @@ $qtd = $result-> rowCount(); // contanto o numero de linhas retornadas pela quer
 
   </head>
   <body>
-
+        <input type="hidden" id='pegaQrsala'>
   
 
 

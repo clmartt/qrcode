@@ -18,14 +18,14 @@ $pegapredio = $pdo->query("SELECT predio from CHAMADOS WHERE cliente = '$permiss
 
 
 
-if(isset($_GET['predio'])){
+if(isset($_GET['predio'])){ // se o predio foi enviado inseri o valor na variavel predio
     $predio = $_GET['predio'];
 }else{
-    $predio = "";
+    $predio = ""; // caso contrario deixa vazio
 }
 
 
-if($predio!== "TODOS" && $predio !== "" ){
+if($predio!== "TODOS" && $predio !== "" ){ //se o valor de predio for diferente de "todos e for diferente de vazio significa que foi filtrado por isso o where com o predio"
 
     $problemas = $pdo->query("SELECT problema, count(problema) as qtdP from CHAMADOS WHERE ano = '$ano' AND predio = '$predio' AND status ='ANDAMENTO' and cliente = '$permissao' GROUP BY problema ORDER BY qtdP  ")->fetchAll();
 
@@ -91,7 +91,7 @@ if($predio!== "TODOS" && $predio !== "" ){
       }
     
 
-}else{
+}else{ //---------------------------------- caso contrario pega todos
 
   
 
@@ -188,8 +188,8 @@ if($predio!== "TODOS" && $predio !== "" ){
     <title>Hello, world!</title>
 
 
-
     <script type="text/javascript">
+    //-------------------------------------------------grafico de pizza ---------------------------------------------------------------------------------------
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
                             
@@ -242,6 +242,7 @@ if($predio!== "TODOS" && $predio !== "" ){
 
 
     <script>
+    //---------------------------------------------------------grafico de barras ----------------------------------------------------------------------------------------
         google.charts.load("current", {packages:['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
                 function drawChart() {
@@ -288,14 +289,14 @@ if($predio!== "TODOS" && $predio !== "" ){
 
 <script> 
 
-// script para a tabela de salas com problemas
+// script para a tabela de salas com problemas--------------------------------------------------------------------------------------------------------------------
 
                 google.charts.load('current', {'packages':['table']});
                 google.charts.setOnLoadCallback(drawTable);
 
                 function drawTable() {
                   var data = new google.visualization.DataTable();
-              
+                  data.addColumn('string', 'Nº');
                   data.addColumn('string', 'Predio');
                   data.addColumn('string', 'Andar');
                   data.addColumn('string', 'Sala');
@@ -307,7 +308,7 @@ if($predio!== "TODOS" && $predio !== "" ){
                             $kt1 = $it;
                             for ($i=0; $i < $kt1; $i++) { 
                             ?>
-                             ['<?php echo $tabela_Predio[$i] ?>','<?php echo $tabela_andar[$i] ?>','<?php echo $tabela_sala[$i]?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
+                             ['<?php echo $tabela_Idchamado[$i] ?>','<?php echo $tabela_Predio[$i] ?>','<?php echo $tabela_andar[$i] ?>','<?php echo $tabela_sala[$i]?>','<?php echo  $tabela_problema[$i] ?>','<?php echo  $tabela_dif_data[$i] ?>'],
                             
                     <?php } ?>
 
@@ -380,6 +381,9 @@ if($predio!== "TODOS" && $predio !== "" ){
         </div>
        
                   <div class="card">
+                    <div class="card-header">
+                      Salas com Chamados em Aberto
+                    </div>
                         <div class="card-body table-responsive"  id="table_div">
                                               
                         </div>
